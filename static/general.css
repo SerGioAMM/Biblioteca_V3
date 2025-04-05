@@ -1,0 +1,87 @@
+/*? Fondo y fuentes*/
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('img/portada-biblioteca.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff8e7;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+/*? Oscurecer la imagen de fondo */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad */
+    z-index: -1; /* Coloca la capa detrás del contenido */
+}
+h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+/*? Botones*/
+.botones {
+    display: flex;
+    gap: 20px;    
+}
+
+#btn-registrar, #btn-buscar, #btn-catalogo{
+    text-decoration: none;
+    color: white;
+    background-color: #00000071;
+    padding: 12px 22px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#btn-catalogo{
+    position: absolute;
+    left: 45%;
+    bottom: 40%;
+}
+
+#btn-registrar:hover, #btn-buscar:hover, #btn-catalogo:hover{
+    background-color: #000000a9;
+}
+
+
+/*? Barra de navegacion*/
+.navbar{
+    background-color: #00000071;
+    width: 100%;
+    height: 8%;
+    position: absolute;
+    top: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+
+.navbar a{
+    text-decoration: none;
+    color: white;
+    padding: 25px;
+    font-size: 1.3rem;
+    transition: background-color 0.1s ease-in;
+    border-radius: 4px;
+}
+
+.navbar a:hover{
+    background-color: #0000005d;
+}

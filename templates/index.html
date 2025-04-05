@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Comunitaria</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo_inicio.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
+</head>
+<body>
+    <h1>Biblioteca Comunitaria Gabriela Mistral</h1>
+    <br><br><br>
+    <div class="navbar">
+        <a href="{{ url_for('inicio') }}">Inicio</a>
+        <nav>
+            <a href="{{ url_for('insertar_libro') }}">Administracion</a>
+            <a href="{{ url_for('libros') }}">Catalogo </a>
+        </nav>
+    </div>
+    <div class="botones">
+        <a id="btn-catalogo" href="{{ url_for('libros') }}"> Explora nuestro catalogo </a>
+    </div>
+</body>
+</html>

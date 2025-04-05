@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>insertar_libro   </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo_insertar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
+
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{ url_for('inicio') }}">Inicio</a>
+        <nav>
+            <a href="{{ url_for('libros') }}">Libros </a>
+        </nav>
+    </div>
+    <div class="div-container-insertar">
+        <h1>Registro de Libros</h1>
+        
+        <form method="POST" action="/insertar">
+
+            <!--TODO: REDORDENAR DATOS PARA MAYOR COMODIDAD-->
+
+            <label for="titulo">Titulo</label>
+            <input type="text" name="titulo" placeholder="" required>
+
+            <label for="paginas">Numero de Paginas</label>
+            <input type="number" name="num_paginas" placeholder="">
+
+            <label for="ISBN">ISBN</label>
+            <input type="text" name="ISBN" placeholder="">
+
+            <label for="tomo">Tomo</label>
+            <input type="text" name="tomo" placeholder="">
+
+            <label for="copias">Numero de Copias</label>
+            <input type="text" name="num_copias" placeholder="">
+            
+            
+            <label for="">Datos del Autor</label>
+            <label for="">&nbsp;</label>
+            
+            <label for="nombre_autor">Nombre</label>
+            <input type="text" name="nombre_autor" placeholder="Nombre del autor">
+
+            <label for="apellido_autor">Apellido</label>
+            <input type="text" name="apellido_autor" placeholder="Apellido del autor">
+
+            <label for="editorial">Editorial</label>
+            <input type="text" name="editorial" placeholder="">
+
+            <label for="sistema_dewey">Sistema Dewey</label>
+
+            <!-- TODO: FILTRO
+            <select name="filtro_dewey" id="filtro_dewey">
+                {% for seccion_filtro in filtro_dewey %}
+                <option value="">{{ seccion_filtro[0] }}</option>
+                {% endfor %}
+            </select>
+            ### Arreglar luego ### !FILTRO_POR_SECCIONES
+
+            ::::IDEAS PARA ARREGLAR FILTRO::::
+            >Hacer la lista de secciones directamente en el codigo para no tener que recargar la pagina
+            TODO-->
+
+            <select name="sistema_dewey" id="" >
+                {% for ultima in ultima_seccion%}
+                    <option value="{{ ultima[0] }}">{{ ultima[0] }} - {{ ultima[1] }}</option>
+                {% endfor %}
+                {% for seccion in secciones %}
+                    <option value="{{ seccion[0] }}">{{ seccion[0] }} - {{ seccion[1] }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="lugar">Lugar de Publicacion</label>
+            <input type="text" name="lugar" placeholder="">
+
+            <label for="anio">Año de Publicacion</label>
+            <input type="text" name="anio" placeholder="">
+
+            <button id="btn-registrar" type="submit">Registrar</button>
+
+
+        </form>
+    </div>
+</body>
+</html>
+
