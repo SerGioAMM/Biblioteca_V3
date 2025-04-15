@@ -1,0 +1,24 @@
+.div-container-login {
+    padding: 20px;
+    margin: 20px auto;
+    padding: 55px;
+    text-align: center;
+}
+.formulario-login{
+    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+}
+.formulario-login input,
+.formulario-login select{
+    margin-bottom: 2px;
+    height: 2rem;
+    border-radius: 5px;
+}
+
+h5{
+    color: rgb(255, 137, 137);
+    margin-top: 3px;
+    margin-bottom: 3px;
+    font-size: 110%;
+}

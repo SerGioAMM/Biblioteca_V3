@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
+
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{ url_for('inicio') }}">Inicio</a>
+        <nav>
+            <a href="{{ url_for('libros') }}">Libros </a>
+        </nav>
+    </div>
+    <h1 id="h1-titulo">Login</h1>
+    <div class="div-container-login fondo-cristal">
+        
+        <form method="POST" action="/login" class="formulario-login">
+
+            <label for="usuario">Usuario</label>
+            <input type="text" name="usuario" placeholder="" required>
+            
+            <label for="password">Contraseña</label>
+            <input type="password" name="password" placeholder="">
+
+            <button type="submit" id="btn-login"> Iniciar sesion</button>
+
+            {% if login == False %}
+                <h5>Datos incorrectos</h5>
+            {% endif %}
+
+        </form>
+    </div>
+</body>
+</html>
+

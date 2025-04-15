@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from config import conexion_BD
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
@@ -14,6 +14,28 @@ def inicio():
 
     return render_template("index.html")
 
+# ----------------------------------------------------- LOGIN ----------------------------------------------------- #
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    login_usuario = "admin"
+    login_password = "1234"
+    login = True
+
+    if request.method == "POST":
+        usuario = request.form["usuario"]
+        password = request.form["password"]
+
+        if (login_usuario == usuario) and (login_password == password):
+            login = True
+
+            return redirect(url_for('insertar_libro'))
+        else:
+            login = False
+
+
+    return render_template("login.html", login = login)
+
 # ----------------------------------------------------- INSERTAR LIBROS ----------------------------------------------------- #
 
 @app.route("/insertar", methods=["GET", "POST"])
@@ -23,15 +45,18 @@ def insertar_libro():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    #TODO: ## Cambiar la consulta entre parentesis, hacerla una variables para que sea mas sencillo de comprender
+    #// ## Cambiar la consulta entre parentesis (select entre parentesis con limit), hacerla una variables para que sea mas sencillo de comprender
     #Esta consulta devuelve la ultima seccion ingresada en RegistroLibros para que sea mas facil ingresar libros de manera ordenada
     #Si se ingresan por seccion no hace falta estar seleccionando nuevamente la seccion
+    query.execute("select codigo_seccion from RegistroLibros order by id_registro desc limit 1")
+    select_seccion = query.fetchone()
+
     query.execute("""
     select * from SistemaDewey 
     where SistemaDewey.codigo_seccion = 
-    (select codigo_seccion from RegistroLibros 
-    order by id_registro desc limit 1)""")
+    (?)""",(select_seccion[0],))
     ultima_seccion = query.fetchall()
+
 
     #Consulta para mostrar un listado de todas las secciones del Sistema Dewey
     query.execute("select * from SistemaDewey")
@@ -116,12 +141,14 @@ def insertar_libro():
             conexion.commit()  
 
             #Esta consulta devuelve la ultima seccion ingresada en RegistroLibros para que sea mas facil ingresar libros de manera ordenada
-            #Si los libros se ingresan por seccion no hace falta estar seleccionando nuevamente la seccion.
+            #Si se ingresan por seccion no hace falta estar seleccionando nuevamente la seccion
+            query.execute("select codigo_seccion from RegistroLibros order by id_registro desc limit 1")
+            select_seccion = query.fetchone()
+
             query.execute("""
             select * from SistemaDewey 
             where SistemaDewey.codigo_seccion = 
-            (select codigo_seccion from RegistroLibros 
-            order by id_registro desc limit 1)""")
+            (?)""",(select_seccion[0],))
             ultima_seccion = query.fetchall()
 
         except Exception as e:
@@ -132,6 +159,9 @@ def insertar_libro():
     
 
     return render_template("insertar.html", secciones = secciones, ultima_seccion = ultima_seccion) #Devuelve variables para poder usarlas en insert.html
+
+
+# ----------------------------------------------------- CATALOGO DE LIBROS ----------------------------------------------------- #
 
 @app.route("/libros", methods=["GET", "POST"])
 def libros():
@@ -163,6 +193,8 @@ def libros():
 
     return render_template("libros.html",libros=libros)
 
+# ----------------------------------------------------- BUSCAR LIBROS ----------------------------------------------------- #
+
 @app.route("/buscar_libro",methods = ["POST"])
 def buscar_libro():
     conexion = conexion_BD()
@@ -182,12 +214,17 @@ def buscar_libro():
     where l.titulo like '%{busqueda}%' """)
     libros = query.fetchall()
     
+    print(libros)
+
     query.close()
     conexion.close()
 
-    print(busqueda)
+    ## "' OR '1'='1' -- "
+    ## "' UNION SELECT id, lugar, '', '', '', '', '', '', '', '', '', '', '' FROM lugares -- "
 
     return render_template("libros.html",libros=libros)
+
+# ----------------------------------------------------- APP ----------------------------------------------------- #
 
 if __name__ == "__main__":
     #app.run()

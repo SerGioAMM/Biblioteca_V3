@@ -9,7 +9,7 @@
 
 /*? Contenedor que tiene los datos del libro*/
 .libro{
-    background-color: rgba(255, 255, 255, 0.801);
+    background-color: rgba(255, 255, 255, 0.721);
     backdrop-filter: blur(10px);
     display: flex;
     position: relative;
@@ -94,7 +94,6 @@
     width: 65%;
     display: flex;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.508);
     
 }
 #span-info-libros h2{
@@ -180,7 +179,6 @@
 
 /*? Textos que muestran la disponibilidad de los libros */
 #span-disponibilidad-libros{
-    background-color: rgba(255, 255, 255, 0.479);
     position: relative;
     width: 30%;
     border-top-right-radius: 15px;

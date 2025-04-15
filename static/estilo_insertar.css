@@ -1,27 +1,32 @@
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-form label {
-    font-size: 1.2rem;
-}
-form select, form input {
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: none;
-    background-color: rgba(255, 255, 255, 0.8);
-    color: black;
-}
+/* Formulario */
 .div-container-insertar {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(31, 31, 31, 0.7);
+    backdrop-filter: blur(10px);
     padding: 20px;
     border-radius: 10px;
     margin: 20px auto;
+    width: 60%;
 }
-.div-container-insertar form{
+
+.formulario-insertar{
+    gap: 15px;
     display: grid;
     grid-template-columns: repeat(2,1fr);
 }
+
+.formulario-insertar input,
+.formulario-insertar select{
+    margin-bottom: 10px;
+    height: 2rem;
+    border-radius: 5px;
+}
+
+.formulario-insertar label{
+    font-size: 1.2rem;
+}
+
+#span-informacion-autor{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
+

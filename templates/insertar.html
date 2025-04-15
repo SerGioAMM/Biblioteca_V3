@@ -15,44 +15,58 @@
             <a href="{{ url_for('libros') }}">Libros </a>
         </nav>
     </div>
+    <h1 id="h1-titulo">Registrar nuevo libro</h1>
+    <h5 id="h5-nota">Complete el formulario para agregar un nuevo libro al catálogo de la biblioteca.</h5>
     <div class="div-container-insertar">
-        <h1>Registro de Libros</h1>
         
-        <form method="POST" action="/insertar">
+        <form method="POST" action="/insertar" class="formulario-insertar">
 
             <!--TODO: REDORDENAR DATOS PARA MAYOR COMODIDAD-->
 
             <label for="titulo">Titulo</label>
+            <label for="nombre_autor apellido_autor">Datos del autor</label>
+            
             <input type="text" name="titulo" placeholder="" required>
-
-            <label for="paginas">Numero de Paginas</label>
-            <input type="number" name="num_paginas" placeholder="">
-
+            <span id="span-informacion-autor">
+                
+                <input type="text" name="nombre_autor" placeholder="Nombre del autor">
+                <input type="text" name="apellido_autor" placeholder="Apellido del autor">
+            </span>
+            
             <label for="ISBN">ISBN</label>
-            <input type="text" name="ISBN" placeholder="">
-
-            <label for="tomo">Tomo</label>
-            <input type="text" name="tomo" placeholder="">
-
-            <label for="copias">Numero de Copias</label>
-            <input type="text" name="num_copias" placeholder="">
-            
-            
-            <label for="">Datos del Autor</label>
-            <label for="">&nbsp;</label>
-            
-            <label for="nombre_autor">Nombre</label>
-            <input type="text" name="nombre_autor" placeholder="Nombre del autor">
-
-            <label for="apellido_autor">Apellido</label>
-            <input type="text" name="apellido_autor" placeholder="Apellido del autor">
-
             <label for="editorial">Editorial</label>
+            
+            <input type="text" name="ISBN" placeholder="">
             <input type="text" name="editorial" placeholder="">
 
+            <label for="tomo">Tomo</label>
+            <label for="paginas">Numero de Paginas</label>
+            
+            <input type="text" name="tomo" placeholder="">
+            <input type="number" name="num_paginas" placeholder="">
+
+            <label for="copias">Numero de Copias</label>
             <label for="sistema_dewey">Sistema Dewey</label>
 
-            <!-- TODO: FILTRO
+            <input type="text" name="num_copias" placeholder="">
+            <select name="sistema_dewey" id="" >
+                {% for ultima in ultima_seccion %}
+                    <option value="{{ ultima[0] }}">{{ ultima[0] }} - {{ ultima[1] }}</option>
+                {% endfor %}
+                {% for seccion in secciones %}
+                    <option value="{{ seccion[0] }}">{{ seccion[0] }} - {{ seccion[1] }}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="lugar">Lugar de Publicacion</label>
+            <label for="anio">Año de Publicacion</label>
+            
+            <input type="text" name="lugar" placeholder="">
+            <input type="text" name="anio" placeholder="">
+
+            <button id="btn-registrar" type="submit">Registrar</button>
+
+                        <!-- TODO: FILTRO
             <select name="filtro_dewey" id="filtro_dewey">
                 {% for seccion_filtro in filtro_dewey %}
                 <option value="">{{ seccion_filtro[0] }}</option>
@@ -63,23 +77,6 @@
             ::::IDEAS PARA ARREGLAR FILTRO::::
             >Hacer la lista de secciones directamente en el codigo para no tener que recargar la pagina
             TODO-->
-
-            <select name="sistema_dewey" id="" >
-                {% for ultima in ultima_seccion%}
-                    <option value="{{ ultima[0] }}">{{ ultima[0] }} - {{ ultima[1] }}</option>
-                {% endfor %}
-                {% for seccion in secciones %}
-                    <option value="{{ seccion[0] }}">{{ seccion[0] }} - {{ seccion[1] }}</option>
-                {% endfor %}
-            </select>
-
-            <label for="lugar">Lugar de Publicacion</label>
-            <input type="text" name="lugar" placeholder="">
-
-            <label for="anio">Año de Publicacion</label>
-            <input type="text" name="anio" placeholder="">
-
-            <button id="btn-registrar" type="submit">Registrar</button>
 
 
         </form>
