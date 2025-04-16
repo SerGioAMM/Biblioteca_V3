@@ -26,28 +26,29 @@
             <label for="titulo">Titulo</label>
             <label for="nombre_autor apellido_autor">Datos del autor</label>
             
-            <input type="text" name="titulo" placeholder="" autocomplete="off">
+            <input type="text" name="titulo" placeholder="" required>
             <span id="span-informacion-autor">
-                <input type="text" name="nombre_autor" placeholder="Nombre del autor" autocomplete="off">
-                <input type="text" name="apellido_autor" placeholder="Apellido del autor" autocomplete="off">
+                
+                <input type="text" name="nombre_autor" placeholder="Nombre del autor">
+                <input type="text" name="apellido_autor" placeholder="Apellido del autor">
             </span>
             
             <label for="ISBN">ISBN</label>
             <label for="editorial">Editorial</label>
             
-            <input type="text" name="ISBN" placeholder="" autocomplete="off">
-            <input type="text" name="editorial" placeholder="" autocomplete="off">
+            <input type="text" name="ISBN" placeholder="">
+            <input type="text" name="editorial" placeholder="">
 
             <label for="tomo">Tomo</label>
             <label for="paginas">Numero de Paginas</label>
             
-            <input type="text" name="tomo" placeholder="" autocomplete="off">
-            <input type="number" name="num_paginas" placeholder="" autocomplete="off">
+            <input type="text" name="tomo" placeholder="">
+            <input type="number" name="num_paginas" placeholder="">
 
             <label for="copias">Numero de Copias</label>
             <label for="sistema_dewey">Sistema Dewey</label>
 
-            <input type="text" name="num_copias" placeholder="" autocomplete="off">
+            <input type="text" name="num_copias" placeholder="">
             <select name="sistema_dewey" id="" >
                 {% for ultima in ultima_seccion %}
                     <option value="{{ ultima[0] }}">{{ ultima[0] }} - {{ ultima[1] }}</option>
@@ -60,35 +61,16 @@
             <label for="lugar">Lugar de Publicacion</label>
             <label for="anio">Año de Publicacion</label>
             
-            <input type="text" name="lugar" class="input-lugar" placeholder="" autocomplete="off">
-            <input type="text" name="anio" placeholder="" autocomplete="off">
-            
-            
-            <ul class="ul-contenedor-sugerencias">
-                <li>sugerencia 1</li>
-                <li>sugerencia 2</li>
-            </ul>
-            
+            <input type="text" name="lugar" placeholder="">
+            <input type="text" name="anio" placeholder="">
 
             <button id="btn-registrar" type="submit">Registrar</button>
 
-                        <!-- TODO: FILTRO
-            <select name="filtro_dewey" id="filtro_dewey">
-                {% for seccion_filtro in filtro_dewey %}
-                <option value="">{{ seccion_filtro[0] }}</option>
-                {% endfor %}
-            </select>
-            ################################ Arreglar luego ### !FILTRO_POR_SECCIONES #############################################
 
-            ::::IDEAS PARA ARREGLAR FILTRO::::
-            >Hacer la lista de secciones directamente en el codigo para no tener que recargar la pagina
-            TODO-->
 
 
         </form>
     </div>
-    <script src="{{ url_for('static', filename='js/sugerencias.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/sug_test.js') }}"></script>
 </body>
 </html>
 

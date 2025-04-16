@@ -15,16 +15,16 @@
             <a href="{{ url_for('libros') }}">Libros </a>
         </nav>
     </div>
-    <h1 id="h1-titulo">Login</h1>
     <div class="div-container-login fondo-cristal">
         
         <form method="POST" action="/login" class="formulario-login">
+            <label for=""> <h2> Login </h2> </label>
 
             <label for="usuario">Usuario</label>
-            <input type="text" name="usuario" placeholder="" required>
+            <input type="text" name="usuario" placeholder="" required value="admin">
             
             <label for="password">Contraseña</label>
-            <input type="password" name="password" placeholder="">
+            <input type="password" name="password" placeholder="" value="1234">
 
             <button type="submit" id="btn-login"> Iniciar sesion</button>
 

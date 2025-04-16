@@ -30,3 +30,38 @@
     grid-template-columns: repeat(2,1fr);
 }
 
+/* Sugerencias */
+
+.ul-contenedor-sugerencias{
+    background-color: rgba(31, 31, 31, 0.7);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    padding: 0;
+    overflow-y: auto;
+    posi
+}
+/*
+.input-lugar{
+    position: relative;
+}*/
+.activar{
+    opacity: 1;
+    pointer-events: auto;
+    padding: 10px 8px;
+}
+
+.activar li{
+    display: block;
+    background-color: blue;
+}
+
+
+.ul-contenedor-sugerencias li{
+    list-style: none;
+    width: 80%;
+    padding: 8px 12px;
+    cursor:pointer;
+    background-color: red;
+    display: block;
+}

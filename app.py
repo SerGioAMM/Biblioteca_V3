@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from config import conexion_BD
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
@@ -44,6 +44,13 @@ def insertar_libro():
     #Abrir conexion con la base de datos
     conexion = conexion_BD()
     query = conexion.cursor()
+
+    #TODO TEST_SUGERENCIAS
+    
+    print("JSONIFY_TEST1 = ")
+    print(sugerencias().get_data(as_text=True))
+
+    #TODO TEST_SUGERENCIAS
 
     #// ## Cambiar la consulta entre parentesis (select entre parentesis con limit), hacerla una variables para que sea mas sencillo de comprender
     #Esta consulta devuelve la ultima seccion ingresada en RegistroLibros para que sea mas facil ingresar libros de manera ordenada
@@ -138,7 +145,7 @@ def insertar_libro():
             query.execute("Insert into RegistroLibros(id_libro,id_notacion,id_lugar,codigo_seccion) values (?,?,?,?)",(id_libro,id_notacion,id_lugar,SistemaDewey))            
              
             #? Guardar cambios
-            conexion.commit()  
+            #conexion.commit()  
 
             #Esta consulta devuelve la ultima seccion ingresada en RegistroLibros para que sea mas facil ingresar libros de manera ordenada
             #Si se ingresan por seccion no hace falta estar seleccionando nuevamente la seccion
@@ -214,8 +221,6 @@ def buscar_libro():
     where l.titulo like '%{busqueda}%' """)
     libros = query.fetchall()
     
-    print(libros)
-
     query.close()
     conexion.close()
 
@@ -223,6 +228,25 @@ def buscar_libro():
     ## "' UNION SELECT id, lugar, '', '', '', '', '', '', '', '', '', '', '' FROM lugares -- "
 
     return render_template("libros.html",libros=libros)
+
+# ----------------------------------------------------- SUGERENCIAS DINAMICAS ----------------------------------------------------- #
+
+#! TEST_SUGERENCIAS
+@app.route("/sugerencias")
+def sugerencias():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("select Lugar from lugares")
+    sugerencia = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+    #print("JSONIFY_TEST2 = ")
+    #print(jsonify(sugerencia))
+
+    return jsonify([fila[0] for fila in sugerencia])
 
 # ----------------------------------------------------- APP ----------------------------------------------------- #
 
