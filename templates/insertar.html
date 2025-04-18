@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>insertar_libro   </title>
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo_insertar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
 
 </head>
@@ -17,6 +18,19 @@
     </div>
     <h1 id="h1-titulo">Registrar nuevo libro</h1>
     <h5 id="h5-nota">Complete el formulario para agregar un nuevo libro al catálogo de la biblioteca.</h5>
+    
+    <section class="barra-lateral fondo-cristal">
+        <h2>Administracion</h2>
+        <nav>
+
+            <a href="{{ url_for('prestamos') }}">Prestamos </a>
+            <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
+            <a href="{{ url_for('insertar_libro') }}" id="pagina-actual">Registro de Libros</a>
+            
+        </nav>
+    </section>
+    
+    
     <div class="div-container-insertar">
         
         <form method="POST" action="/insertar" class="formulario-insertar">

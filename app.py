@@ -29,7 +29,7 @@ def login():
         if (login_usuario == usuario) and (login_password == password):
             login = True
 
-            return redirect(url_for('insertar_libro'))
+            return redirect(url_for('prestamos'))
         else:
             login = False
 
@@ -170,6 +170,9 @@ def insertar_libro():
 
 # ----------------------------------------------------- CATALOGO DE LIBROS ----------------------------------------------------- #
 
+##! Para dividir los resultados del query usar offset y limit, con variable para el numero de pagina
+##! VIDEO: https://www.youtube.com/watch?v=jUVPtMnbuv4
+
 @app.route("/libros", methods=["GET", "POST"])
 def libros():
 
@@ -232,6 +235,9 @@ def buscar_libro():
 # ----------------------------------------------------- SUGERENCIAS DINAMICAS ----------------------------------------------------- #
 
 #! TEST_SUGERENCIAS
+#TODO: Completar conforme a las sugerencias que faltan
+#? Aun no se si sugerir en la busqueda de libros
+
 @app.route("/sugerencias")
 def sugerencias():
     conexion = conexion_BD()
@@ -247,6 +253,36 @@ def sugerencias():
     #print(jsonify(sugerencia))
 
     return jsonify([fila[0] for fila in sugerencia])
+
+# ----------------------------------------------------- PRESTAMOS ----------------------------------------------------- #
+
+@app.route("/prestamos")
+def prestamos():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    
+
+    query.close()
+    conexion.close()
+
+
+    return render_template("prestamos.html")
+
+# ----------------------------------------------------- REGISTRO PRESTAMOS ----------------------------------------------------- #
+
+@app.route("/registro_prestamos")
+def registro_prestamos():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    
+
+    query.close()
+    conexion.close()
+
+
+    return render_template("registro_prestamos.html")
 
 # ----------------------------------------------------- APP ----------------------------------------------------- #
 

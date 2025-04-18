@@ -20,28 +20,14 @@ input_lugar.onkeyup = (e) => {
         filtrados = filtrados.map(sugerencia => `<li onclick="seleccionar_Sugerencia('${sugerencia}')">${sugerencia}</li>`);
 
         // Mostrar sugerencias
-        caja_sugerencias.classList.add('activar');
         mostrar_sugerencias(filtrados);
-
-        /*
-        filtrados.forEach(lugar => {
-          let li = document.createElement("li");
-          li.textContent = lugar.Lugar;
-          li.classList.add("sugerencia-item"); // Para estilos si querés
-          caja_sugerencias.appendChild(li);
-
-          //! Opcional: al hacer clic en una sugerencia, la pone en el input
-          li.onclick = () => {
-            input_lugar.value = lugar;
-            caja_sugerencias.innerHTML = "";
-          };
-        }); */
 
       })
       .catch(error => console.error("Error al obtener sugerencias:", error));
   } 
   else {
     // Limpia sugerencias si el input está vacío
+    caja_sugerencias.classList.remove('activar');
     caja_sugerencias.innerHTML = ""; 
   }
 };
@@ -50,10 +36,12 @@ const mostrar_sugerencias = list => {
   let datos_busqueda;
 
   if(!list.length){
-    datos_ingresados = input_lugar.value;
-    datos_busqueda = `<li>${datos_ingresados}</li>`;
+    //datos_ingresados = input_lugar.value;
+    //datos_busqueda = `<li>${datos_ingresados}</li>`;
+    caja_sugerencias.classList.remove('activar');
   }
   else{
+    caja_sugerencias.classList.add('activar');
     datos_busqueda = list.join(' ');
   }
   caja_sugerencias.innerHTML = datos_busqueda;
@@ -62,6 +50,7 @@ const mostrar_sugerencias = list => {
 
 function seleccionar_Sugerencia(sug) {
   input_lugar.value = sug;
+  caja_sugerencias.classList.remove('activar')
   caja_sugerencias.innerHTML = "";
 }
 

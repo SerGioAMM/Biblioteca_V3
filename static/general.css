@@ -38,7 +38,7 @@ h1 {
     gap: 20px;    
 }
 
-#btn-registrar, #btn-buscar, #btn-catalogo, #btn-login{
+#btn-registrar, #btn-buscar, #btn-catalogo, #btn-login, #btn-registrar-prestamo{
     text-decoration: none;
     color: white;
     background-color: #00000071;
@@ -55,7 +55,7 @@ h1 {
     bottom: 15%;
 }
 
-#btn-registrar:hover, #btn-buscar:hover, #btn-catalogo:hover,#btn-login:hover{
+#btn-registrar:hover, #btn-buscar:hover, #btn-catalogo:hover,#btn-login:hover, #btn-registrar-prestamo:hover{
     background-color: #000000a9;
 }
 

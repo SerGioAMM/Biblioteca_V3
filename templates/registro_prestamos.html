@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>insertar_libro   </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo_registro_prestamos.css') }}">
+
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{ url_for('inicio') }}">Inicio</a>
+        
+    </div>
+    <h1 id="h1-titulo">Registrar nuevo prestamo</h1>
+    <h5 id="h5-nota">Complete el formulario para agregar un nuevo prestamo.</h5>
+    
+    <section class="barra-lateral fondo-cristal">
+        <h2>Administracion</h2>
+        <nav>
+
+            <a href="{{ url_for('prestamos') }}">Prestamos </a>
+            <a href="{{ url_for('registro_prestamos') }}" id="pagina-actual">Registro Prestamos</a>
+            <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
+            
+        </nav>
+    </section>
+    
+    <div class="div-container-registro-prestamos">
+        
+        <form method="POST" action="/registrar_prestamo" class="formulario-prestamo">
+
+            <!--TODO: REDORDENAR DATOS PARA MAYOR COMODIDAD-->
+
+            <label for="titulo">Titulo</label>
+            <label for="nombre_autor apellido_autor">Datos del autor</label>
+            
+            <input type="text" name="titulo" placeholder="" required>
+            <span id="span-informacion-autor">
+                
+                <input type="text" name="nombre_autor" placeholder="Nombre del autor">
+                <input type="text" name="apellido_autor" placeholder="Apellido del autor">
+            </span>
+            
+            <label for="ISBN">ISBN</label>
+            <label for="editorial">Editorial</label>
+            
+            <input type="text" name="ISBN" placeholder="">
+            <input type="text" name="editorial" placeholder="">
+
+            <label for="tomo">Tomo</label>
+            <label for="paginas">Numero de Paginas</label>
+            
+            <input type="text" name="tomo" placeholder="">
+            <input type="number" name="num_paginas" placeholder="">
+
+            <label for="copias">Numero de Copias</label>
+            <label for="sistema_dewey">Sistema Dewey</label>
+
+            <input type="text" name="num_copias" placeholder="">
+            <select name="sistema_dewey" id="" >
+                {% for ultima in ultima_seccion %}
+                    <option value="{{ ultima[0] }}">{{ ultima[0] }} - {{ ultima[1] }}</option>
+                {% endfor %}
+                {% for seccion in secciones %}
+                    <option value="{{ seccion[0] }}">{{ seccion[0] }} - {{ seccion[1] }}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="lugar">Lugar de Publicacion</label>
+            <label for="anio">Año de Publicacion</label>
+            
+            <input type="text" name="lugar" placeholder="">
+            <input type="text" name="anio" placeholder="">
+
+            <button id="btn-registrar-prestamo" type="submit">Registrar prestamo</button>
+
+
+
+
+        </form>
+    </div>
+</body>
+</html>
+
