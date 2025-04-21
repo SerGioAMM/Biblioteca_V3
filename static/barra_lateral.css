@@ -1,8 +1,7 @@
 .barra-lateral{
     position: absolute;
-    background-color: red;
     width: 15%;
-    height: 25%;
+    height: 26.4%;
     left: 1%;
     top: 10%;
 }
@@ -11,17 +10,17 @@
 }
 .barra-lateral nav a{
     padding: 10px;
-    color: #c5c5c5;
+    color: #efefef;
     text-decoration: none;
     display: block;
-    font-size: 130%;
+    font-size: 1.4rem;
     transition: 0.2s ease-in-out;
     border-radius: 5px;
 }
 
 .barra-lateral nav a:hover{
     background-color: rgba(0, 0, 0, 0.294);
-    font-size: 132%;
+    margin-left: 5%;
 }
 h2{
     margin-left: 14px;
@@ -29,6 +28,5 @@ h2{
 
 #pagina-actual{
     background-color: rgba(0, 0, 0, 0.294);
-    font-size: 132%;
     margin-left: 2%;
 }

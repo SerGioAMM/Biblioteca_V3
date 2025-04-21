@@ -9,28 +9,33 @@
 
 </head>
 <body>
-    <div class="navbar">
-        <a href="{{ url_for('inicio') }}">Inicio</a>
-    </div>
-    <div class="div-container-login fondo-cristal">
-        
-        <form method="POST" action="/login" class="formulario-login">
-            <label for=""> <h2> Login </h2> </label>
+    <header>
 
-            <label for="usuario">Usuario</label>
-            <input type="text" name="usuario" placeholder="" required value="admin">
+        <div class="navbar">
+            <a href="{{ url_for('inicio') }}">Inicio</a>
+        </div>
+    </header>
+    <main class="main">
+        <div class="div-container-login fondo-cristal">
             
-            <label for="password">Contraseña</label>
-            <input type="password" name="password" placeholder="" value="1234">
-
-            <button type="submit" id="btn-login"> Iniciar sesion</button>
-
-            {% if login == False %}
+            <form method="POST" action="/login" class="formulario-login">
+                <label for=""> <h2> Login </h2> </label>
+                
+                <label for="usuario">Usuario</label>
+                <input type="text" name="usuario" placeholder="" required value="admin">
+                
+                <label for="password">Contraseña</label>
+                <input type="password" name="password" placeholder="" value="1234">
+                
+                <button type="submit" id="btn-login"> Iniciar sesion</button>
+                
+                {% if login == False %}
                 <h5>Datos incorrectos</h5>
-            {% endif %}
-
-        </form>
-    </div>
+                {% endif %}
+                
+            </form>
+        </div>
+    </main>
 </body>
 </html>
 

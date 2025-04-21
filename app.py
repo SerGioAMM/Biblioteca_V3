@@ -47,8 +47,8 @@ def insertar_libro():
 
     #TODO TEST_SUGERENCIAS
     
-    print("JSONIFY_TEST1 = ")
-    print(sugerencias().get_data(as_text=True))
+    #print("JSONIFY_TEST1 = ")
+    #print(sugerencias().get_data(as_text=True))
 
     #TODO TEST_SUGERENCIAS
 
@@ -228,7 +228,7 @@ def buscar_libro():
     conexion.close()
 
     ## "' OR '1'='1' -- "
-    ## "' UNION SELECT id, lugar, '', '', '', '', '', '', '', '', '', '', '' FROM lugares -- "
+    ## "' UNION SELECT id_lugar, lugar, '', '', '', '', '', '', '', '', '', '', '' FROM lugares -- "
 
     return render_template("libros.html",libros=libros)
 
@@ -238,8 +238,8 @@ def buscar_libro():
 #TODO: Completar conforme a las sugerencias que faltan
 #? Aun no se si sugerir en la busqueda de libros
 
-@app.route("/sugerencias")
-def sugerencias():
+@app.route("/sugerencias-lugares")
+def sugerencias_lugares():
     conexion = conexion_BD()
     query = conexion.cursor()
 
@@ -249,8 +249,18 @@ def sugerencias():
     query.close()
     conexion.close()
 
-    #print("JSONIFY_TEST2 = ")
-    #print(jsonify(sugerencia))
+    return jsonify([fila[0] for fila in sugerencia])
+
+@app.route("/sugerencias-editoriales")
+def sugerencias_editoriales():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("select editorial from editoriales")
+    sugerencia = query.fetchall()
+
+    query.close()
+    conexion.close()
 
     return jsonify([fila[0] for fila in sugerencia])
 

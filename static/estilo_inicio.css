@@ -1,0 +1,31 @@
+/* Secciones */
+
+.seccion-principal{
+    background-image: url('img/portada-biblioteca-1.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 80vh;
+}
+
+.seccion-libros-destacados{
+    background-color: bisque;
+    background-size: cover;
+    background-position: center;
+    height: 50vh;
+    border-top: solid 5px gray;
+    /*box-shadow: inset 0px 0px 20px 5px rgba(0, 0, 0, 0.266); **/
+}
+.seccion-eventos{
+    background-color:azure;
+    background-size: cover;
+    background-position: center;
+    height: 50vh;
+    border-top: solid 5px gray;
+}
+
+
+/* Textos - Titulos */
+
+.h1-titulo{
+    position: absolute;
+}

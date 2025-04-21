@@ -11,125 +11,126 @@
 
 </head>
 <body>
-    <div class="navbar">
-        <a href="{{ url_for('inicio') }}">Inicio</a>
-        <nav>
-            <a href="{{ url_for('insertar_libro') }}">Administracion</a>
-        </nav>
-    </div>
+    <header>
 
-    <div class="div-busqueda">
-        <form class="frm-prestamos" action="/buscar_prestamo" method="POST">
-            <label for="buscar_prestamo"><h1>Gestión de Préstamos</h1></label><br><br><br>
-            <input id="cuadro-busqueda" type="text" name="buscar">&nbsp;&nbsp;
-            <button id="btn-buscar" type="submit">Buscar</button>
-        </form>
-    </div>
-
-    <section class="barra-lateral fondo-cristal">
-        <h2>Administracion</h2>
-        <nav>
-
-            <a href="{{ url_for('prestamos') }}" id="pagina-actual">Prestamos </a>
-            <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
-            <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
+        <div class="navbar">
+            <a href="{{ url_for('inicio') }}">Inicio</a>
             
-        </nav>
-    </section>
+        </div>
+    </header>
+    <main class="main">
 
-    <div class="contendor-prestamos">
-        <div class="prestamo">
-            
-            <span class="span-notacion" id="h2-seccion-9"> 
-                <h2>notacion</h2> 
-            </span><!-- Notacion  -->
-            
-            <span id="span-info-prestamos"> 
-                <h2>titulo</h2> <!-- Titulo  --> 
-                <h3>nombre y apellido del autor <!-- Nombre y apellido del autor  -->
+        <div class="div-busqueda">
+            <form class="frm-prestamos" action="/buscar_prestamo" method="POST">
+                <label for="buscar_prestamo"><h1>Gestión de Préstamos</h1></label><br><br><br>
+                <input id="cuadro-busqueda" type="text" name="buscar">&nbsp;&nbsp;
+                <button id="btn-buscar" type="submit">Buscar</button>
+            </form>
+        </div>
+        
+        <section class="barra-lateral fondo-cristal">
+            <h2>Administracion</h2>
+            <nav>
+                
+                <a href="{{ url_for('prestamos') }}" id="pagina-actual">Prestamos </a>
+                <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
+                <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
+                
+            </nav>
+        </section>
+
+        <div class="contendor-prestamos">
+            <div class="prestamo">
+                
+                <span class="span-notacion" id="h2-seccion-9"> 
+                    <h2>notacion</h2> 
+                </span><!-- Notacion  -->
+                
+                <span id="span-info-prestamos"> 
+                    <h2>titulo</h2> <!-- Titulo  --> 
+                    <h3>nombre y apellido del autor <!-- Nombre y apellido del autor  -->
                     anio de publicacion </h3> <!-- Anio de publicacion  -->
+                    
+                    <h4 id="h4-seccion-9">
+                        codigo de secicon + seccion
+                    </h4> <!-- Codigo de seccion + seccion  --> 
                 
-                <h4 id="h4-seccion-9">
-                    codigo de secicon + seccion
-                </h4> <!-- Codigo de seccion + seccion  --> 
+                </span>
                 
-            </span>
+                <span id="span-disponibilidad-libros"> <h4 id="h4-disponible">Activo</h4></span>
+                <span id="span-disponibilidad-libros"> <h4 id="h4-no_disponible">Vencido</h4></span>
+            </div>
             
-                <span id="span-disponibilidad-libros"> <h4 id="h4-disponible">Disponible</h4></span>
-                <span id="span-disponibilidad-libros"> <h4 id="h4-no_disponible">No disponible</h4></span>
-        </div>
-    </div>        
-
-        {% for libro in libros%}
-        <div class="prestamo">
-            
-            <span class="span-notacion" 
-                {% if (libro[7]|int) < 100 %}
-                    id="h2-seccion-0"
-                {% elif (libro[7]|int) < 200 %}
-                    id="h2-seccion-1"
-                {% elif (libro[7]|int) < 300 %}
-                    id="h2-seccion-2"
-                {% elif (libro[7]|int) < 400 %}
-                    id="h2-seccion-3"
-                {% elif (libro[7]|int) < 500 %}
-                    id="h2-seccion-4"
-                {% elif (libro[7]|int) < 600 %}
-                    id="h2-seccion-5"
-                {% elif (libro[7]|int) < 700 %}
-                    id="h2-seccion-6"
-                {% elif (libro[7]|int) < 800 %}
-                    id="h2-seccion-7"
-                {% elif (libro[7]|int) < 900 %}
-                    id="h2-seccion-8"
-                {% else %}
-                    id="h2-seccion-9"
-                {% endif %}
-            > 
-                <h2>{{libro[12]}}</h2> 
-            </span><!-- Notacion  -->
-            
-            <span id="span-info-prestamos"> 
-                <h2>{{libro[1]}}</h2> <!-- Titulo  --> 
-                <h3>{{libro[9]}} {{libro[10]}} <!-- Nombre y apellido del autor  -->
-                    {{libro[3]}} </h3> <!-- Anio de publicacion  -->
-                
-                <h4
+            {% for libro in libros%}
+            <div class="prestamo">  
+                <span class="span-notacion" 
                     {% if (libro[7]|int) < 100 %}
-                        id="h4-seccion-0"
+                    id="h2-seccion-0"
                     {% elif (libro[7]|int) < 200 %}
-                        id="h4-seccion-1"
+                    id="h2-seccion-1"
                     {% elif (libro[7]|int) < 300 %}
-                        id="h4-seccion-2"
+                    id="h2-seccion-2"
                     {% elif (libro[7]|int) < 400 %}
-                        id="h4-seccion-3"
+                    id="h2-seccion-3"
                     {% elif (libro[7]|int) < 500 %}
-                        id="h4-seccion-4"
+                    id="h2-seccion-4"
                     {% elif (libro[7]|int) < 600 %}
-                        id="h4-seccion-5"
+                    id="h2-seccion-5"
                     {% elif (libro[7]|int) < 700 %}
-                        id="h4-seccion-6"
+                    id="h2-seccion-6"
                     {% elif (libro[7]|int) < 800 %}
-                        id="h4-seccion-7"
+                    id="h2-seccion-7"
                     {% elif (libro[7]|int) < 900 %}
-                        id="h4-seccion-8"
+                    id="h2-seccion-8"
                     {% else %}
-                        id="h4-seccion-9"
+                    id="h2-seccion-9"
                     {% endif %}
-                >
+                > 
+                <h2>{{libro[12]}}</h2> 
+                </span><!-- Notacion  -->
+        
+                <span id="span-info-prestamos"> 
+                    <h2>{{libro[1]}}</h2> <!-- Titulo  --> 
+                    <h3>{{libro[9]}} {{libro[10]}} <!-- Nombre y apellido del autor  -->
+                        {{libro[3]}} </h3> <!-- Anio de publicacion  -->
+                        
+                    <h4
+                        {% if (libro[7]|int) < 100 %}
+                        id="h4-seccion-0"
+                        {% elif (libro[7]|int) < 200 %}
+                        id="h4-seccion-1"
+                        {% elif (libro[7]|int) < 300 %}
+                        id="h4-seccion-2"
+                        {% elif (libro[7]|int) < 400 %}
+                        id="h4-seccion-3"
+                        {% elif (libro[7]|int) < 500 %}
+                        id="h4-seccion-4"
+                        {% elif (libro[7]|int) < 600 %}
+                        id="h4-seccion-5"
+                        {% elif (libro[7]|int) < 700 %}
+                        id="h4-seccion-6"
+                        {% elif (libro[7]|int) < 800 %}
+                        id="h4-seccion-7"
+                        {% elif (libro[7]|int) < 900 %}
+                        id="h4-seccion-8"
+                        {% else %}
+                        id="h4-seccion-9"
+                        {% endif %}
+                    >
                     {{libro[7]}} - {{libro[8]}} 
-                </h4> <!-- Codigo de seccion + seccion  --> 
+                    </h4> <!-- Codigo de seccion + seccion  --> 
                 
-            </span>
-            
-            {% if (libro[6]|int) > 0 %}
-                <span id="span-disponibilidad-libros"> <h4 id="h4-disponible">Disponible</h4></span>
-            {% else %}
-                <span id="span-disponibilidad-libros"> <h4 id="h4-no_disponible">No disponible</h4></span>
-            {% endif %}
-        </div>
+                </span>
+                
+                {% if (libro[6]|int) > 0 %}
+                <span id="span-disponibilidad-libros"> <h4 id="h4-disponible">Activo</h4></span>
+                {% else %}
+                <span id="span-disponibilidad-libros"> <h4 id="h4-no_disponible">Vencido</h4></span>
+                {% endif %}
+            </div>
         {% endfor %}
-    </div>
+        </div>        
+    </main>
     
 </body>
 </html>

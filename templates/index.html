@@ -8,16 +8,31 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
 </head>
 <body>
+    <header>
 
-    <div class="navbar">
-        <a href="{{ url_for('inicio') }}">Inicio</a>
-        <nav>
-            <a href="{{ url_for('login') }}">LOGIN</a>
-            <a href="{{ url_for('libros') }}">Catalogo </a>
-        </nav>
-    </div>
-    <div class="botones">
-        <a id="btn-catalogo" href="{{ url_for('libros') }}"> Explora nuestro catalogo </a>
-    </div>
-</body>
+        <div class="navbar">
+            <a href="{{ url_for('inicio') }}">Inicio</a>
+            <nav>
+                <a href="{{ url_for('login') }}">LOGIN</a>
+                <a href="{{ url_for('libros') }}">Catalogo </a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="seccion-principal">
+            <div class="botones">
+                <a id="btn-catalogo" href="{{ url_for('libros') }}"> Explora nuestro catalogo </a>
+            </div>
+        </section>
+        <section class="seccion-libros-destacados">
+            <h1 class="h1-titulo">Libros destacados</h1>
+        </section>
+        <section class="seccion-eventos">
+            <h1 class="h1-titulo">Eventos</h1>
+        </section>
+    </main>
+    <footer>
+
+    </footer>
+    </body>
 </html>

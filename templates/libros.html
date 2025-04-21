@@ -9,92 +9,93 @@
 
 </head>
 <body>
-    <div class="navbar">
-        <a href="{{ url_for('inicio') }}">Inicio</a>
-        <nav>
-            <a href="{{ url_for('insertar_libro') }}">Administracion</a>
-        </nav>
-    </div>
+    <header>
 
-    <div class="div-busqueda">
-        <form class="frm-buscar" action="/buscar_libro" method="POST">
-            <label for="buscar"><h1>Catalogo de Libros</h1>Explora nuestra colección de libros y encuentra tu próxima lectura.</label><br><br><br>
-            <input id="cuadro-busqueda" type="text" name="buscar">&nbsp;&nbsp;
-            <button id="btn-buscar" type="submit">Buscar</button>
-        </form>
-    </div>
+        <div class="navbar">
+            <a href="{{ url_for('inicio') }}">Inicio</a>
+        </div>
+    </header>
+    <main class="main">
+        <div class="div-busqueda">
+            <form class="frm-buscar" action="/buscar_libro" method="POST">
+                <label for="buscar"><h1>Catalogo de Libros</h1>Explora nuestra colección de libros y encuentra tu próxima lectura.</label><br><br><br>
+                <input id="cuadro-busqueda" type="text" name="buscar">&nbsp;&nbsp;
+                <button id="btn-buscar" type="submit">Buscar</button>
+            </form>
+        </div>
 
     <div class="contendor-catalogo">
         {% for libro in libros%}
         <div class="libro">
             
             <span class="span-notacion" 
-                {% if (libro[7]|int) < 100 %}
-                    id="h2-seccion-0"
-                {% elif (libro[7]|int) < 200 %}
-                    id="h2-seccion-1"
-                {% elif (libro[7]|int) < 300 %}
-                    id="h2-seccion-2"
-                {% elif (libro[7]|int) < 400 %}
-                    id="h2-seccion-3"
-                {% elif (libro[7]|int) < 500 %}
-                    id="h2-seccion-4"
-                {% elif (libro[7]|int) < 600 %}
+            {% if (libro[7]|int) < 100 %}
+            id="h2-seccion-0"
+            {% elif (libro[7]|int) < 200 %}
+            id="h2-seccion-1"
+            {% elif (libro[7]|int) < 300 %}
+            id="h2-seccion-2"
+            {% elif (libro[7]|int) < 400 %}
+            id="h2-seccion-3"
+            {% elif (libro[7]|int) < 500 %}
+            id="h2-seccion-4"
+            {% elif (libro[7]|int) < 600 %}
                     id="h2-seccion-5"
-                {% elif (libro[7]|int) < 700 %}
+                    {% elif (libro[7]|int) < 700 %}
                     id="h2-seccion-6"
-                {% elif (libro[7]|int) < 800 %}
+                    {% elif (libro[7]|int) < 800 %}
                     id="h2-seccion-7"
-                {% elif (libro[7]|int) < 900 %}
+                    {% elif (libro[7]|int) < 900 %}
                     id="h2-seccion-8"
-                {% else %}
+                    {% else %}
                     id="h2-seccion-9"
-                {% endif %}
-            > 
-                <h2>{{libro[12]}}</h2> 
-            </span><!-- Notacion  -->
-            
-            <span id="span-info-libros"> 
-                <h2>{{libro[1]}}</h2> <!-- Titulo  --> 
+                    {% endif %}
+                    > 
+                    <h2>{{libro[12]}}</h2> 
+                </span><!-- Notacion  -->
+                
+                <span id="span-info-libros"> 
+                    <h2>{{libro[1]}}</h2> <!-- Titulo  --> 
                 <h3>{{libro[9]}} {{libro[10]}} <!-- Nombre y apellido del autor  -->
                     {{libro[3]}} </h3> <!-- Anio de publicacion  -->
-                
-                <h4
+                    
+                    <h4
                     {% if (libro[7]|int) < 100 %}
-                        id="h4-seccion-0"
+                    id="h4-seccion-0"
                     {% elif (libro[7]|int) < 200 %}
-                        id="h4-seccion-1"
+                    id="h4-seccion-1"
                     {% elif (libro[7]|int) < 300 %}
-                        id="h4-seccion-2"
+                    id="h4-seccion-2"
                     {% elif (libro[7]|int) < 400 %}
                         id="h4-seccion-3"
                     {% elif (libro[7]|int) < 500 %}
-                        id="h4-seccion-4"
+                    id="h4-seccion-4"
                     {% elif (libro[7]|int) < 600 %}
-                        id="h4-seccion-5"
+                    id="h4-seccion-5"
                     {% elif (libro[7]|int) < 700 %}
-                        id="h4-seccion-6"
+                    id="h4-seccion-6"
                     {% elif (libro[7]|int) < 800 %}
-                        id="h4-seccion-7"
+                    id="h4-seccion-7"
                     {% elif (libro[7]|int) < 900 %}
-                        id="h4-seccion-8"
+                    id="h4-seccion-8"
                     {% else %}
-                        id="h4-seccion-9"
+                    id="h4-seccion-9"
                     {% endif %}
-                >
+                    >
                     {{libro[7]}} - {{libro[8]}} 
                 </h4> <!-- Codigo de seccion + seccion  --> 
                 
             </span>
             
             {% if (libro[6]|int) > 0 %}
-                <span id="span-disponibilidad-libros"> <h4 id="h4-disponible">Disponible</h4></span>
+            <span id="span-disponibilidad-libros"> <h4 id="h4-disponible">Disponible</h4></span>
             {% else %}
-                <span id="span-disponibilidad-libros"> <h4 id="h4-no_disponible">No disponible</h4></span>
+            <span id="span-disponibilidad-libros"> <h4 id="h4-no_disponible">No disponible</h4></span>
             {% endif %}
         </div>
         {% endfor %}
-    </div>
+        </div>
+    </main>
     
 </body>
 </html>
