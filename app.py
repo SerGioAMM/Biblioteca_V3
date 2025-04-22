@@ -157,6 +157,7 @@ def insertar_libro():
             where SistemaDewey.codigo_seccion = 
             (?)""",(select_seccion[0],))
             ultima_seccion = query.fetchall()
+            
 
         except Exception as e:
             print(f"Error: {e}")

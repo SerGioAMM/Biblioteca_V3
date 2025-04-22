@@ -1,4 +1,19 @@
-/*? Position absolute coloca el objeto con relacion al contenedor padre*/
+/*? Fondo */
+body{
+    background-image: url('img/libros-loop-v2.jpg');
+    background-size: cover;
+    background-position: top;
+
+}
+main{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fffbf2; 
+}
+
 .contendor-prestamos{
     display: block;
     position: relative;
@@ -17,10 +32,10 @@
     left: -2%;
     width: 100%;
     height: 12%;
-    border-radius: 15px;
-    margin-bottom: 1rem;
+    border-radius: 10px;
+    margin-bottom: .6rem;
     color: #4a4a4a;
-    transition: width 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
 }
 
 .prestamo:hover{
@@ -33,8 +48,8 @@
     width: 10%;
     justify-content: center;
     align-items: center;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 /* Colores de la notacion deacuerdo a su seccion*/
@@ -219,8 +234,9 @@ form select, form input {
 }
 
 .div-busqueda{
+    text-align: center;
     position: absolute;
-    top: 6rem;
+    top: 5rem;
     height: 10rem;
     width: 60%;
     padding: 15px;
