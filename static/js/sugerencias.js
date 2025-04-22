@@ -55,7 +55,7 @@ document.querySelectorAll('.input-lugar, .input-editorial').forEach(input => {
       .then(r => r.json())
       .then(data => {
         const sugerencias = data
-          .filter(d => d.toLowerCase().startsWith(texto))
+          .filter(d => d.toLowerCase().includes(texto))
           .map(s => `<li onclick="seleccionar_Sugerencia('${s}')">${s}</li>`);
 
         mostrar_sugerencias(sugerencias);

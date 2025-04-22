@@ -188,6 +188,7 @@ def libros():
     #* Observacion: El libro no tiene editorial, este tambien podria ser el origen del bug, pero en este caso lo dudo.
 
     #? Selecciona todos los libros disponibles
+    #! Con el nuevo disenio algunos datos ya no se utilizan, como la editorial o el tomo
     query.execute("""
     select l.id_libro,Titulo,tomo,ano_publicacion,ISBN,numero_paginas,numero_copias, sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor , e.editorial, n.notacion
     from Libros as l
