@@ -1,0 +1,32 @@
+.menu-filtros{
+    position: absolute;
+    display: flex;
+    width: 100%;
+}
+.menu-filtros nav{
+    margin-top: 2%;
+    display: flex;
+    width: 90%;
+    justify-content: space-evenly;
+}
+.menu-filtros nav a{
+    padding: 10px;
+    color: #efefef;
+    text-decoration: none;
+    display: block;
+    font-size: 1.4rem;
+    transition: 0.2s ease-in-out;
+    border-radius: 5px;
+}
+
+.menu-filtros nav a:hover{
+    background-color: rgba(0, 0, 0, 0.294);
+    margin-left: 5%;
+}
+h2{
+    margin-left: 14px;
+}
+
+.menu-filtros nav section{
+    display: flex;
+}

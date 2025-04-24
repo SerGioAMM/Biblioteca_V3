@@ -19,7 +19,7 @@ main{
     position: relative;
     width: 60%;
     height: 100%;
-    top: 35%;
+    top: 40%;
 }
 
 /*? Contenedor que tiene los datos del libro*/
@@ -227,21 +227,24 @@ main{
 form select, form input {
     padding: 10px;
     font-size: 1rem;
-    border-radius: 5px;
+    border-radius: 3px;
     border: none;
     background-color: rgba(255, 255, 255, 0.8);
     color: black;
+}
+
+form select{
+    height: 3rem;
 }
 
 .div-busqueda{
     text-align: center;
     position: absolute;
     top: 5rem;
-    height: 10rem;
+    height: 40%;
     width: 60%;
     padding: 15px;
     border-radius: 4px;
-
 }
 
 .frm-buscar{
@@ -249,5 +252,5 @@ form select, form input {
 }
 
 #cuadro-busqueda{
-    width: 80%;
+    width: 60%;
 }

@@ -4,7 +4,7 @@ from config import conexion_BD
 app = Flask(__name__, template_folder="templates", static_folder="static")
 app.secret_key = "1234"
 
-# !Se puede monar esta app en la nube?
+# !Se puede montar esta app en la nube?
 # *Se puede en RENDER HOSTING
 
 # ----------------------------------------------------- PRINCIPAL ----------------------------------------------------- #
@@ -45,25 +45,13 @@ def insertar_libro():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    #TODO TEST_SUGERENCIAS
-    
-    #print("JSONIFY_TEST1 = ")
-    #print(sugerencias().get_data(as_text=True))
-
-    #TODO TEST_SUGERENCIAS
-
-    #// ## Cambiar la consulta entre parentesis (select entre parentesis con limit), hacerla una variables para que sea mas sencillo de comprender
     #Esta consulta devuelve la ultima seccion ingresada en RegistroLibros para que sea mas facil ingresar libros de manera ordenada
     #Si se ingresan por seccion no hace falta estar seleccionando nuevamente la seccion
     query.execute("select codigo_seccion from RegistroLibros order by id_registro desc limit 1")
     select_seccion = query.fetchone()
 
-    query.execute("""
-    select * from SistemaDewey 
-    where SistemaDewey.codigo_seccion = 
-    (?)""",(select_seccion[0],))
+    query.execute("select * from SistemaDewey where SistemaDewey.codigo_seccion = (?)",(select_seccion[0],))
     ultima_seccion = query.fetchall()
-
 
     #Consulta para mostrar un listado de todas las secciones del Sistema Dewey
     query.execute("select * from SistemaDewey")
@@ -91,22 +79,22 @@ def insertar_libro():
             #for caracter in editorial: #!TOMAR INICIALES DE EDITORIAL COMPUESTA
                 #if caracter == ' ':
                     #print("ESPACIO")
-            Notacion = editorial[0:3].lower() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres de la editorial
+            Notacion = editorial[0:3].upper() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres de la editorial
 
         elif ApellidoAutor:
-            editorial = "X"
-            Notacion = ApellidoAutor[0:3].lower() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres del apellido autor
+            editorial = "Otros"
+            Notacion = ApellidoAutor[0:3].upper() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres del apellido autor
         
         elif NombreAutor: #Para el extranio caso de que no exista ni editorial ni apellido de autor
-            editorial = "X"
-            ApellidoAutor = "-"
-            Notacion = NombreAutor[0:3].lower() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres del nombre del autor
+            editorial = "Otros"
+            ApellidoAutor = "Otros"
+            Notacion = NombreAutor[0:3].upper() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres del nombre del autor
 
-        else: #No se agrega ni autor ni editorial notacion va a ser "X"
-            editorial = "X"
-            NombreAutor = "X"
-            ApellidoAutor = "X"
-            _notacion = "X"
+        else: #No se agrega ni autor ni editorial notacion va a ser "-"
+            editorial = "Otros"
+            NombreAutor = "Otros"
+            ApellidoAutor = "Otros"
+            _notacion = "OTR"
 
         if editorial or ApellidoAutor or NombreAutor:
             for i in range (0,3): #Notacion es un arreglo, este for funciona para pasar ese arreglo a ser una variable
@@ -199,11 +187,15 @@ def libros():
     join Editoriales as e on e.id_editorial = n.id_editorial""")
     libros = query.fetchall()
     
+    #? Selecciona todas las secciones del sistema dewey, para ser usados en los filtros
+    query.execute("select * from SistemaDewey")
+    categorias = query.fetchall()
+
     query.close()
     conexion.close()
         
 
-    return render_template("libros.html",libros=libros)
+    return render_template("libros.html",libros=libros,categorias=categorias)
 
 # ----------------------------------------------------- BUSCAR LIBROS ----------------------------------------------------- #
 
@@ -213,26 +205,52 @@ def buscar_libro():
     query = conexion.cursor()
 
     busqueda = request.form["buscar"]
+    #Obtiene los datos del formulario filtros en libros.html
+    filtro_busqueda = request.form["filtro-busqueda"]
+    Seccion = request.form.get("categorias")
+    
+    if filtro_busqueda == "Titulo":
+        SQL_where_busqueda = (f"where l.titulo like '%{busqueda}%'")
+    else:
+        SQL_where_busqueda = (f"where a.nombre_autor like '%{busqueda}%'")
+    
+    if Seccion == "Todas":
+        SQL_where_seccion =" "
+    else:
+        SQL_where_seccion = (f" and sd.codigo_seccion = {Seccion}")
 
-    #? Selecciona todos los libros disponibles
-    query.execute(f"""
+    print(SQL_where_seccion)
+
+    #! Cuando tenga datos reales, comprobar importancia de left join (hice esto porque varios libros tenian datos incompletos)
+    query_busqueda = (f"""
     select l.id_libro,Titulo,tomo,ano_publicacion,ISBN,numero_paginas,numero_copias, sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor , e.editorial, n.notacion
     from Libros as l
-    join RegistroLibros as r on r.id_libro = l.id_libro
-    join SistemaDewey as sd on sd.codigo_seccion = r.codigo_seccion 
-    join notaciones as n on n.id_notacion = r.id_notacion
-    join Autores as a on a.id_autor = n.id_autor
-    join Editoriales as e on e.id_editorial = n.id_editorial
-    where l.titulo like '%{busqueda}%' """)
+    left join RegistroLibros as r on r.id_libro = l.id_libro
+    left join SistemaDewey as sd on sd.codigo_seccion = r.codigo_seccion 
+    left join notaciones as n on n.id_notacion = r.id_notacion
+    left join Autores as a on a.id_autor = n.id_autor
+    left join Editoriales as e on e.id_editorial = n.id_editorial """)
+
+    query_busqueda = query_busqueda + SQL_where_busqueda + SQL_where_seccion
+
+    print(query_busqueda)
+
+    query.execute(query_busqueda)
     libros = query.fetchall()
-    
+
+    #? Selecciona todas las secciones del sistema dewey, para ser usados en los filtros
+    query.execute("select * from SistemaDewey")
+    categorias = query.fetchall()
+
+
     query.close()
     conexion.close()
 
     ## "' OR '1'='1' -- "
     ## "' UNION SELECT id_lugar, lugar, '', '', '', '', '', '', '', '', '', '', '' FROM lugares -- "
 
-    return render_template("libros.html",libros=libros)
+    return render_template("libros.html",libros=libros,categorias=categorias)
+
 
 # ----------------------------------------------------- SUGERENCIAS DINAMICAS ----------------------------------------------------- #
 
@@ -259,6 +277,33 @@ def sugerencias_editoriales():
     query = conexion.cursor()
 
     query.execute("select editorial from editoriales")
+    sugerencia = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+    return jsonify([fila[0] for fila in sugerencia])
+
+@app.route("/sugerencias-libros")
+def sugerencias_libros():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("select titulo from libros")
+    sugerencia = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+    return jsonify([fila[0] for fila in sugerencia])
+
+
+@app.route("/sugerencias-autores")
+def sugerencias_autores():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("select nombre_autor from autores")
     sugerencia = query.fetchall()
 
     query.close()
