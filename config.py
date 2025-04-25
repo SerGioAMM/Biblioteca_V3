@@ -2,7 +2,7 @@ import sqlite3
 
 '''
 def conexion_BD():
-    conexion = sqlite3.connect('Data/biblioteca.db')
+    conexion = sqlite3.connect('Data/Biblioteca.db')
     conexion.row_factory = sqlite3.Row
 
     return conexion
@@ -10,7 +10,7 @@ def conexion_BD():
 
 import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, "Data", "biblioteca.db")
+DB_PATH = os.path.join(BASE_DIR, "Data", "Biblioteca.db")
 
 def conexion_BD():
     return sqlite3.connect(DB_PATH)

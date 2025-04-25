@@ -1,11 +1,14 @@
 const caja_sugerencias = document.querySelector('.ul-contenedor-sugerencias');
 let inputActivo = null;
 let filtro = document.querySelector('#filtro-busqueda');
+let filtro_secciones = document.querySelector('#categorias');
+
+console.log(filtro_secciones.value);
 
 function moverSugerencias(input) {
   caja_sugerencias.style.top = (input.offsetTop + input.offsetHeight - 12) + 'px';
   caja_sugerencias.style.left = input.offsetLeft + 'px';
-  caja_sugerencias.style.width = input.offsetWidth + 'px';
+  caja_sugerencias.style.width = (input.offsetWidth - 15 ) + 'px';
 }
 
 function mostrar_sugerencias(lista) {

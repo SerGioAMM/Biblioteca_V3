@@ -233,8 +233,6 @@ def buscar_libro():
 
     query_busqueda = query_busqueda + SQL_where_busqueda + SQL_where_seccion
 
-    print(query_busqueda)
-
     query.execute(query_busqueda)
     libros = query.fetchall()
 
@@ -303,7 +301,7 @@ def sugerencias_autores():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    query.execute("select nombre_autor from autores")
+    query.execute("select concat(nombre_autor,' ',apellido_autor) as NombreCompleto from autores;")
     sugerencia = query.fetchall()
 
     query.close()
