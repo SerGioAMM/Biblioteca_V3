@@ -112,7 +112,6 @@
                 
                 <!-- Verificacion de disponibilidad comparando el numero de copias -> (libro[6]) -->
                 <span id="span-disponibilidad-libros"> 
-                    
                     {% if (libro[6]|int) > 0 %} 
                         <h4 id="h4-disponible">Disponible: 
                             {% if (libro[6]|int == 1)%}
@@ -124,6 +123,12 @@
                     
                     {% else %}
                         <h4 id="h4-no_disponible">No disponible</h4>
+                    {% endif %}
+                    {% if session["rol"] == 'Administrador' %}
+                    <form class="frm-eliminar-libro" action="/eliminar_libro" method="POST">
+                        <input type="text" value="{{libro[0]}}" name="id_libro"> 
+                        <button type="submit"> Eliminar </button>
+                    </form>
                     {% endif %}
                 </span>
             </div>

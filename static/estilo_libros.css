@@ -199,8 +199,9 @@ main{
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content:center;
+    flex-direction: column;
 }
 
 #span-disponibilidad-libros h4{
@@ -220,6 +221,16 @@ main{
     background-color: rgb(255, 200, 200);
     color: rgb(161, 0, 0);
     border: solid 1px red;
+}
+#span-disponibilidad-libros button{
+    border-radius: 10px;
+    padding: 5px;
+    font-size: 15px;
+    transition: .3s ease-in-out;
+    
+}
+#span-disponibilidad-libros button:hover{
+    scale: 1.1;
 }
 
 
@@ -254,3 +265,10 @@ form select{
 #cuadro-busqueda{
     width: 60%;
 }
+
+/*? Eliminar Libro
+/*? Eliminar prestamo */
+.frm-eliminar-libro input{
+    display: none;
+}
+

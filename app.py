@@ -266,6 +266,28 @@ def buscar_libro():
 
     return render_template("libros.html",libros=libros,categorias=categorias)
 
+# ----------------------------------------------------- ELIMINAR LIBROS ----------------------------------------------------- #
+
+@app.route("/eliminar_libro", methods=["GET", "POST"])
+def eliminar_libro():
+    id_libro = request.form["id_libro"]
+
+    # Obtenre la fecha actual
+    hoy = datetime.today().date()
+    id_administrador = session.get("id_administrador")
+
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("insert into libros_eliminados(id_administrador,id_libro,fecha) values(?,?,?)",(id_administrador,id_libro,hoy))
+
+    query.execute("delete from libros where id_libro = ?",(id_libro))
+    conexion.commit()
+
+    query.close()
+    conexion.close()
+
+    return redirect("/libros")
 
 # ----------------------------------------------------- SUGERENCIAS DINAMICAS ----------------------------------------------------- #
 
@@ -487,7 +509,6 @@ def eliminar_prestamo():
     query = conexion.cursor()
 
     query.execute("insert into prestamos_eliminados(id_administrador,id_prestamo,fecha) values(?,?,?)",(id_administrador,id_prestamo,hoy))
-    conexion.commit()
 
     query.execute("delete from prestamos where id_prestamo = ?",(id_prestamo))
     conexion.commit()
