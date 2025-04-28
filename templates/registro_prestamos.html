@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>insertar_libro   </title>
+    <title>Nuevo Prestamo</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo_registro_prestamos.css') }}">
@@ -35,54 +35,50 @@
         
         <div class="div-container-registro-prestamos">
         
-            <form method="POST" action="/registrar_prestamo" class="formulario-prestamo">
+            <form method="POST" action="/registro_prestamos" class="formulario-prestamo">
                 
                 <!--TODO: REDORDENAR DATOS PARA MAYOR COMODIDAD-->
                 
-                <label for="titulo">Titulo</label>
-                <label for="nombre_autor apellido_autor">Datos del autor</label>
+                <label for="DPI">DPI</label>
+                <label for="nombre_lector apellido_lector">Lector</label>
                 
-                <input type="text" name="titulo" placeholder="" required>
-                <span id="span-informacion-autor">
-                    <input type="text" name="nombre_autor" placeholder="Nombre del autor">
-                    <input type="text" name="apellido_autor" placeholder="Apellido del autor">
+                <input type="text" name="DPI" placeholder="" required autocomplete="off">
+                <span id="span-informacion-lector">
+                    <input type="text" name="nombre_lector" placeholder="Nombre del lector" autocomplete="off">
+                    <input type="text" name="apellido_lector" placeholder="Apellido del lector" autocomplete="off">
                 </span>
                 
-                <label for="ISBN">ISBN</label>
-                <label for="editorial">Editorial</label>
+                <label for="direccion">Direccion</label>
+                <label for="num_telefono">Numero de Telefono</label>
+                <input type="text" name="direccion" placeholder="" autocomplete="off">
+                <input type="text" name="num_telefono" placeholder="" autocomplete="off">
                 
-                <input type="text" name="ISBN" placeholder="">
-                <input type="text" name="editorial" placeholder="">
-                
-                <label for="tomo">Tomo</label>
-                <label for="paginas">Numero de Paginas</label>
-                
-                <input type="text" name="tomo" placeholder="">
-                <input type="number" name="num_paginas" placeholder="">
-                
-                <label for="copias">Numero de Copias</label>
-                <label for="sistema_dewey">Sistema Dewey</label>
-                
-                <input type="text" name="num_copias" placeholder="">
-                <select name="sistema_dewey" id="" >
-                    {% for ultima in ultima_seccion %}
-                    <option value="{{ ultima[0] }}">{{ ultima[0] }} - {{ ultima[1] }}</option>
-                    {% endfor %}
-                    {% for seccion in secciones %}
-                    <option value="{{ seccion[0] }}">{{ seccion[0] }} - {{ seccion[1] }}</option>
-                    {% endfor %}
-                </select>
-                
-                <label for="lugar">Lugar de Publicacion</label>
-                <label for="anio">Año de Publicacion</label>
-                
-                <input type="text" name="lugar" placeholder="">
-                <input type="text" name="anio" placeholder="">
-                
+                <label for="libro">Libro</label>
+                <label for="grado">Grado de Estudio</label>
+                <input class="buscar-libro-prestamo" type="text" name="libro" placeholder="" autocomplete="off">
+                <input type="text" name="grado" placeholder="" autocomplete="off">
+                                
+                <label for="fecha_prestamo">Fecha de prestamo</label>
+                <label for="fecha_entrega_estimada">Fecha limite de entrega</label>
+                <input type="date" id="fecha_prestamo" name="fecha_prestamo" placeholder="">
+                <input type="date" id="fecha_entrega_estimada" name="fecha_entrega_estimada" placeholder="">
+
                 <button id="btn-registrar-prestamo" type="submit">Registrar prestamo</button>
             </form>
+
+            <ul class="ul-contenedor-sugerencias">
+                <li>sugerencia 1</li>
+            </ul>
+            <section class="filtro">
+                <h4> Buscar por: &nbsp;&nbsp;</h4>
+                <select name="filtro-busqueda" id="filtro-busqueda">
+                    <option value="Titulo">Titulo</option>
+                </select>
+            </section>
         </div>
     </main>
+    <script src="/static/js/sugerencias.js"></script>
+    <script src="/static/js/obtener_fecha.js"></script>
 </body>
 </html>
 

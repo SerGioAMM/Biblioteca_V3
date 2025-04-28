@@ -41,8 +41,6 @@
                     </nav>
                 </section>
                     
-
-
                 <button id="btn-buscar" type="submit">Buscar</button>
                 <ul class="ul-contenedor-sugerencias">
                     <li>sugerencia 1</li>
@@ -113,17 +111,21 @@
                 </span>
                 
                 <!-- Verificacion de disponibilidad comparando el numero de copias -> (libro[6]) -->
-                {% if (libro[6]|int) > 0 %}
-                    <span id="span-disponibilidad-libros"> <h4 id="h4-disponible">Disponible: 
-                        {% if (libro[6]|int == 1)%}
-                            {{libro[6]}} copia
-                        {% else %}
-                            {{libro[6]}} copias
-                        {% endif %}
-                    </h4></span>
-                {% else %}
-                    <span id="span-disponibilidad-libros"> <h4 id="h4-no_disponible">No disponible</h4></span>
-                {% endif %}
+                <span id="span-disponibilidad-libros"> 
+                    
+                    {% if (libro[6]|int) > 0 %} 
+                        <h4 id="h4-disponible">Disponible: 
+                            {% if (libro[6]|int == 1)%}
+                                {{libro[6]}} copia
+                            {% else %}
+                                {{libro[6]}} copias
+                            {% endif %}
+                        </h4>
+                    
+                    {% else %}
+                        <h4 id="h4-no_disponible">No disponible</h4>
+                    {% endif %}
+                </span>
             </div>
             {% endfor %}
         </div>

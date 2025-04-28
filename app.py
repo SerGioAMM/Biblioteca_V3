@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 from config import conexion_BD
+from datetime import datetime
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 app.secret_key = "1234"
@@ -11,6 +12,7 @@ app.secret_key = "1234"
 
 @app.route("/", methods=["GET", "POST"])
 def inicio():
+    #TODO: Idea descartada, Libros destacados, donde el libro que se presta aparecia como destacado
 
     return render_template("index.html")
 
@@ -18,21 +20,36 @@ def inicio():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    login_usuario = "admin"
-    login_password = "1234"
     login = True
 
+    conexion = conexion_BD()
+    query = conexion.cursor()
+    
     if request.method == "POST":
         usuario = request.form["usuario"]
         password = request.form["password"]
 
-        if (login_usuario == usuario) and (login_password == password):
+        query.execute("""Select a.id_administrador,a.usuario,r.rol from Administradores a 
+                      Join roles r on a.id_rol = r.id_rol
+                      where usuario = ? and contrasena = ?""", (usuario, password))
+        login_usuario = query.fetchone()
+
+        if (login_usuario):
+            # Guardar datos en session
+            session["id_administrador"] = login_usuario[0] 
+            session["usuario"] = login_usuario[1]
+            session["rol"] = login_usuario[2]         
+
+            print(session)
+
             login = True
 
             return redirect(url_for('prestamos'))
         else:
             login = False
 
+    query.close()
+    conexion.close()
 
     return render_template("login.html", login = login)
 
@@ -295,13 +312,52 @@ def sugerencias_libros():
 
     return jsonify([fila[0] for fila in sugerencia])
 
-
 @app.route("/sugerencias-autores")
 def sugerencias_autores():
     conexion = conexion_BD()
     query = conexion.cursor()
 
     query.execute("select concat(nombre_autor,' ',apellido_autor) as NombreCompleto from autores;")
+    sugerencia = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+    return jsonify([fila[0] for fila in sugerencia])
+
+@app.route("/sugerencias-libros-prestamos")
+def sugerencias_libros_prestamos():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("select titulo from libros where numero_copias > 0")
+    sugerencia = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+    return jsonify([fila[0] for fila in sugerencia])
+
+@app.route("/sugerencias-prestamo")
+def sugerencias_prestamos():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("""select concat(l.titulo,' (',p.nombre,' ',p.apellido,')') from prestamos p 
+                  join Libros l on p.id_libro = l.id_libro""")
+    sugerencia = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+    return jsonify([fila[0] for fila in sugerencia])
+
+@app.route("/sugerencias-lectores")
+def sugerencias_lector():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("""select DISTINCT concat(nombre,' ',apellido) from prestamos;""")
     sugerencia = query.fetchall()
 
     query.close()
@@ -316,25 +372,171 @@ def prestamos():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    
+    # Obtenre la fecha actual
+    hoy = datetime.today().date()
+
+    # Buscar prestamos para verificar si estan vencidos
+    query.execute("""select id_prestamo, fecha_entrega_estimada
+                    from Prestamos
+                    where id_estado = 1""")  # Solo prestamos que esten activos (no revisaremos los que ya esten devueltos o vencidos)
+    prestamos_para_verificar = query.fetchall()
+
+    #Verifica que si existan prestamos activos
+    if prestamos_para_verificar:
+        # for para revisar cada prestamo
+        for prestamo in prestamos_para_verificar:
+            id_prestamo = prestamo[0]
+            fecha_entrega_estimada = datetime.strptime(prestamo[1], "%Y-%m-%d").date()
+
+        if fecha_entrega_estimada < hoy:
+            query.execute("""update Prestamos
+                            set id_estado = 3
+                            where id_prestamo = ?""", (id_prestamo,))
+            conexion.commit()  # Guardamos los cambios
+
+    # Consulta para mostrar los prestamos en tarjetas de prestamos.html
+    query.execute("""select p.fecha_prestamo, p.fecha_entrega_estimada, p.fecha_devolucion, l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo
+                    from Prestamos p
+                    join Libros l on p.id_libro = l.id_libro
+                    join Estados e on p.id_estado = e.id_estado""")
+    prestamos = query.fetchall()
 
     query.close()
     conexion.close()
 
 
-    return render_template("prestamos.html")
+    return render_template("prestamos.html",prestamos=prestamos)
+
+# ----------------------------------------------------- BUSCAR Prestamo ----------------------------------------------------- #
+
+@app.route("/buscar_prestamo",methods=["POST"])
+def buscar_prestamo():
+
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    busqueda = request.form["buscar_prestamo"]
+    #Obtiene los datos del formulario filtros en libros.html
+    filtro_busqueda = request.form["filtro-busqueda"]
+    Estado = request.form["estados"]
+    
+    if filtro_busqueda == "Titulo":
+        SQL_where_busqueda = (f"where l.titulo || ' (' || p.nombre || ' ' || p.apellido || ')' like '%{busqueda}%'")
+    else:
+        SQL_where_busqueda = (f"where p.nombre || ' ' || p.apellido like '%{busqueda}%'")
+    
+    if Estado == "Todos":
+        SQL_where_estado =" "
+    else:
+        SQL_where_estado = (f" and e.id_estado = {Estado}")
+
+    print(SQL_where_estado)
+    
+    query_busqueda = ("""select p.fecha_prestamo, p.fecha_entrega_estimada, p.fecha_devolucion, l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo
+                    from Prestamos p
+                    join Libros l on p.id_libro = l.id_libro
+                    join Estados e on p.id_estado = e.id_estado """)
+    
+    query_busqueda = query_busqueda + SQL_where_busqueda + SQL_where_estado
+
+    print(query_busqueda)
+
+    query.execute(query_busqueda)
+    prestamos = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+    return render_template("prestamos.html",prestamos=prestamos)
+
+# ----------------------------------------------------- Devolver Prestamo ----------------------------------------------------- #
+
+@app.route("/devolver_prestamo", methods=["POST"])
+def devolver_prestamo():
+    id_prestamo = request.form["id_prestamo"]
+
+    # Obtenre la fecha actual
+    hoy = datetime.today().date()
+
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("update prestamos set id_estado = 2 where id_prestamo = (?)",(id_prestamo,))
+    conexion.commit() #Guarda la actualizacion de estado del prestamo
+
+    query.execute("update prestamos set fecha_devolucion = (?) where id_prestamo = (?)",(hoy,id_prestamo,))
+    conexion.commit() #Guarda la actualizacion de estado del prestamo
+
+
+    query.close()
+    conexion.close()
+
+    return redirect("/prestamos")
+
+# ----------------------------------------------------- Eliminar Prestamo ----------------------------------------------------- #
+
+@app.route("/eliminar_prestamo", methods=["GET", "POST"])
+def eliminar_prestamo():
+    id_prestamo = request.form["id_prestamo"]
+
+    # Obtenre la fecha actual
+    hoy = datetime.today().date()
+    id_administrador = session.get("id_administrador")
+
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("insert into prestamos_eliminados(id_administrador,id_prestamo,fecha) values(?,?,?)",(id_administrador,id_prestamo,hoy))
+    conexion.commit()
+
+    query.execute("delete from prestamos where id_prestamo = ?",(id_prestamo))
+    conexion.commit()
+
+    query.close()
+    conexion.close()
+
+    return redirect("/prestamos")
+
 
 # ----------------------------------------------------- REGISTRO PRESTAMOS ----------------------------------------------------- #
 
-@app.route("/registro_prestamos")
+@app.route("/registro_prestamos", methods=["GET", "POST"])
 def registro_prestamos():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    
+        #Verifica la accion que realiza el formulario en registro-prestamos.html
+    if request.method == "POST":
+        #Obtiene los datos del formulario en registro-prestamos.html
+        DPI = request.form["DPI"]
+        NombreLector = request.form["nombre_lector"]
+        ApellidoLector = request.form["apellido_lector"]
+        Direccion = request.form["direccion"]
+        Telefono = request.form["num_telefono"]
+        Libro = request.form["libro"]
+        GradoEstudio = request.form["grado"]
+        fecha_prestamo = request.form["fecha_prestamo"]
+        fecha_entrega_estimada = request.form["fecha_entrega_estimada"]
+        Estado = 1 #Activo
+            
+        try:
+            query.execute("Select id_libro from Libros where titulo = ?",(Libro,))
+            Libro = query.fetchone()[0]
 
-    query.close()
-    conexion.close()
+            #? INSERT DE PRESTAMOS
+            query.execute(f"""Insert into Prestamos(dpi_usuario,nombre,apellido,direccion,num_telefono,id_libro,grado,id_estado,fecha_prestamo,fecha_entrega_estimada,fecha_devolucion)
+                          values (?,?,?,?,?,?,?,?,?,?,NULL)""",(DPI,NombreLector,ApellidoLector,Direccion,Telefono,Libro,GradoEstudio,Estado,fecha_prestamo,fecha_entrega_estimada))
+
+            query.execute(f"update Libros set numero_copias = (numero_copias-1) where id_libro = ?",(Libro,))
+
+            #? Guardar cambios
+            conexion.commit()  
+            
+        except Exception as e:
+            print(f"Error: {e}")
+        finally:
+            query.close()
+            conexion.close()
 
 
     return render_template("registro_prestamos.html")

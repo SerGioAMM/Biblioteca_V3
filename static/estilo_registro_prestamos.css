@@ -27,7 +27,7 @@
     font-size: 1.2rem;
 }
 
-#span-informacion-autor{
+#span-informacion-lector{
     display: grid;
     grid-template-columns: repeat(2,1fr);
 }
@@ -77,4 +77,8 @@
 
 .ul-contenedor-sugerencias li:hover{
     background-color: #000000a9;
+}
+
+.filtro{
+    display: none;
 }

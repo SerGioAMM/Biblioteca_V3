@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo_prestamos.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='filtros.css') }}">
 
 </head>
 <body>
@@ -23,8 +23,34 @@
         <div class="div-busqueda">
             <form class="frm-prestamos" action="/buscar_prestamo" method="POST">
                 <label for="buscar_prestamo"><h1>Gestión de Préstamos</h1>Administra los préstamos de libros, registra nuevos y gestiona devoluciones.</label><br><br><br>
-                <input id="cuadro-busqueda" type="text" name="buscar">&nbsp;&nbsp;
+                <input class="buscar-prestamo" id="cuadro-busqueda" type="text" name="buscar_prestamo" autocomplete="off" placeholder="Buscar...">&nbsp;&nbsp;
+                
+                <section class="menu-filtros">
+                    <nav>
+                        <section>
+                            <h4> Buscar por: &nbsp;&nbsp;</h4>
+                            <select name="filtro-busqueda" id="filtro-busqueda">
+                                <option value="Titulo">Titulo</option>
+                                <option value="Lector">Lector</option>
+                            </select>
+                        </section>
+                        <section>
+                            <h4> Estados: &nbsp;&nbsp; </h4>
+                            <select name="estados" id="estados">
+                                <option value="Todos">Todos</option>
+                                <option value="1">Activos</option>
+                                <option value="2">Devueltos</option>
+                                <option value="3">Vencidos</option>
+                            </select>
+                        </section>
+                    </nav>
+                </section>
+                
                 <button id="btn-buscar" type="submit">Buscar</button>
+
+                <ul class="ul-contenedor-sugerencias">
+                    <li>sugerencia 1</li>
+                </ul>
             </form>
         </div>
         
@@ -40,97 +66,73 @@
         </section>
 
         <div class="contendor-prestamos">
+            
+            {% for prestamo in prestamos %}
             <div class="prestamo">
                 
-                <span class="span-notacion" id="h2-seccion-9"> 
-                    <h2>notacion</h2> 
-                </span><!-- Notacion  -->
-                
-                <span id="span-info-prestamos"> 
-                    <h2>titulo</h2> <!-- Titulo  --> 
-                    <h3>nombre y apellido del autor <!-- Nombre y apellido del autor  -->
-                    anio de publicacion </h3> <!-- Anio de publicacion  -->
-                    
-                    <h4 id="h4-seccion-9">
-                        codigo de secicon + seccion
-                    </h4> <!-- Codigo de seccion + seccion  --> 
-                
-                </span>
-                
-                <span id="span-disponibilidad-libros"> <h4 id="h4-disponible">Activo</h4></span>
-                <span id="span-disponibilidad-libros"> <h4 id="h4-no_disponible">Vencido</h4></span>
-            </div>
-            
-            {% for libro in libros%}
-            <div class="prestamo">  
-                <span class="span-notacion" 
-                    {% if (libro[7]|int) < 100 %}
-                    id="h2-seccion-0"
-                    {% elif (libro[7]|int) < 200 %}
-                    id="h2-seccion-1"
-                    {% elif (libro[7]|int) < 300 %}
-                    id="h2-seccion-2"
-                    {% elif (libro[7]|int) < 400 %}
-                    id="h2-seccion-3"
-                    {% elif (libro[7]|int) < 500 %}
-                    id="h2-seccion-4"
-                    {% elif (libro[7]|int) < 600 %}
-                    id="h2-seccion-5"
-                    {% elif (libro[7]|int) < 700 %}
-                    id="h2-seccion-6"
-                    {% elif (libro[7]|int) < 800 %}
-                    id="h2-seccion-7"
-                    {% elif (libro[7]|int) < 900 %}
-                    id="h2-seccion-8"
-                    {% else %}
-                    id="h2-seccion-9"
-                    {% endif %}
-                > 
-                <h2>{{libro[12]}}</h2> 
-                </span><!-- Notacion  -->
-        
-                <span id="span-info-prestamos"> 
-                    <h2>{{libro[1]}}</h2> <!-- Titulo  --> 
-                    <h3>{{libro[9]}} {{libro[10]}} <!-- Nombre y apellido del autor  -->
-                        {{libro[3]}} </h3> <!-- Anio de publicacion  -->
-                        
-                    <h4
-                        {% if (libro[7]|int) < 100 %}
-                        id="h4-seccion-0"
-                        {% elif (libro[7]|int) < 200 %}
-                        id="h4-seccion-1"
-                        {% elif (libro[7]|int) < 300 %}
-                        id="h4-seccion-2"
-                        {% elif (libro[7]|int) < 400 %}
-                        id="h4-seccion-3"
-                        {% elif (libro[7]|int) < 500 %}
-                        id="h4-seccion-4"
-                        {% elif (libro[7]|int) < 600 %}
-                        id="h4-seccion-5"
-                        {% elif (libro[7]|int) < 700 %}
-                        id="h4-seccion-6"
-                        {% elif (libro[7]|int) < 800 %}
-                        id="h4-seccion-7"
-                        {% elif (libro[7]|int) < 900 %}
-                        id="h4-seccion-8"
-                        {% else %}
-                        id="h4-seccion-9"
-                        {% endif %}
-                    >
-                    {{libro[7]}} - {{libro[8]}} 
-                    </h4> <!-- Codigo de seccion + seccion  --> 
-                
-                </span>
-                
-                {% if (libro[6]|int) > 0 %}
-                <span id="span-disponibilidad-libros"> <h4 id="h4-disponible">Activo</h4></span>
-                {% else %}
-                <span id="span-disponibilidad-libros"> <h4 id="h4-no_disponible">Vencido</h4></span>
+                <span class="span-fechas" 
+                {% if (prestamo[9]) == 'Activo' %}
+                    id="p-activo"
+                {% elif (prestamo[9]) == 'Devuelto' %}
+                    id="p-devuelto"
+                {% elif (prestamo[9]) == 'Vencido' %}
+                    id="p-vencido"
                 {% endif %}
+                > 
+                    <h2>Fecha prestamo: {{prestamo[0]}}</h2> 
+                    <h2>Fecha limite de entrega: {{prestamo[1]}}</h2> 
+                    <h2>Fecha devolucion: {{prestamo[2]}}</h2> 
+                </span><!-- Fechas  -->
+                
+                <span id="span-info-prestamos"> 
+                    <h2>{{prestamo[3]}}</h2> <!-- Titulo  --> 
+                    <h3>{{prestamo[4]}}&nbsp;{{prestamo[5]}} <!-- Nombre y apellido del lector  --></h3> 
+                    
+                    
+                </span>
+                <span id="span-informacion-lector">
+
+                    <h4 class="h4-datos-lector">
+                        <strong>Datos del lector</strong><br>
+                        DPI: {{prestamo[6]}} <br>
+                        Telefono: {{prestamo[7]}}<br>
+                        Direccion: {{prestamo[8]}}<br>
+                    </h4> <!-- Codigo de seccion + seccion  --> 
+                </span>
+                <span id="span-estado-prestamo"> 
+                    {% if (prestamo[9]) == 'Activo' %}
+                        <h4 id="p-activo">Activo</h4>
+                        <div class="div-acciones-prestamo">
+                            <form class="frm-devolver-prestamo" action="/devolver_prestamo" method="POST">
+                                <input type="text" value="{{prestamo[10]}}" name="id_prestamo"> 
+                                <button type="submit">Devolver</button>
+                            </form>                          
+                    {% elif (prestamo[9]) == 'Devuelto' %}
+                        <h4 id="p-devuelto">Devuelto</h4>
+                        <div class="div-acciones-prestamo">
+                    {% elif (prestamo[9]) == 'Vencido' %}
+                        <h4 id="p-vencido">Vencido</h4>
+                        <div class="div-acciones-prestamo">
+                        <form class="frm-devolver-prestamo" action="/devolver_prestamo" method="POST">
+                            <input type="text" value="{{prestamo[10]}}" name="id_prestamo"> 
+                            <button type="submit">Devolver</button>
+                        </form>
+                            
+                    {% endif %}
+
+                    <form class="frm-eliminar-prestamo" action="/eliminar_prestamo" method="POST">
+                        <input type="text" value="{{prestamo[10]}}" name="id_prestamo"> 
+                        <button type="submit"> Eliminar </button>
+                    </form>
+                    </div>
+                </span>
             </div>
-        {% endfor %}
+            {% endfor %}
         </div>        
+        
     </main>
-    
+    <span id="span-disponibilidad-libros"> </span>
+    <span id="span-disponibilidad-libros"> </span>
+    <script src="/static/js/sugerencias.js"></script>
 </body>
 </html>

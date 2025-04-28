@@ -7,22 +7,23 @@
     height: 90vh;
 }
 
-.seccion-libros-destacados{
-    background-color: bisque;
-    background-image: url("/static/img/estanterias\ -\ v4.jpg");
-    background-size: cover;
-    background-position: center;
-    height: 70vh;
-    border-top: solid 5px gray;
-    text-align: center;
-    /*box-shadow: inset 0px 0px 20px 5px rgba(0, 0, 0, 0.266); **/
-}
-.seccion-eventos{
+
+.seccion-servicios{
     background-color:rgb(4, 128, 128);
     background-size: cover;
     background-position: center;
     height: 60vh;
     border-top: solid 5px gray;
+    text-align: center;
+}
+
+.seccion-actividades{
+    background-color:rgb(29, 79, 196);
+    background-size: cover;
+    background-position: center;
+    height: 60vh;
+    border-top: solid 5px gray;
+    text-align: center;
 }
 
 
@@ -33,7 +34,21 @@
 }
 
 
-/* Seccion de libros destacados */
+
+
+
+/*
+
+/* Seccion de libros destacados 
+.seccion-libros-destacados{
+    background-color: bisque;
+    background-image: url("/static/img/estanterias\ -\ v4.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 70vh;
+    border-top: solid 5px gray;
+    text-align: center;
+}
 .div-contenedor-libros-destacados{
     display: block;
     position: relative;
@@ -43,7 +58,7 @@
     
 }
 
-/*? Contenedor que tiene los datos del libro*/
+/*? Contenedor que tiene los datos del libro
 .div-libro-destacado{
     background-color: rgba(255, 255, 255, 0.721);
     backdrop-filter: blur(10px);
@@ -75,7 +90,7 @@
     background-color: rgb(204, 204, 204);
 }
 
-/*? Textos que muestran la informacion de los libros */
+/*? Textos que muestran la informacion de los libros 
 #span-info-libro-d{
     top: 20px;
     position: relative;
@@ -100,7 +115,7 @@
     font-size: 14px;
 }
 
-/*? Textos que muestran la disponibilidad de los libros */
+/*? Textos que muestran la disponibilidad de los libros 
 #span-disponibilidad-libro-d{
     position: relative;
     width: 100%;
@@ -117,7 +132,7 @@
     
 }
 
-/* Diferentes colores para disponible o no disponible*/
+/* Diferentes colores para disponible o no disponible
 #h4-disponible{
     background-color: rgb(200, 255, 200);
     color: rgb(0, 87, 0);
@@ -127,4 +142,4 @@
     background-color: rgb(255, 200, 200);
     color: rgb(161, 0, 0);
     border: solid 1px red;
-}
+}*/

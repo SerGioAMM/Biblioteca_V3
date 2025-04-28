@@ -1,9 +1,8 @@
 const caja_sugerencias = document.querySelector('.ul-contenedor-sugerencias');
-let inputActivo = null;
 let filtro = document.querySelector('#filtro-busqueda');
 let filtro_secciones = document.querySelector('#categorias');
+let inputActivo = null;
 
-console.log(filtro_secciones.value);
 
 function moverSugerencias(input) {
   caja_sugerencias.style.top = (input.offsetTop + input.offsetHeight - 12) + 'px';
@@ -27,10 +26,11 @@ function seleccionar_Sugerencia(sug) {
   caja_sugerencias.innerHTML = '';
 }
 
-document.querySelectorAll('.input-lugar, .input-editorial, .buscar').forEach(input => {
+document.querySelectorAll('.input-lugar, .input-editorial, .buscar, .buscar-libro-prestamo, .buscar-prestamo').forEach(input => {
   input.addEventListener('focus', () => {
     inputActivo = input;
     moverSugerencias(input);
+
 
     caja_sugerencias.classList.remove('activar');
     caja_sugerencias.innerHTML = '';
@@ -57,7 +57,19 @@ document.querySelectorAll('.input-lugar, .input-editorial, .buscar').forEach(inp
         }else if(filtro.value == "Autor"){
           endpoint = '/sugerencias-autores';
         }
+      }
+    else if(input.classList.contains('buscar-libro-prestamo')){
+      endpoint = '/sugerencias-libros-prestamos';
     }
+    else if(input.classList.contains('buscar-prestamo')){
+      if(filtro.value == "Titulo"){
+        console.log("TEST Filtro");
+        endpoint = '/sugerencias-prestamo';
+      }else if(filtro.value == "Lector"){
+        endpoint = '/sugerencias-lectores';
+      }
+    }
+
     /*else if (input.classList.contains('input-autor')) {
       endpoint = '/sugerencias-autores';
     }*/

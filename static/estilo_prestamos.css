@@ -19,7 +19,12 @@ main{
     position: relative;
     width: 60%;
     height: 100%; /*! Corregir altura del contenedor porque tiene un bug en su html*/
-    top: 35%;
+    top: 40%;
+}
+.div-acciones-prestamo{
+    display: flex;
+    gap: 5%;
+
 }
 
 /*? Contenedor que tiene los datos del libro*/
@@ -31,84 +36,37 @@ main{
     top: 5%;
     left: -2%;
     width: 100%;
-    height: 12%;
+    height: 14%;
     border-radius: 10px;
     margin-bottom: .6rem;
     color: #4a4a4a;
     transition: 0.3s ease-in-out;
 }
 
-.prestamo:hover{
-    width: 101%;
+#span-informacion-lector{
+    width: 25%;
 }
 
-.span-notacion{
+.span-fechas{
     position: relative;
     display: flex;
-    width: 10%;
+    width: 25%;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
+
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-}
-
-/* Colores de la notacion deacuerdo a su seccion*/
-#h2-seccion-0 {
-    background-color: #fef3c7;
-    color: #b98e45;
-}
-
-#h2-seccion-1 {
-    background-color: #e3d0ff;
-    color: #7a55c6;
-}
-
-#h2-seccion-2 {
-    background-color: #ffe0cc; 
-    color: #c05e1c;
-}
-
-#h2-seccion-3 {
-    background-color: #d0f0ff; 
-    color: #1e88a8;
-}
-
-#h2-seccion-4 {
-    background-color: #ffddee;
-    color: #c02b6b;
-}
-
-#h2-seccion-5 {
-    background-color: #fff3c0; 
-    color: #a28200;
-}
-
-#h2-seccion-6 {
-    background-color: #d8e7d2;
-    color: #507c4a;
-}
-
-#h2-seccion-7 {
-    background-color: #cce0f4;
-    color: #3b5c8c;
-}
-
-#h2-seccion-8 {
-    background-color: #f9d5f2;
-    color: #994ba7;
-}
-
-#h2-seccion-9 {
-    background-color: #ddd6f6;
-    color: #695aa7;
+    font-size: .55rem;
 }
 
 /*? Textos que muestran la informacion de los libros */
 #span-info-prestamos{
     position: relative;
-    width: 65%;
+    width: 30%;
     display: flex;
-    align-items: center;
+
+    flex-direction:column;
+    justify-content: flex-end;
     
 }
 #span-info-prestamos h2{
@@ -118,6 +76,7 @@ main{
     top: 0%;
 }
 #span-info-prestamos h3{
+    margin-top: 30px;
     margin-left: 5%;
     position: absolute;
 }
@@ -131,95 +90,61 @@ main{
     font-size: 14px;
 }
 
-/* Colores de las diferentes secciones */
-#h4-seccion-0 {
-    background-color: #fef3c7;
-    color: #785137;
-    border: solid 1px #92400e;
-}
-
-#h4-seccion-1 {
-    background-color: white;
-    color: #5a3e96;
-    border: solid 1px #c8aef1;
-}
-
-#h4-seccion-2 {
-    background-color: white;
-    color: #a3521c;
-    border: solid 1px #f2b78c;
-}
-
-#h4-seccion-3 {
-    background-color: white;
-    color: #1e88a8;
-    border: solid 1px #9cd4e8;
-}
-
-#h4-seccion-4 {
-    background-color: white;
-    color: #9f2459;
-    border: solid 1px #f3a9c8;
-}
-
-#h4-seccion-5 {
-    background-color: white;
-    color: #8d7102;
-    border: solid 1px #e5d280;
-}
-
-#h4-seccion-6 {
-    background-color: white;
-    color: #487143;
-    border: solid 1px #a4c5a0;
-}
-
-#h4-seccion-7 {
-    background-color: white;
-    color: #324d76;
-    border: solid 1px #a0c0e3;
-}
-
-#h4-seccion-8 {
-    background-color: white;
-    color: #7a3c85;
-    border: solid 1px #e6a8df;
-}
-
-#h4-seccion-9 {
-    background-color: white;
-    color: #564989;
-    border: solid 1px #bcb0e2;
+.h4-datos-lector{
+    background-color: rgba(255, 255, 255, 0.252);
+    padding: 10px;
+    line-height: 1.4;
+    margin: 0;
+    height: 83%;
+    border-radius: 3px;
+    box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.2); /* sombra hacia dentro */
 }
 
 /*? Textos que muestran la disponibilidad de los libros */
-#span-disponibilidad-libros{
+#span-estado-prestamo{
     position: relative;
-    width: 30%;
+    width: 25%;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: center;
     justify-content:center;
 }
 
-#span-disponibilidad-libros h4{
+#span-estado-prestamo h4{
     border-radius: 10px;
     padding: 5px;
     font-size: 14px;
     
 }
+#span-estado-prestamo button{
+    border-radius: 10px;
+    padding: 5px;
+    font-size: 15px;
+    transition: .3s ease-in-out;
+    
+}
+
+#span-estado-prestamo button:hover{
+    scale: 1.1;
+}
 
 /* Diferentes colores para disponible o no disponible*/
-#h4-disponible{
+#p-activo{
     background-color: rgb(200, 255, 200);
     color: rgb(0, 87, 0);
     border: solid 1px green;
 }
-#h4-no_disponible{
+#p-vencido{
     background-color: rgb(255, 200, 200);
     color: rgb(161, 0, 0);
     border: solid 1px red;
+}
+#p-devuelto{
+    background-color: rgb(223,233,246);
+    color: rgb(31,65,175);
+    border: solid 1px rgb(72, 152, 250);
 }
 
 
@@ -227,21 +152,24 @@ main{
 form select, form input {
     padding: 10px;
     font-size: 1rem;
-    border-radius: 5px;
+    border-radius: 3px;
     border: none;
     background-color: rgba(255, 255, 255, 0.8);
     color: black;
+}
+
+form select{
+    height: 3rem;
 }
 
 .div-busqueda{
     text-align: center;
     position: absolute;
     top: 5rem;
-    height: 10rem;
+    height: 40%;
     width: 60%;
     padding: 15px;
     border-radius: 4px;
-
 }
 
 .frm-buscar{
@@ -249,5 +177,15 @@ form select, form input {
 }
 
 #cuadro-busqueda{
-    width: 80%;
+    width: 60%;
+}
+
+/*? Devolver prestamo */
+.frm-devolver-prestamo input{
+    display: none;
+}
+
+/*? Eliminar prestamo */
+.frm-eliminar-prestamo input{
+    display: none;
 }
