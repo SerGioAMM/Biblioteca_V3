@@ -120,11 +120,13 @@
                         </form>
                             
                     {% endif %}
-
-                    <form class="frm-eliminar-prestamo" action="/eliminar_prestamo" method="POST">
-                        <input type="text" value="{{prestamo[10]}}" name="id_prestamo"> 
-                        <button type="submit"> Eliminar </button>
-                    </form>
+                    
+                    {% if session["rol"] == 'Administrador' %}
+                        <form class="frm-eliminar-prestamo" action="/eliminar_prestamo" method="POST">
+                            <input type="text" value="{{prestamo[10]}}" name="id_prestamo"> 
+                            <button type="submit"> Eliminar </button>
+                        </form>
+                    {% endif %}
                     </div>
                 </span>
             </div>
