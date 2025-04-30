@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo_usuarios.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='filtros.css') }}">
+
+</head>
+<body>
+    <header>
+
+        <div class="navbar fondo-cristal">
+            <a href="{{ url_for('logout') }}">Cerrar sesion</a>
+        </div>
+    </header>
+    <main>
+
+        <div class="div-busqueda">
+            <form class="frm-usuarios" action="/buscar_usuario" method="POST">
+                <label for="buscar_usuario"><h1>Gestión de Usuarios</h1>Administra los usuarios del sistema existentes.</label><br><br><br>
+                <input class="buscar-usuario" id="cuadro-busqueda" type="text" name="buscar_usuario" autocomplete="off" placeholder="Buscar...">&nbsp;&nbsp;
+                <ul class="ul-contenedor-sugerencias">
+                    <li>sugerencia 1</li>
+                </ul>
+                <button id="btn-buscar" type="submit">Buscar</button>
+                
+                <section class="menu-filtros">
+                    <nav>
+                        <section>
+                            <h4> Buscar por: &nbsp;&nbsp;</h4>
+                            <select name="filtro-busqueda" id="filtro-busqueda">
+                                <option value="Todos">Todos los Roles</option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Bibliotecario">Bibliotecario</option>
+                            </select>
+                        </section>
+                        <section>
+                    </nav>
+                
+
+            </form>
+        </div>
+        
+        <section class="barra-lateral fondo-cristal">
+            <h2>Administracion</h2>
+            <h4>Usuario: <br>
+            {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
+            <nav>
+                
+                <a href="{{ url_for('prestamos') }}">Prestamos </a>
+                <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
+                <a href="{{ url_for('libros') }}">Catalogo </a>
+                <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
+                {% if session["rol"] == "Administrador" %}
+                <a href="{{ url_for('usuarios') }}" id="pagina-actual">Usuarios</a>
+                <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
+                {% endif %}
+                
+            </nav>
+        </section>
+
+        <div class="contendor-usuarios">
+            
+            {% for usuario in usuarios %}
+            <div class="usuario">
+                
+                <span class="span-rol" 
+                {% if (usuario[0]|int) == 2 %}
+                    id="u-administrador"
+                {% elif (usuario[0]|int) == 1 %}
+                    id="u-bibliotecario"
+                {% endif %}
+                > 
+                    <h2>{{usuario[1]}}</h2> 
+                </span><!-- Rol  -->
+                
+                <span id="span-info-usuarios"> 
+                    <h2>{{usuario[2]}}</h2> <!-- usuario  --> 
+                    
+                </span>
+                <span id="span-informacion-usuario">
+                    <h4 class="h4-datos-usuario">
+                        <strong>Datos del usuario</strong><br>
+                        Contraseña: {{usuario[3]}} <br>
+                        Telefono: {{usuario[4]}}<br>
+                    </h4> <!-- Datos del usuario  --> 
+                </span>
+                <span id="span-acciones-usuario">                 
+                    {% if session["rol"] == 'Administrador' and usuario[5]|int != 1%}
+                        <form class="frm-eliminar-usuario" action="/eliminar_usuario" method="POST">
+                            <input type="text" value="{{usuario[5]}}" name="id_usuario"> 
+                            <button type="submit"> Eliminar </button>
+                        </form>
+                    {% endif %}
+
+                </span>
+            </div>
+            {% endfor %}
+        </div>        
+        
+    </main>
+
+    <script src="/static/js/sugerencias.js"></script>
+</body>
+</html>

@@ -5,19 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>biblioteca</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo_libros.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='filtros.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
 
 </head>
 <body>
     <header>
-        <div class="navbar">
-            <a href="{{ url_for('inicio') }}">Inicio</a>
+        <div class="navbar fondo-cristal">
+            {% if session %}
+                <a href="{{ url_for('logout') }}">Cerrar sesion</a>
+            {% else %}
+                <a href="{{ url_for('inicio') }}">Inicio</a>
+            {% endif %}
         </div>
     </header>
     <main>
         <div class="div-busqueda">
-            <form class="frm-buscar" action="/buscar_libro" method="POST">
+            <form class="frm-buscar" action="/buscar_libro" method="GET">
                 <label for="buscar"><h1>Catalogo de Libros</h1>Explora nuestra colección de libros y encuentra tu próxima lectura.</label><br><br><br>
                 <input class="buscar" id="cuadro-busqueda" type="text" name="buscar" autocomplete="off" placeholder="Buscar...">&nbsp;&nbsp;
                 <section class="menu-filtros">
@@ -25,16 +30,18 @@
                         <section>
                             <h4> Buscar por: &nbsp;&nbsp;</h4>
                             <select name="filtro-busqueda" id="filtro-busqueda">
-                                <option value="Titulo">Titulo</option>
-                                <option value="Autor">Autor</option>
+                                <option value="Titulo" {% if filtro_busqueda == "Titulo" %}selected{% endif %}>Titulo</option>
+                                <option value="Autor" {% if filtro_busqueda == "Autor" %}selected{% endif %}>Autor</option>
                             </select>
                         </section>
                         <section>
                             <h4> Categorias: &nbsp;&nbsp; </h4>
                             <select name="categorias" id="categorias">
-                                <option value="Todas">Todas</option>
+                                <option value="Todas" {% if Seccion == "Todas" %}selected{% endif %}>Todas</option>
                                 {% for categoria in categorias %}
-                                <option value="{{categoria[0]}}">{{categoria[0]}} - {{categoria[1]}}</option>
+                                    <option value="{{ categoria[0] }}" {% if Seccion == categoria[0]|string %}selected{% endif %}>
+                                        {{ categoria[0] }} - {{ categoria[1] }}
+                                    </option>
                                 {% endfor %}
                             </select>
                         </section>
@@ -48,6 +55,25 @@
             </form>
         </div>
 
+        {% if ((session["rol"]) == "Administrador") or ((session["rol"]) == "Bibliotecario") %}
+        <section class="barra-lateral fondo-cristal">
+            <h2>Administracion</h2>
+            <h4>Usuario: <br>
+            {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
+            <nav>
+                
+                <a href="{{ url_for('prestamos') }}">Prestamos </a>
+                <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
+                <a href="{{ url_for('libros') }}" id="pagina-actual">Catalogo </a>
+                <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
+                {% if session["rol"] == "Administrador" %}
+                <a href="{{ url_for('usuarios') }}">Usuarios</a>
+                <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
+                {% endif %}
+            
+            </nav>
+        </section>
+        {% endif %}
         
 
         <div class="contendor-catalogo">
@@ -133,6 +159,23 @@
                 </span>
             </div>
             {% endfor %}
+            <div class="paginacion">
+                {% if pagina > 1 %}
+                    <a href="{{ url_for('buscar_libro', page=pagina - 1, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">Anterior</a>
+                {% endif %}
+            
+                {% for p in range(1, total_paginas + 1) %}
+                    {% if p == pagina %}
+                        <strong>{{ p }}</strong>
+                    {% else %}
+                        <a href="{{ url_for('buscar_libro', page=p, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
+                    {% endif %}
+                {% endfor %}
+            
+                {% if pagina < total_paginas %}
+                    <a href="{{ url_for('buscar_libro', page=pagina + 1, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">Siguiente</a>
+                {% endif %}
+            </div>            
         </div>
     </main>
     <footer>

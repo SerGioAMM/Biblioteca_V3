@@ -14,27 +14,26 @@ main{
     color: #fffbf2; 
 }
 
-.contendor-prestamos{
+.contendor-usuarios{
     display: block;
     position: relative;
-    width: 60%;
+    width: 45%;
     height: 100%; /*! Corregir altura del contenedor porque tiene un bug en su html*/
     top: 40%;
 }
-.div-acciones-prestamo{
+.div-acciones-usuarios{
     display: flex;
     gap: 5%;
 
 }
 
 /*? Contenedor que tiene los datos del libro*/
-.prestamo{
+.usuario{
     background-color: rgba(255, 255, 255, 0.721);
     backdrop-filter: blur(10px);
     display: flex;
     position: relative;
     top: 5%;
-    left: -2%;
     width: 100%;
     height: 14%;
     border-radius: 10px;
@@ -43,44 +42,41 @@ main{
     transition: 0.3s ease-in-out;
 }
 
-#span-informacion-lector{
+#span-informacion-usuario{
     width: 25%;
 }
 
-.span-fechas{
+.span-rol{
     position: relative;
     display: flex;
-    width: 25%;
+    width: 20%;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-    font-size: .55rem;
+    font-size: 80%;
 }
 
-/*? Textos que muestran la informacion de los libros */
-#span-info-prestamos{
+/*? Textos que muestran la informacion de los usuarios */
+#span-info-usuarios{
     position: relative;
     width: 30%;
     display: flex;
 
-    flex-direction:column;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
+    
     
 }
-#span-info-prestamos h2{
-    margin-top: 8px;
-    margin-left: 5%;
-    position: absolute;
-    top: 0%;
-}
-#span-info-prestamos h3{
+
+#span-info-usuarios h3{
     margin-top: 30px;
     margin-left: 5%;
     position: absolute;
 }
-#span-info-prestamos h4{
+#span-info-usuarios h4{
     margin-left: 5%;
     margin-bottom: 10px;
     position: absolute;
@@ -90,7 +86,7 @@ main{
     font-size: 14px;
 }
 
-.h4-datos-lector{
+.h4-datos-usuario{
     background-color: rgba(255, 255, 255, 0.252);
     padding: 10px;
     line-height: 1.4;
@@ -101,7 +97,7 @@ main{
 }
 
 /*? Textos que muestran la disponibilidad de los libros */
-#span-estado-prestamo{
+#span-acciones-usuario{
     position: relative;
     width: 25%;
     border-top-right-radius: 15px;
@@ -112,13 +108,13 @@ main{
     justify-content:center;
 }
 
-#span-estado-prestamo h4{
+#span-acciones-usuario h4{
     border-radius: 10px;
     padding: 5px;
     font-size: 14px;
     
 }
-#span-estado-prestamo button{
+#span-acciones-usuario button{
     border-radius: 10px;
     padding: 5px;
     font-size: 15px;
@@ -126,27 +122,21 @@ main{
     
 }
 
-#span-estado-prestamo button:hover{
+#span-acciones-usuario button:hover{
     scale: 1.1;
 }
 
-/* Diferentes colores para disponible o no disponible*/
-#p-activo{
+/* Diferentes colores para roles*/
+#u-administrador{
+    background-color: rgb(255, 244, 212);
+    color: rgb(209, 115, 0);
+    border: solid 1px rgb(212, 95, 0);
+}
+#u-bibliotecario{
     background-color: rgb(223,233,246);
     color: rgb(31,65,175);
     border: solid 1px rgb(72, 152, 250);
 }
-#p-vencido{
-    background-color: rgb(255, 200, 200);
-    color: rgb(161, 0, 0);
-    border: solid 1px red;
-}
-#p-devuelto{
-    background-color: rgb(200, 255, 200);
-    color: rgb(0, 87, 0);
-    border: solid 1px green;
-}
-
 
 /*? Estilos de Busqueda*/
 form select, form input {
@@ -166,7 +156,7 @@ form select{
     text-align: center;
     position: absolute;
     top: 5rem;
-    height: 40%;
+    height: auto;
     width: 60%;
     padding: 15px;
     border-radius: 4px;
@@ -177,16 +167,11 @@ form select{
 }
 
 #cuadro-busqueda{
-    width: 60%;
+    width: 50%;
 }
 
-/*? Devolver prestamo */
-.frm-devolver-prestamo input{
+
+/*? Eliminar usuario */
+.frm-eliminar-usuario input{
     display: none;
 }
-
-/*? Eliminar prestamo */
-.frm-eliminar-prestamo input{
-    display: none;
-}
-

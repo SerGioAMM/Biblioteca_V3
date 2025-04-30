@@ -12,11 +12,8 @@
 <body>
     <header>
 
-        <div class="navbar">
-            <a href="{{ url_for('inicio') }}">Inicio</a>
-            <nav>
-                <a href="{{ url_for('libros') }}">Libros </a>
-            </nav>
+        <div class="navbar fondo-cristal">
+            <a href="{{ url_for('logout') }}">Cerrar sesion</a>
         </div>
     </header>
     <main class="main">
@@ -26,11 +23,18 @@
         
         <section class="barra-lateral fondo-cristal">
             <h2>Administracion</h2>
+            <h4>Usuario: <br>
+                {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
             <nav>
                 
                 <a href="{{ url_for('prestamos') }}">Prestamos </a>
                 <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
+                <a href="{{ url_for('libros') }}">Catalogo </a>
                 <a href="{{ url_for('insertar_libro') }}" id="pagina-actual">Registro de Libros</a>
+                {% if session["rol"] == "Administrador" %}
+                <a href="{{ url_for('usuarios') }}">Usuarios</a>
+                <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
+                {% endif %}
                 
             </nav>
         </section>

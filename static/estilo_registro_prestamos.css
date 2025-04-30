@@ -82,3 +82,15 @@
 .filtro{
     display: none;
 }
+
+/*? Errores */
+#error-libro{
+    color: rgb(255, 49, 49);
+    text-align: center;
+}
+
+/*? Prestamo registrado */
+#prestamo-exitoso{
+    color: greenyellow;
+    text-align: center;
+}

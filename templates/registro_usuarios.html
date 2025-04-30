@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de usuarios</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo_insertar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
+
+</head>
+<body>
+    <header>
+
+        <div class="navbar fondo-cristal">
+            <a href="{{ url_for('logout') }}">Cerrar sesion</a>
+        </div>
+    </header>
+    <main class="main">
+
+        <h1 id="h1-titulo">Registrar nuevo usuario</h1>
+        <h5 id="h5-nota">Complete el formulario para agregar un nuevo usuario al sistema.</h5>
+        
+        <section class="barra-lateral fondo-cristal">
+            <h2>Administracion</h2>
+            <h4>Usuario: <br>
+                {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
+            <nav>
+                
+                <a href="{{ url_for('prestamos') }}">Prestamos </a>
+                <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
+                <a href="{{ url_for('libros') }}">Catalogo </a>
+                <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
+                <a href="{{ url_for('usuarios') }}">Usuarios</a>
+                <a href="{{ url_for('registrar_usuarios') }}" id="pagina-actual">Registro de Usuarios</a>
+                
+            </nav>
+        </section>
+        
+        <div class="div-container-insertar">
+            
+            <form method="POST" action="/registrar_usuarios" class="formulario-insertar">
+                
+                <label for="usuario">Usuario</label>
+                <label for="contrasena">Contraseña</label>
+                
+                <input type="text" name="usuario" placeholder="" autocomplete="off">
+                <input type="text" name="contrasena" placeholder="" autocomplete="off">
+                
+                <label for="telefono">Numero de telefono</label>
+                <label for="rol">Rol</label>
+                
+                <input type="number" name="telefono" placeholder="" autocomplete="off">
+                <select name="rol" id="" >
+                    {% for rol in roles %}
+                    <option value="{{ rol[0] }}">{{ rol[1] }}</option>
+                    {% endfor %}
+                </select>
+
+                <button id="btn-registrar" type="submit">Registrar libro</button>
+
+            </form>
+        </div>
+    </main>
+</body>
+</html>
+

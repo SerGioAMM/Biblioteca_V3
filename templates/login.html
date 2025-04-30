@@ -11,7 +11,7 @@
 <body>
     <header>
 
-        <div class="navbar">
+        <div class="navbar fondo-cristal">
             <a href="{{ url_for('inicio') }}">Inicio</a>
         </div>
     </header>
@@ -19,7 +19,7 @@
         <div class="div-container-login fondo-cristal">
             
             <form method="POST" action="/login" class="formulario-login">
-                <label for=""> <h2> Login </h2> </label>
+                <label for=""> <h2> Inicio de Sesion </h2> </label>
                 
                 <label for="usuario">Usuario</label>
                 <input type="text" name="usuario" placeholder="" required autocomplete="off" value="sergio">
@@ -27,7 +27,7 @@
                 <label for="password">Contraseña</label>
                 <input type="password" name="password" placeholder="" value="Admin1234">
                 
-                <button type="submit" id="btn-login"> Iniciar sesion</button>
+                <button type="submit" id="btn-login"> Entrar </button>
                 
                 {% if login == False %}
                 <h5>Datos incorrectos</h5>

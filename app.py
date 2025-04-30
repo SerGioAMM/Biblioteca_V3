@@ -1,9 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 from config import conexion_BD
 from datetime import datetime
+import math
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
-app.secret_key = "1234"
+
+# Esto se usa para la gesion de usuarios de flask
+app.secret_key = "234_Clav3-Ant1H4ck3r$_1"
 
 # !Se puede montar esta app en la nube?
 # *Se puede en RENDER HOSTING
@@ -15,6 +18,14 @@ def inicio():
     #TODO: Idea descartada, Libros destacados, donde el libro que se presta aparecia como destacado
 
     return render_template("index.html")
+
+# ----------------------------------------------------- LOGOUT ----------------------------------------------------- #
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("inicio"))
+
 
 # ----------------------------------------------------- LOGIN ----------------------------------------------------- #
 
@@ -47,6 +58,7 @@ def login():
             return redirect(url_for('prestamos'))
         else:
             login = False
+            session["rol"] = "false"
 
     query.close()
     conexion.close()
@@ -150,7 +162,7 @@ def insertar_libro():
             query.execute("Insert into RegistroLibros(id_libro,id_notacion,id_lugar,codigo_seccion) values (?,?,?,?)",(id_libro,id_notacion,id_lugar,SistemaDewey))            
              
             #? Guardar cambios
-            #conexion.commit()  
+            conexion.commit()  
 
             #Esta consulta devuelve la ultima seccion ingresada en RegistroLibros para que sea mas facil ingresar libros de manera ordenada
             #Si se ingresan por seccion no hace falta estar seleccionando nuevamente la seccion
@@ -179,6 +191,12 @@ def insertar_libro():
 ##! Para dividir los resultados del query usar offset y limit, con variable para el numero de pagina
 ##! VIDEO: https://www.youtube.com/watch?v=jUVPtMnbuv4
 
+    #! Recordatorio de posible bug (04/04/2025)
+    #TODO: El libro "Los 10 retos" se inserto sin autor, aunque el autor si se inserto correctamente, en la tabla notaciones se le fue asignado el autor X
+    #TODO: El libro se inserto utilizando las facilidades del navegador edge del autorellenado de datos
+    #* Recordatorio: El commit estaba comentado en el primer intento de insert, este podria ser el origen del problema. 
+    #* Observacion: El libro no tiene editorial, este tambien podria ser el origen del bug, pero en este caso lo dudo.
+
 @app.route("/libros", methods=["GET", "POST"])
 def libros():
 
@@ -186,22 +204,30 @@ def libros():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    #! Recordatorio de posible bug (04/04/2025)
-    #TODO: El libro "Los 10 retos" se inserto sin autor, aunque el autor si se inserto correctamente, en la tabla notaciones se le fue asignado el autor X
-    #TODO: El libro se inserto utilizando las facilidades del navegador edge del autorellenado de datos
-    #* Recordatorio: El commit estaba comentado en el primer intento de insert, este podria ser el origen del problema. 
-    #* Observacion: El libro no tiene editorial, este tambien podria ser el origen del bug, pero en este caso lo dudo.
+    
+    pagina = request.args.get("page", 1, type=int)
+    libros_por_pagina = 10
+    offset = (pagina - 1) * libros_por_pagina
+
+    # Consulta para contar todos los libros
+    query.execute("SELECT COUNT(*) FROM Libros")
+    total_libros = query.fetchone()[0]
+    total_paginas = math.ceil(total_libros / libros_por_pagina)
 
     #? Selecciona todos los libros disponibles
     #! Con el nuevo disenio algunos datos ya no se utilizan, como la editorial o el tomo
+        # Consulta paginada
     query.execute("""
-    select l.id_libro,Titulo,tomo,ano_publicacion,ISBN,numero_paginas,numero_copias, sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor , e.editorial, n.notacion
-    from Libros as l
-    join RegistroLibros as r on r.id_libro = l.id_libro
-    join SistemaDewey as sd on sd.codigo_seccion = r.codigo_seccion 
-    join notaciones as n on n.id_notacion = r.id_notacion
-    join Autores as a on a.id_autor = n.id_autor
-    join Editoriales as e on e.id_editorial = n.id_editorial""")
+        select l.id_libro, Titulo, tomo, ano_publicacion, ISBN, numero_paginas, numero_copias,
+               sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor, e.editorial, n.notacion
+        from Libros AS l
+        join RegistroLibros AS r ON r.id_libro = l.id_libro
+        join SistemaDewey AS sd ON sd.codigo_seccion = r.codigo_seccion 
+        join notaciones AS n ON n.id_notacion = r.id_notacion
+        join Autores AS a ON a.id_autor = n.id_autor
+        join Editoriales AS e ON e.id_editorial = n.id_editorial
+        LIMIT ? OFFSET ?
+    """, (libros_por_pagina, offset))
     libros = query.fetchall()
     
     #? Selecciona todas las secciones del sistema dewey, para ser usados en los filtros
@@ -210,61 +236,77 @@ def libros():
 
     query.close()
     conexion.close()
-        
 
-    return render_template("libros.html",libros=libros,categorias=categorias)
+    return render_template("libros.html",libros=libros,categorias=categorias,pagina=pagina,total_paginas=total_paginas)
 
 # ----------------------------------------------------- BUSCAR LIBROS ----------------------------------------------------- #
 
-@app.route("/buscar_libro",methods = ["POST"])
+@app.route("/buscar_libro", methods=["GET","POST"])
 def buscar_libro():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    busqueda = request.form["buscar"]
-    #Obtiene los datos del formulario filtros en libros.html
-    filtro_busqueda = request.form["filtro-busqueda"]
-    Seccion = request.form.get("categorias")
-    
-    if filtro_busqueda == "Titulo":
-        SQL_where_busqueda = (f"where l.titulo like '%{busqueda}%'")
-    else:
-        SQL_where_busqueda = (f"where a.nombre_autor like '%{busqueda}%'")
-    
-    if Seccion == "Todas":
-        SQL_where_seccion =" "
-    else:
-        SQL_where_seccion = (f" and sd.codigo_seccion = {Seccion}")
+    busqueda = request.args.get("buscar", "")
+    filtro_busqueda = request.args.get("filtro-busqueda", "Titulo")
+    Seccion = request.args.get("categorias", "Todas")
 
-    print(SQL_where_seccion)
+    pagina = request.args.get("page", 1, type=int)
+    libros_por_pagina = 10
+    offset = (pagina - 1) * libros_por_pagina
 
-    #! Cuando tenga datos reales, comprobar importancia de left join (hice esto porque varios libros tenian datos incompletos)
-    query_busqueda = (f"""
-    select l.id_libro,Titulo,tomo,ano_publicacion,ISBN,numero_paginas,numero_copias, sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor , e.editorial, n.notacion
-    from Libros as l
-    left join RegistroLibros as r on r.id_libro = l.id_libro
-    left join SistemaDewey as sd on sd.codigo_seccion = r.codigo_seccion 
-    left join notaciones as n on n.id_notacion = r.id_notacion
-    left join Autores as a on a.id_autor = n.id_autor
-    left join Editoriales as e on e.id_editorial = n.id_editorial """)
-
-    query_busqueda = query_busqueda + SQL_where_busqueda + SQL_where_seccion
-
-    query.execute(query_busqueda)
-    libros = query.fetchall()
-
-    #? Selecciona todas las secciones del sistema dewey, para ser usados en los filtros
-    query.execute("select * from SistemaDewey")
+    # Secciones Dewey para filtros
+    query.execute("SELECT * FROM SistemaDewey")
     categorias = query.fetchall()
 
+    if filtro_busqueda == "Titulo":
+        SQL_where_busqueda = (f"WHERE l.titulo LIKE '%{busqueda}%'")
+    else:
+        SQL_where_busqueda = (f"WHERE concat(a.nombre_autor,' ',a.apellido_autor) LIKE '%{busqueda}%'")
+
+    if not Seccion or Seccion == "Todas":
+        SQL_where_seccion = ""
+    else:
+        SQL_where_seccion = (f" AND sd.codigo_seccion = {Seccion}")
+
+    filtro_total = SQL_where_busqueda + SQL_where_seccion
+
+    # Conteo total para paginación
+    query.execute(f"""
+        SELECT COUNT(*) FROM Libros AS l
+        LEFT JOIN RegistroLibros AS r ON r.id_libro = l.id_libro
+        LEFT JOIN SistemaDewey AS sd ON sd.codigo_seccion = r.codigo_seccion 
+        LEFT JOIN notaciones AS n ON n.id_notacion = r.id_notacion
+        LEFT JOIN Autores AS a ON a.id_autor = n.id_autor
+        LEFT JOIN Editoriales AS e ON e.id_editorial = n.id_editorial
+        {filtro_total}
+    """)
+    total_libros = query.fetchone()[0]
+    total_paginas = math.ceil(total_libros / libros_por_pagina)
+
+    # Consulta paginada
+    query.execute(f"""
+        SELECT l.id_libro, Titulo, tomo, ano_publicacion, ISBN, numero_paginas, numero_copias,
+               sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor, e.editorial, n.notacion
+        FROM Libros AS l
+        LEFT JOIN RegistroLibros AS r ON r.id_libro = l.id_libro
+        LEFT JOIN SistemaDewey AS sd ON sd.codigo_seccion = r.codigo_seccion 
+        LEFT JOIN notaciones AS n ON n.id_notacion = r.id_notacion
+        LEFT JOIN Autores AS a ON a.id_autor = n.id_autor
+        LEFT JOIN Editoriales AS e ON e.id_editorial = n.id_editorial
+        {filtro_total}
+        LIMIT ? OFFSET ?
+    """, (libros_por_pagina, offset))
+    libros = query.fetchall()
 
     query.close()
     conexion.close()
 
+    return render_template("libros.html", libros=libros, categorias=categorias,
+                           pagina=pagina, total_paginas=total_paginas,
+                           busqueda=busqueda, filtro_busqueda=filtro_busqueda, Seccion=Seccion)
+
     ## "' OR '1'='1' -- "
     ## "' UNION SELECT id_lugar, lugar, '', '', '', '', '', '', '', '', '', '', '' FROM lugares -- "
-
-    return render_template("libros.html",libros=libros,categorias=categorias)
 
 # ----------------------------------------------------- ELIMINAR LIBROS ----------------------------------------------------- #
 
@@ -387,6 +429,19 @@ def sugerencias_lector():
 
     return jsonify([fila[0] for fila in sugerencia])
 
+@app.route("/sugerencias-usuarios")
+def sugerencias_usuarios():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("select usuario from administradores")
+    sugerencia = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+    return jsonify([fila[0] for fila in sugerencia])
+
 # ----------------------------------------------------- PRESTAMOS ----------------------------------------------------- #
 
 @app.route("/prestamos")
@@ -483,10 +538,11 @@ def devolver_prestamo():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    query.execute("update prestamos set id_estado = 2 where id_prestamo = (?)",(id_prestamo,))
-    conexion.commit() #Guarda la actualizacion de estado del prestamo
-
     query.execute("update prestamos set fecha_devolucion = (?) where id_prestamo = (?)",(hoy,id_prestamo,))
+
+    query.execute("update prestamos set id_estado = 2 where id_prestamo = (?)",(id_prestamo,))
+
+    query.execute("update libros set numero_copias = (numero_copias+1) where (select id_libro from prestamos where id_prestamo = ?)",(id_prestamo,))
     conexion.commit() #Guarda la actualizacion de estado del prestamo
 
 
@@ -510,14 +566,13 @@ def eliminar_prestamo():
 
     query.execute("insert into prestamos_eliminados(id_administrador,id_prestamo,fecha) values(?,?,?)",(id_administrador,id_prestamo,hoy))
 
-    query.execute("delete from prestamos where id_prestamo = ?",(id_prestamo))
+    query.execute("delete from prestamos where id_prestamo = ?",(id_prestamo,))
     conexion.commit()
 
     query.close()
     conexion.close()
 
     return redirect("/prestamos")
-
 
 # ----------------------------------------------------- REGISTRO PRESTAMOS ----------------------------------------------------- #
 
@@ -541,14 +596,80 @@ def registro_prestamos():
         Estado = 1 #Activo
             
         try:
-            query.execute("Select id_libro from Libros where titulo = ?",(Libro,))
-            Libro = query.fetchone()[0]
+            # Verificar si el libro existe y tiene al menos 1 copia
+            query.execute("SELECT id_libro, numero_copias FROM Libros WHERE titulo = ?", (Libro,))
+            libro_data = query.fetchone()
 
+            if libro_data is None:
+                # El libro no existe
+                error = "El libro no existe."
+                return render_template("registro_prestamos.html", error=error,
+                       DPI=DPI, nombre_lector=NombreLector, apellido_lector=ApellidoLector,
+                       direccion=Direccion, num_telefono=Telefono, libro=Libro,
+                       grado=GradoEstudio, fecha_prestamo=fecha_prestamo,
+                       fecha_entrega_estimada=fecha_entrega_estimada)
+
+
+            id_libro, numero_copias = libro_data
+
+            if numero_copias < 1:
+                # No hay copias disponibles
+                error = "No hay copias disponibles de este libro"
+                return render_template("registro_prestamos.html", error=error,
+                       DPI=DPI, nombre_lector=NombreLector, apellido_lector=ApellidoLector,
+                       direccion=Direccion, num_telefono=Telefono, libro=Libro,
+                       grado=GradoEstudio, fecha_prestamo=fecha_prestamo,
+                       fecha_entrega_estimada=fecha_entrega_estimada)
+            
             #? INSERT DE PRESTAMOS
-            query.execute(f"""Insert into Prestamos(dpi_usuario,nombre,apellido,direccion,num_telefono,id_libro,grado,id_estado,fecha_prestamo,fecha_entrega_estimada,fecha_devolucion)
-                          values (?,?,?,?,?,?,?,?,?,?,NULL)""",(DPI,NombreLector,ApellidoLector,Direccion,Telefono,Libro,GradoEstudio,Estado,fecha_prestamo,fecha_entrega_estimada))
+            query.execute(f"""Insert into Prestamos
+                          (dpi_usuario,nombre,apellido,direccion,num_telefono,id_libro,grado,id_estado,fecha_prestamo,fecha_entrega_estimada,fecha_devolucion)
+                          values (?,?,?,?,?,?,?,?,?,?,NULL)""",
+                          (DPI,NombreLector,ApellidoLector,Direccion,Telefono,id_libro,GradoEstudio,Estado,fecha_prestamo,fecha_entrega_estimada))
 
-            query.execute(f"update Libros set numero_copias = (numero_copias-1) where id_libro = ?",(Libro,))
+            query.execute(f"update Libros set numero_copias = (numero_copias-1) where id_libro = ?",(id_libro,))
+
+            #? Guardar cambios
+            conexion.commit()  
+
+            # Guardar cambios
+            conexion.commit()
+
+            registro_exitoso = True
+
+            return render_template("registro_prestamos.html", registro_exitoso=registro_exitoso)
+            
+        except Exception as e:
+            print(f"Error: {e}")
+        finally:
+            query.close()
+            conexion.close()
+
+
+    return render_template("registro_prestamos.html")
+
+# ----------------------------------------------------- REGISTRO USUARIOS ----------------------------------------------------- #
+
+@app.route("/registrar_usuarios", methods=["GET", "POST"])
+def registrar_usuarios():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("Select * from roles")
+    roles = query.fetchall()
+
+    #Verifica la accion que realiza el formulario en registro_usuairos.html
+    if request.method == "POST":
+        #Obtiene los datos del formulario en registro-prestamos.html
+        usuario = request.form["usuario"]
+        contrasena = request.form["contrasena"]
+        telefono = request.form["telefono"]
+        rol = request.form["rol"]
+  
+        try:
+            #? INSERT DE PRESTAMOS
+            query.execute(f"""Insert into Administradores(usuario,contrasena,telefono,id_rol)
+                          values (?,?,?,?)""",(usuario,contrasena,telefono,rol))
 
             #? Guardar cambios
             conexion.commit()  
@@ -560,7 +681,71 @@ def registro_prestamos():
             conexion.close()
 
 
-    return render_template("registro_prestamos.html")
+    return render_template("registro_usuarios.html",roles=roles)
+
+# ----------------------------------------------------- USUARIOS ----------------------------------------------------- #
+
+@app.route("/usuarios",methods = ["POST","GET"])
+def usuarios():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("""Select a.id_rol,r.rol,a.usuario,a.contrasena,a.telefono,a.id_administrador from administradores a
+                    join roles r on a.id_rol = r.id_rol""")
+    usuarios = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+    return render_template("usuarios.html",usuarios = usuarios)
+
+# ----------------------------------------------------- Eliminar USUARIO ----------------------------------------------------- #
+
+@app.route("/eliminar_usuario", methods=["GET", "POST"])
+def eliminar_usuario():
+    id_usuario = request.form["id_usuario"]
+
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("delete from administradores where id_administrador = ?",(id_usuario))
+    conexion.commit()
+
+    query.close()
+    conexion.close()
+
+    return redirect("/usuarios")
+
+# ----------------------------------------------------- BUSCAR LIBROS ----------------------------------------------------- #
+
+@app.route("/buscar_usuario",methods = ["POST"])
+def buscar_usuario():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    busqueda = request.form["buscar_usuario"]
+    #Obtiene los datos del formulario filtros en usuarios.html
+    filtro_rol = request.form["filtro-busqueda"]
+    
+    if filtro_rol != "Todos":
+        SQL_where_rol = (f"and r.rol = '{filtro_rol}'")
+    else:
+        SQL_where_rol = " "
+
+    query_busqueda = (f"""Select a.id_rol,r.rol,a.usuario,a.contrasena,a.telefono,a.id_administrador from administradores a
+                    join roles r on a.id_rol = r.id_rol
+                    where a.usuario like '%{busqueda}%' """)
+
+    query_busqueda = query_busqueda + SQL_where_rol
+
+    query.execute(query_busqueda)
+    usuarios = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+
+    return render_template("usuarios.html",usuarios=usuarios)
 
 # ----------------------------------------------------- APP ----------------------------------------------------- #
 

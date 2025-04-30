@@ -1,9 +1,10 @@
 .barra-lateral{
     position: absolute;
     width: 15%;
-    height: 26.4%;
+    height: auto;
     left: 1%;
     top: 10%;
+    padding: 10px;
 }
 .barra-lateral nav{
     margin-top: 10%;
@@ -22,7 +23,8 @@
     background-color: rgba(0, 0, 0, 0.294);
     margin-left: 5%;
 }
-h2{
+
+.barra-lateral h4, .barra-lateral h2{
     margin-left: 14px;
 }
 

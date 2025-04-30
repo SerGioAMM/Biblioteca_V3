@@ -10,9 +10,9 @@ h1 {
     margin-bottom: 20px;
 }
 .main{
-    background-image: url('img/portada-biblioteca-3.jpg');
+    background-image: url('img/libros-loop-v2.jpg');
     background-size: cover;
-    background-position: center;
+    background-position: top;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -64,7 +64,7 @@ h1 {
     width: 20%;
     transition: 0.1s ease-out;
     z-index: 1;
-    max-height: 200%;
+    max-height: 70%;
 
 }
 /*
@@ -107,6 +107,8 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-left: none !important;
+    border-right: none !important;
     
 }
 
@@ -115,7 +117,7 @@ h1 {
     color: white;
     padding: 25px;
     font-size: 1.5rem;
-    transition: background-color 0.1s ease-in;
+    transition: 0.1s ease-in;
     border-radius: 4px;
 }
 
@@ -130,8 +132,39 @@ h1 {
 
     backdrop-filter: blur(8px);
     box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
-    border: solid 1px rgba(255,255,255,0.15);
+    border: solid 1px rgba(255, 255, 255, 0.21);
     border-radius: 4px;
+}
+
+
+/*? Paginacion */
+.paginacion {
+    position:absolute;
+    text-align: center;
+    margin: 20px;
+    width: 90%;
+    bottom: 2%;
+    z-index: 1;
+}
+
+.paginacion a, .paginacion strong {
+    margin: 0 5px;
+    padding: 6px 12px;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #e5e5e5;
+    background-color: #0000003a;
+    transition: 0.2s ease-in-out;
+
+}
+
+.paginacion strong {
+    font-weight: bold;
+    background-color: #000000ba;
+}
+.paginacion a:hover{
+    padding: 8px 14px;
 }
 
 
