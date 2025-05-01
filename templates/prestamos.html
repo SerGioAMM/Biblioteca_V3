@@ -20,26 +20,59 @@
     <main>
 
         <div class="div-busqueda">
-            <form class="frm-prestamos" action="/buscar_prestamo" method="POST">
+            <form class="frm-prestamos" action="/buscar_prestamo" method="GET">
                 <label for="buscar_prestamo"><h1>Gestión de Préstamos</h1>Administra los préstamos de libros, registra nuevos y gestiona devoluciones.</label><br><br><br>
                 <input class="buscar-prestamo" id="cuadro-busqueda" type="text" name="buscar_prestamo" autocomplete="off" placeholder="Buscar...">&nbsp;&nbsp;
+                <input class="buscar-prestamo" id="cuadro-busqueda-prestamo" type="text" name="buscar_prestamo" autocomplete="off" placeholder="Buscar...">&nbsp;&nbsp;
                 
                 <section class="menu-filtros">
                     <nav>
                         <section>
                             <h4> Buscar por: &nbsp;&nbsp;</h4>
                             <select name="filtro-busqueda" id="filtro-busqueda">
-                                <option value="Titulo">Titulo</option>
-                                <option value="Lector">Lector</option>
+                                <!-- Estas decisiones sirven para guardar la seleccion de filtros -->
+                                <option value="Titulo" 
+                                    {% if filtro_busqueda == "Titulo" %}
+                                        selected
+                                    {% endif %}>
+                                    Titulo
+                                </option>
+                                <option value="Lector" 
+                                    {% if filtro_busqueda == "Lector" %}
+                                        selected
+                                    {% endif %}>
+                                    Lector
+                                </option>
                             </select>
                         </section>
                         <section>
                             <h4> Estados: &nbsp;&nbsp; </h4>
                             <select name="estados" id="estados">
-                                <option value="Todos">Todos</option>
-                                <option value="1">Activos</option>
-                                <option value="2">Devueltos</option>
-                                <option value="3">Vencidos</option>
+                                <!-- Estas decisiones sirven para guardar la seleccion de filtros -->
+                                <option value="Todos" 
+                                    {% if estados == "Todos" %}
+                                        selected
+                                    {% endif %}>
+                                    Todos
+                                </option>
+                                <option value="1" 
+                                    {% if estados == "1" %}
+                                        selected
+                                    {% endif %}>
+                                    Activos
+                                </option>
+                                <option value="2" 
+                                    {% if estados == "2" %}
+                                        selected
+                                    {% endif %}>
+                                    Devueltos
+                                </option>
+                                <option value="3" 
+                                    {% if estados == "3" %}
+                                        selected
+                                    {% endif %}>
+                                    Vencidos
+                                </option>
                             </select>
                         </section>
                     </nav>
@@ -136,6 +169,25 @@
                 </span>
             </div>
             {% endfor %}
+
+            <div class="paginacion">
+                {% if pagina > 1 %} <!-- Verifica que la pagina actual sea despues de la primera, para mostrar un boton de "Anterior" -->
+                    <a href="{{ url_for('buscar_prestamo', page=pagina - 1, buscar=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Anterior</a> <!-- Este enlace lleva a la pagina anterior "pagina-1" -->
+                {% endif %}
+            
+                {% for p in range(1, total_paginas + 1) %}
+                    {% if p == pagina %} <!-- Verifica cual es la pagina actual para aplicarle otro estilo -->
+                        <strong>{{ p }}</strong>
+                    {% else %} <!-- Genera todos los demas enlaces o "numeros de pagina", "[1],[2],[3]" -->
+                        <a href="{{ url_for('buscar_prestamo', page=p, buscar=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
+                    {% endif %}
+                {% endfor %}
+            
+                {% if pagina < total_paginas %} <!-- Verifica que la pagina actual no sea la ultima, para mostrar un boton de "Siguiente" -->
+                    <a href="{{ url_for('buscar_prestamo', page=pagina + 1, buscar=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Siguiente</a> <!-- Este enlace lleva a la pagina siguiente "pagina+1" -->
+                {% endif %}
+            </div> 
+
         </div>        
         
     </main>

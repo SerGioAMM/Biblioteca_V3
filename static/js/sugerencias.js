@@ -26,7 +26,7 @@ function seleccionar_Sugerencia(sug) {
   caja_sugerencias.innerHTML = '';
 }
 
-document.querySelectorAll('.input-lugar, .input-editorial, .buscar, .buscar-libro-prestamo, .buscar-prestamo,.buscar-usuario').forEach(input => {
+document.querySelectorAll('.input-lugar, .input-editorial, .buscar, .buscar-libro-prestamo, .buscar-prestamo, .buscar-usuario').forEach(input => {
   input.addEventListener('focus', () => {
     inputActivo = input;
     moverSugerencias(input);
@@ -63,8 +63,7 @@ document.querySelectorAll('.input-lugar, .input-editorial, .buscar, .buscar-libr
     }
     else if(input.classList.contains('buscar-prestamo')){
       if(filtro.value == "Titulo"){
-        console.log("TEST Filtro");
-        endpoint = '/sugerencias-prestamo';
+        endpoint = '/sugerencias-lugares';
       }else if(filtro.value == "Lector"){
         endpoint = '/sugerencias-lectores';
       }

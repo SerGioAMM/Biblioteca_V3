@@ -5,7 +5,7 @@ import math
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
-# Esto se usa para la gesion de usuarios de flask
+# Esta clave se usa para la gestion de usuarios de flask -> "from flask import session"
 app.secret_key = "234_Clav3-Ant1H4ck3r$_1"
 
 # !Se puede montar esta app en la nube?
@@ -193,7 +193,7 @@ def insertar_libro():
 
     #! Recordatorio de posible bug (04/04/2025)
     #TODO: El libro "Los 10 retos" se inserto sin autor, aunque el autor si se inserto correctamente, en la tabla notaciones se le fue asignado el autor X
-    #TODO: El libro se inserto utilizando las facilidades del navegador edge del autorellenado de datos
+    #TODO: El libro se inserto utilizando las facilidades de autorellenado del navegador Microsoft Edge
     #* Recordatorio: El commit estaba comentado en el primer intento de insert, este podria ser el origen del problema. 
     #* Observacion: El libro no tiene editorial, este tambien podria ser el origen del bug, pero en este caso lo dudo.
 
@@ -205,7 +205,7 @@ def libros():
     query = conexion.cursor()
 
     
-    pagina = request.args.get("page", 1, type=int)
+    pagina = request.args.get("page", 1, type=int) #Recibe el parametro de la URL llamado page
     libros_por_pagina = 10
     offset = (pagina - 1) * libros_por_pagina
 
@@ -247,26 +247,26 @@ def buscar_libro():
     query = conexion.cursor()
 
     busqueda = request.args.get("buscar", "")
-    filtro_busqueda = request.args.get("filtro-busqueda", "Titulo")
-    Seccion = request.args.get("categorias", "Todas")
+    filtro_busqueda = request.args.get("filtro-busqueda", "Titulo") #Valores por default necesarios cuando se accede con una URL directa y no existen parametros
+    Seccion = request.args.get("categorias", "Todas") #Valores por default necesarios cuando se accede con una URL directa y no existen parametros
 
     pagina = request.args.get("page", 1, type=int)
     libros_por_pagina = 10
-    offset = (pagina - 1) * libros_por_pagina
+    offset = (pagina - 1) * libros_por_pagina #Calculo del offset
 
     # Secciones Dewey para filtros
-    query.execute("SELECT * FROM SistemaDewey")
+    query.execute("select * from SistemaDewey")
     categorias = query.fetchall()
 
     if filtro_busqueda == "Titulo":
-        SQL_where_busqueda = (f"WHERE l.titulo LIKE '%{busqueda}%'")
+        SQL_where_busqueda = (f"where l.titulo like '%{busqueda}%'")
     else:
-        SQL_where_busqueda = (f"WHERE concat(a.nombre_autor,' ',a.apellido_autor) LIKE '%{busqueda}%'")
+        SQL_where_busqueda = (f"where concat(a.nombre_autor,' ',a.apellido_autor) like '%{busqueda}%'")
 
     if not Seccion or Seccion == "Todas":
         SQL_where_seccion = ""
     else:
-        SQL_where_seccion = (f" AND sd.codigo_seccion = {Seccion}")
+        SQL_where_seccion = (f" and sd.codigo_seccion = {Seccion}")
 
     filtro_total = SQL_where_busqueda + SQL_where_seccion
 
@@ -281,7 +281,7 @@ def buscar_libro():
         {filtro_total}
     """)
     total_libros = query.fetchone()[0]
-    total_paginas = math.ceil(total_libros / libros_por_pagina)
+    total_paginas = math.ceil(total_libros / libros_por_pagina) #Redondea el resultado hacia arriba, si hay (11 libros / 10 libros por pagina) = 1.1, math.ceil(1.1) = 2 paginas
 
     # Consulta paginada
     query.execute(f"""
@@ -333,7 +333,6 @@ def eliminar_libro():
 
 # ----------------------------------------------------- SUGERENCIAS DINAMICAS ----------------------------------------------------- #
 
-#! TEST_SUGERENCIAS
 #TODO: Completar conforme a las sugerencias que faltan
 #? Aun no se si sugerir en la busqueda de libros
 
@@ -452,6 +451,8 @@ def prestamos():
     # Obtenre la fecha actual
     hoy = datetime.today().date()
 
+    estados = request.args.get("estados", "Todos")
+
     # Buscar prestamos para verificar si estan vencidos
     query.execute("""select id_prestamo, fecha_entrega_estimada
                     from Prestamos
@@ -470,45 +471,65 @@ def prestamos():
                             set id_estado = 3
                             where id_prestamo = ?""", (id_prestamo,))
             conexion.commit()  # Guardamos los cambios
+    
+    pagina = request.args.get("page", 1, type=int) #Recibe el parametro de la URL llamado page
+    prestamos_por_pagina = 10
+    offset = (pagina - 1) * prestamos_por_pagina
+
+    # Consulta para contar todos los libros
+    query.execute("select count(*) from prestamos")
+    total_prestamos = query.fetchone()[0]
+    total_paginas = math.ceil(total_prestamos / prestamos_por_pagina)
 
     # Consulta para mostrar los prestamos en tarjetas de prestamos.html
     query.execute("""select p.fecha_prestamo, p.fecha_entrega_estimada, p.fecha_devolucion, l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo
                     from Prestamos p
                     join Libros l on p.id_libro = l.id_libro
-                    join Estados e on p.id_estado = e.id_estado""")
+                    join Estados e on p.id_estado = e.id_estado
+                  limit ? offset ?""",(prestamos_por_pagina,offset))
     prestamos = query.fetchall()
 
     query.close()
     conexion.close()
 
 
-    return render_template("prestamos.html",prestamos=prestamos)
+    return render_template("prestamos.html",prestamos=prestamos,estados=estados,pagina=pagina,total_paginas=total_paginas)
 
 # ----------------------------------------------------- BUSCAR Prestamo ----------------------------------------------------- #
 
-@app.route("/buscar_prestamo",methods=["POST"])
+@app.route("/buscar_prestamo",methods=["POST","GET"])
 def buscar_prestamo():
 
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    busqueda = request.form["buscar_prestamo"]
+    busqueda = request.form.get["buscar_prestamo",""]
     #Obtiene los datos del formulario filtros en libros.html
-    filtro_busqueda = request.form["filtro-busqueda"]
-    Estado = request.form["estados"]
-    
+    filtro_busqueda = request.form.get["filtro-busqueda","Titulo"]
+    estados = request.form.get["estados","Todos"]
+
     if filtro_busqueda == "Titulo":
         SQL_where_busqueda = (f"where l.titulo || ' (' || p.nombre || ' ' || p.apellido || ')' like '%{busqueda}%'")
     else:
         SQL_where_busqueda = (f"where p.nombre || ' ' || p.apellido like '%{busqueda}%'")
     
-    if Estado == "Todos":
+    if estados == "Todos":
         SQL_where_estado =" "
     else:
-        SQL_where_estado = (f" and e.id_estado = {Estado}")
+        SQL_where_estado = (f" and e.id_estado = {estados}")
 
-    print(SQL_where_estado)
-    
+    pagina = request.args.get("page", 1, type=int) #Recibe el parametro de la URL llamado page
+    prestamos_por_pagina = 10
+    offset = (pagina - 1) * prestamos_por_pagina
+
+    # Consulta para contar todos los libros conforme a la busqueda
+    query.execute(f"""select count(*) from Prestamos p
+                    join Libros l on p.id_libro = l.id_libro
+                    join Estados e on p.id_estado = e.id_estado 
+                    {busqueda}""")
+    total_prestamos = query.fetchone()[0]
+    total_paginas = math.ceil(total_prestamos / prestamos_por_pagina)
+
     query_busqueda = ("""select p.fecha_prestamo, p.fecha_entrega_estimada, p.fecha_devolucion, l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo
                     from Prestamos p
                     join Libros l on p.id_libro = l.id_libro
@@ -516,15 +537,13 @@ def buscar_prestamo():
     
     query_busqueda = query_busqueda + SQL_where_busqueda + SQL_where_estado
 
-    print(query_busqueda)
-
     query.execute(query_busqueda)
     prestamos = query.fetchall()
 
     query.close()
     conexion.close()
 
-    return render_template("prestamos.html",prestamos=prestamos)
+    return render_template("prestamos.html",prestamos=prestamos,estados=estados,pagina=pagina,total_paginas=total_paginas)
 
 # ----------------------------------------------------- Devolver Prestamo ----------------------------------------------------- #
 

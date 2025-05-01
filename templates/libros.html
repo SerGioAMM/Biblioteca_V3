@@ -30,16 +30,35 @@
                         <section>
                             <h4> Buscar por: &nbsp;&nbsp;</h4>
                             <select name="filtro-busqueda" id="filtro-busqueda">
-                                <option value="Titulo" {% if filtro_busqueda == "Titulo" %}selected{% endif %}>Titulo</option>
-                                <option value="Autor" {% if filtro_busqueda == "Autor" %}selected{% endif %}>Autor</option>
+                                <!-- Estas decisiones sirven para guardar la seleccion de filtros -->
+                                <option value="Titulo" 
+                                    {% if filtro_busqueda == "Titulo" %}
+                                        selected
+                                    {% endif %}>
+                                    Titulo
+                                </option>
+                                <option value="Autor" 
+                                    {% if filtro_busqueda == "Autor" %}
+                                        selected
+                                    {% endif %}>
+                                    Autor
+                                </option>
                             </select>
                         </section>
                         <section>
                             <h4> Categorias: &nbsp;&nbsp; </h4>
                             <select name="categorias" id="categorias">
-                                <option value="Todas" {% if Seccion == "Todas" %}selected{% endif %}>Todas</option>
+                                <option value="Todas" 
+                                    {% if Seccion == "Todas" %}
+                                        selected
+                                    {% endif %}>
+                                    Todas
+                                </option>
                                 {% for categoria in categorias %}
-                                    <option value="{{ categoria[0] }}" {% if Seccion == categoria[0]|string %}selected{% endif %}>
+                                    <option value="{{ categoria[0] }}" 
+                                        {% if Seccion == categoria[0]|string %}
+                                            selected
+                                        {% endif %}>
                                         {{ categoria[0] }} - {{ categoria[1] }}
                                     </option>
                                 {% endfor %}
@@ -160,20 +179,20 @@
             </div>
             {% endfor %}
             <div class="paginacion">
-                {% if pagina > 1 %}
-                    <a href="{{ url_for('buscar_libro', page=pagina - 1, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">Anterior</a>
+                {% if pagina > 1 %} <!-- Verifica que la pagina actual sea despues de la primera, para mostrar un boton de "Anterior" -->
+                    <a href="{{ url_for('buscar_libro', page=pagina - 1, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">Anterior</a> <!-- Este enlace lleva a la pagina anterior "pagina-1" -->
                 {% endif %}
             
                 {% for p in range(1, total_paginas + 1) %}
-                    {% if p == pagina %}
+                    {% if p == pagina %} <!-- Verifica cual es la pagina actual para aplicarle otro estilo -->
                         <strong>{{ p }}</strong>
-                    {% else %}
+                    {% else %} <!-- Genera todos los demas enlaces o "numeros de pagina", "[1],[2],[3]" -->
                         <a href="{{ url_for('buscar_libro', page=p, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
                     {% endif %}
                 {% endfor %}
             
-                {% if pagina < total_paginas %}
-                    <a href="{{ url_for('buscar_libro', page=pagina + 1, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">Siguiente</a>
+                {% if pagina < total_paginas %} <!-- Verifica que la pagina actual no sea la ultima, para mostrar un boton de "Siguiente" -->
+                    <a href="{{ url_for('buscar_libro', page=pagina + 1, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">Siguiente</a> <!-- Este enlace lleva a la pagina siguiente "pagina+1" -->
                 {% endif %}
             </div>            
         </div>
