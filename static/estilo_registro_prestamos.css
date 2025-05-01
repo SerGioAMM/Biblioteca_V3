@@ -23,6 +23,12 @@
     border-radius: 5px;
 }
 
+/*
+TEST FORMULARIO BLANCO
+.formulario-prestamo input{
+    background-color: rgba(113, 113, 113, 0.609);
+}*/
+
 .formulario-prestamo label{
     font-size: 1.2rem;
 }
