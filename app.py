@@ -403,7 +403,7 @@ def sugerencias_libros_prestamos():
     return jsonify([fila[0] for fila in sugerencia])
 
 @app.route("/sugerencias-prestamo")
-def sugerencias_prestamos():
+def sugerencias_prestamo():
     conexion = conexion_BD()
     query = conexion.cursor()
 
