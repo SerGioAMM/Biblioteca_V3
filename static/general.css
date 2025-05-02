@@ -149,11 +149,12 @@ h1 {
 
 /*? Paginacion */
 .paginacion {
-    position:absolute;
+    position: fixed;
     text-align: center;
     margin: 20px;
-    width: 90%;
-    bottom: 2%;
+    width: 100%;
+    bottom: 0;
+
     z-index: 1;
 }
 

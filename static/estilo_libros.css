@@ -78,8 +78,8 @@ main{
 }
 
 #h2-seccion-4 {
-    background-color: #fff9c4;
-    color: #bba200;
+    background-color: #f9f7de;
+    color: #d88e16;
 }
 
 #h2-seccion-5 {
@@ -177,8 +177,8 @@ main{
 
 #h4-seccion-4 {
     background-color: #fffde7;
-    color: #f9a825;
-    border: solid 1px #fff176;
+    color: #d88e16;
+    border: solid 1px #c7bc5d;
 }
 
 #h4-seccion-5 {
@@ -501,14 +501,13 @@ form select{
         width: 20px;
     }
 
-
     .contendor-catalogo {
         display: flex;
         flex-direction: column;
         gap: 1.2rem;
         margin: 2rem 1rem;
         height: 490%;
-        top: 62%;
+        top: 70%;
         width: 80%;
 
     }
@@ -550,7 +549,8 @@ form select{
     }
     #span-info-libros h5,
     #span-disponibilidad-libros {
-        font-size: 0.95rem;
+        font-size: 0.85rem;
+        
     }
     #span-disponibilidad-libros{
         width: 108%;
@@ -563,9 +563,10 @@ form select{
         height: 20px;
 
     }
-    #h4-disponible{
+    #h4-disponible,#h4-no_disponible{
         position: absolute;
         bottom: -11rem;
+        margin-right: 30px;
     }
 
     ul.ul-contenedor-sugerencias {
