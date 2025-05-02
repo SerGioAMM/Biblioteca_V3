@@ -285,9 +285,301 @@ form select{
     width: 60%;
 }
 
-/*? Eliminar Libro
-/*? Eliminar prestamo */
+/*? Eliminar Libro*/
 .frm-eliminar-libro input{
     display: none;
 }
 
+@media (max-width: 768px) {
+    .libro {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .span-notacion {
+        width: 100%;
+        border-radius: 10px 10px 0 0;
+        justify-content: flex-start;
+        padding-left: 1rem;
+    }
+
+    #span-info-libros {
+        width: 100%;
+        padding: 1rem 0.5rem;
+    }
+
+    #span-disponibilidad-libros {
+        width: 100%;
+        min-width: unset;
+        border-radius: 0 0 10px 10px;
+        margin-top: 0.5rem;
+    }
+
+    .h4-datos-libro2 {
+        height: auto;
+    }
+    body {
+        background-size: cover;
+        background-position: center top;
+        overflow-x: hidden;
+    }
+
+    .div-busqueda {
+        padding: 1rem;
+    }
+
+    .frm-buscar {
+        display: block;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .frm-buscar label h1 {
+        font-size: 1.4rem;
+    }
+
+    .buscar,
+    #btn-buscar,
+    select,
+    #cuadro-busqueda {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+    .menu-filtros{
+        position: absolute;
+        margin-top: 80px;
+    }
+
+    .menu-filtros nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .menu-filtros section {
+        width: 100%;
+    }
+    .menu-filtros select{
+        height: 70%;
+        
+    }
+    .menu-filtros option{
+        overflow: hidden;
+        width: 20px;
+    }
+
+    .barra-lateral {
+        display: none; /* Oculta la barra lateral para móviles */
+    }
+
+    .contendor-catalogo {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        margin: 2rem 1rem;
+        height: 490%;
+        top: 62%;
+        width: 80%;
+
+    }
+
+    .libro {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        height: 24rem;
+        padding-bottom: 1.5rem;
+        padding-right: 1.5rem;
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        top: 0;
+        
+    }
+    .span-notacion{
+        width: 101%;
+    }
+
+    .span-notacion h2 {
+        font-size: 1.2rem;
+    }
+    .h4-datos-libro2{
+        font-size: .90rem;
+        position: absolute;
+        width: 93%;
+        text-align: center;
+    }
+
+    #span-info-libros h3{
+        font-size: 1rem;
+    }
+
+    #span-info-libros h4{
+        font-size: .95rem;
+        margin-top: 55px;
+    }
+    #span-info-libros h5,
+    #span-disponibilidad-libros {
+        font-size: 0.95rem;
+    }
+    #span-disponibilidad-libros{
+        width: 108%;
+    }
+
+    #span-info-libros h5{
+        position: absolute;
+        right: .4rem;
+        top: -5rem;
+        height: 20px;
+
+    }
+    #h4-disponible{
+        position: absolute;
+        bottom: -11rem;
+    }
+
+    ul.ul-contenedor-sugerencias {
+        padding-left: 1rem;
+        font-size: 0.9rem;
+    }
+    .frm-eliminar-libro{
+        position: absolute;
+        right: 4rem;
+        bottom: -10rem;
+    }
+}
+@media (max-width: 480px) {
+    body {
+        background-size: cover;
+        background-position: center top;
+        overflow-x: hidden;
+    }
+
+    .div-busqueda {
+        padding: 1rem;
+    }
+
+    .frm-buscar {
+        display: block;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .frm-buscar label h1 {
+        font-size: 1.4rem;
+    }
+
+    .buscar,
+    #btn-buscar,
+    select,
+    #cuadro-busqueda {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+    .menu-filtros{
+        position: absolute;
+        margin-top: 80px;
+    }
+
+    .menu-filtros nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .menu-filtros section {
+        width: 100%;
+    }
+    .menu-filtros select{
+        height: 70%;
+        
+    }
+    .menu-filtros option{
+        overflow: hidden;
+        width: 20px;
+    }
+
+    .barra-lateral {
+        display: none; /* Oculta la barra lateral para móviles */
+    }
+
+    .contendor-catalogo {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        margin: 2rem 1rem;
+        height: 490%;
+        top: 62%;
+        width: 80%;
+
+    }
+
+    .libro {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        height: 24rem;
+        padding-bottom: 1.5rem;
+        padding-right: 1.5rem;
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        top: 0;
+        
+    }
+    .span-notacion{
+        width: 103%;
+    }
+
+    .span-notacion h2 {
+        font-size: 1.2rem;
+    }
+    .h4-datos-libro2{
+        font-size: .90rem;
+        position: absolute;
+        width: 93%;
+        text-align: center;
+    }
+
+    #span-info-libros h3{
+        font-size: 1rem;
+    }
+
+    #span-info-libros h4{
+        font-size: .95rem;
+        margin-top: 55px;
+    }
+    #span-info-libros h5,
+    #span-disponibilidad-libros {
+        font-size: 0.95rem;
+    }
+    #span-disponibilidad-libros{
+        width: 108%;
+    }
+
+    #span-info-libros h5{
+        position: absolute;
+        right: .4rem;
+        top: -5rem;
+        height: 20px;
+
+    }
+    #h4-disponible{
+        position: absolute;
+        bottom: -11rem;
+    }
+
+    ul.ul-contenedor-sugerencias {
+        padding-left: 1rem;
+        font-size: 0.9rem;
+    }
+    .frm-eliminar-libro{
+        position: absolute;
+        right: 1rem;
+        bottom: -10rem;
+    }
+}

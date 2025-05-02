@@ -32,6 +32,7 @@
         a.apellido_autor, l.ano_publicacion, sd.codigo_seccion, sd.seccion, l.numero_copias-->
         <div class="div-contenedor-libros-destacados">
             {% for libro in libros_destacados %}
+            <a href="{{ url_for('buscar_libro', buscar=libro[3], filtro_busqueda='Titulo', categorias='Todas') }}">
             <div class="div-libro-destacado">
             
                 <span class="span-notacion" 
@@ -97,6 +98,7 @@
                 <span id="span-disponibilidad-libro-d"> <h4 id="h4-no_disponible">No disponible</h4></span>
                 {% endif %}
             </div>
+            </a>
             {% endfor %}
     </div>
     </section>
