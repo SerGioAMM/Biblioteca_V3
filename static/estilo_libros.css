@@ -32,7 +32,7 @@ main{
     top: 5%;
     left: -2%;
     width: 100%;
-    height: 7rem;
+    height: 7.5rem;
     border-radius: 10px;
     margin-bottom: .6rem;
     color: #4a4a4a;
@@ -46,11 +46,14 @@ main{
 .span-notacion{
     position: relative;
     display: flex;
-    width: 10%;
+    width: 8%;
     justify-content: center;
     align-items: center;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
+}
+.span-notacion h2{
+    margin-left: 5px;
 }
 
 /* Colores de la notacion deacuerdo a su seccion*/
@@ -107,24 +110,39 @@ main{
 /*? Textos que muestran la informacion de los libros */
 #span-info-libros{
     position: relative;
-    width: 65%;
+    width: 55%;
     display: flex;
     align-items: center;
     
 }
-#span-info-libros h2{
+#span-datos-libro2{
+    width: 30%;
+}
+.h4-datos-libro2{
+    background-color: rgba(255, 255, 255, 0.252);
+    padding: 10px;
+    line-height: 1.4;
+    margin: 0;
+    height: 83%;
+    border-radius: 3px;
+    box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.2); /* sombra hacia dentro */
+}
+#span-info-libros h3{
     margin-top: 8px;
     margin-left: 5%;
     position: absolute;
     top: 0%;
-}
-#span-info-libros h3{
-    margin-left: 5%;
-    position: absolute;
+    font-size: 1.3rem;
 }
 #span-info-libros h4{
     margin-left: 5%;
-    margin-bottom: 10px;
+    position: relative;
+    margin-top: 40px;
+    color: #535353;
+}
+#span-info-libros h5{
+    margin-left: 5%;
+    margin-bottom: 7px;
     position: absolute;
     bottom: 1%;
     border-radius: 10px;
