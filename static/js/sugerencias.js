@@ -63,7 +63,7 @@ document.querySelectorAll('.input-lugar, .input-editorial, .buscar, .buscar-libr
     }
     else if(input.classList.contains('buscar-prestamo')){
       if(filtro.value == "Titulo"){
-        endpoint = '/sugerencias-lugares';
+        endpoint = '/sugerencias-prestamo';
       }else if(filtro.value == "Lector"){
         endpoint = '/sugerencias-lectores';
       }

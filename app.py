@@ -212,7 +212,7 @@ def libros():
 
     
     pagina = request.args.get("page", 1, type=int) #Recibe el parametro de la URL llamado page
-    libros_por_pagina = 10
+    libros_por_pagina = 9
     offset = (pagina - 1) * libros_por_pagina
 
     # Consulta para contar todos los libros
@@ -257,7 +257,7 @@ def buscar_libro():
     Seccion = request.args.get("categorias", "Todas") #Valores por default necesarios cuando se accede con una URL directa y no existen parametros
 
     pagina = request.args.get("page", 1, type=int)
-    libros_por_pagina = 10
+    libros_por_pagina = 9
     offset = (pagina - 1) * libros_por_pagina #Calculo del offset
 
     # Secciones Dewey para filtros
