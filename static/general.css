@@ -136,6 +136,16 @@ h1 {
     border-radius: 4px;
 }
 
+/*? Errores */
+#error{
+    color: rgb(255, 49, 49);
+    text-align: center;
+}
+#exito{
+    color: greenyellow;
+    text-align: center;
+}
+
 
 /*? Paginacion */
 .paginacion {

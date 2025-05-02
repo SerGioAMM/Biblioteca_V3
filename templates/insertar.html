@@ -86,26 +86,17 @@
             <input type="text" name="lugar" class="input-lugar" placeholder="" autocomplete="off">
             <input type="text" name="anio" placeholder="" autocomplete="off">
             
-            
             <ul class="ul-contenedor-sugerencias">
                 <li>sugerencia 1</li>
                 <li>sugerencia 2</li>
             </ul>
             
-            
             <button id="btn-registrar" type="submit">Registrar libro</button>
-            
-            <!-- TODO: FILTRO
-            <select name="filtro_dewey" id="filtro_dewey">
-                {% for seccion_filtro in filtro_dewey %}
-                <option value="">{{ seccion_filtro[0] }}</option>
-                {% endfor %}
-            </select>
-            ################################ Arreglar luego ### !FILTRO_POR_SECCIONES #############################################
-            
-            ::::IDEAS PARA ARREGLAR FILTRO::::
-            >Hacer la lista de secciones directamente en el codigo para no tener que recargar la pagina
-            TODO-->
+            {% if (error) %}
+                <label id="error" for="error">{{error}}</label>
+            {% elif (registro_exitoso)  %}
+                <label id="exito" for="registro_exitoso">{{registro_exitoso}}</label>
+            {% endif %}
             
             
             </form>

@@ -58,6 +58,12 @@
                 </select>
 
                 <button id="btn-registrar" type="submit">Registrar usuario</button>
+                {% if (error) %}
+                    <label id="error" for="error">{{error}}</label>
+                {% elif (registro_exitoso)  %}
+                    <label id="exito" for="registro_exitoso">{{registro_exitoso}}</label>
+                {% endif %}
+
 
             </form>
         </div>

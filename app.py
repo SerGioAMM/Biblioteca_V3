@@ -69,6 +69,8 @@ def login():
 
 @app.route("/insertar", methods=["GET", "POST"])
 def insertar_libro():
+    if "usuario" not in session:
+        return redirect("/") #Solo se puede acceder con session iniciada
 
     #Abrir conexion con la base de datos
     conexion = conexion_BD()
@@ -162,7 +164,7 @@ def insertar_libro():
             query.execute("Insert into RegistroLibros(id_libro,id_notacion,id_lugar,codigo_seccion) values (?,?,?,?)",(id_libro,id_notacion,id_lugar,SistemaDewey))            
              
             #? Guardar cambios
-            conexion.commit()  
+            conexion.commit() 
 
             #Esta consulta devuelve la ultima seccion ingresada en RegistroLibros para que sea mas facil ingresar libros de manera ordenada
             #Si se ingresan por seccion no hace falta estar seleccionando nuevamente la seccion
@@ -175,9 +177,13 @@ def insertar_libro():
             (?)""",(select_seccion[0],))
             ultima_seccion = query.fetchall()
             
+            registro_exitoso = "Libro registrado exitosamente."
+            return render_template("insertar.html", secciones = secciones, ultima_seccion = ultima_seccion, registro_exitoso=registro_exitoso) 
 
         except Exception as e:
             print(f"Error: {e}")
+            error = "Error al ingresar libro."
+            return render_template("insertar.html", secciones = secciones, ultima_seccion = ultima_seccion, error=error) 
         finally:
             query.close()
             conexion.close()
@@ -323,7 +329,7 @@ def eliminar_libro():
 
     query.execute("insert into libros_eliminados(id_administrador,id_libro,fecha) values(?,?,?)",(id_administrador,id_libro,hoy))
 
-    query.execute("delete from libros where id_libro = ?",(id_libro))
+    query.execute("delete from libros where id_libro = ?",(id_libro,))
     conexion.commit()
 
     query.close()
@@ -443,8 +449,10 @@ def sugerencias_usuarios():
 
 # ----------------------------------------------------- PRESTAMOS ----------------------------------------------------- #
 
-@app.route("/prestamos")
+@app.route("/prestamos",methods = ["GET","POST"])
 def prestamos():
+    if "usuario" not in session:
+        return redirect("/") #Solo se puede acceder con session iniciada
     conexion = conexion_BD()
     query = conexion.cursor()
 
@@ -473,7 +481,7 @@ def prestamos():
             conexion.commit()  # Guardamos los cambios
     
     pagina = request.args.get("page", 1, type=int) #Recibe el parametro de la URL llamado page
-    prestamos_por_pagina = 10
+    prestamos_por_pagina = 7
     offset = (pagina - 1) * prestamos_por_pagina
 
     # Consulta para contar todos los libros
@@ -489,29 +497,40 @@ def prestamos():
                   limit ? offset ?""",(prestamos_por_pagina,offset))
     prestamos = query.fetchall()
 
+    query.execute("Select Count(*) from prestamos where id_estado = 1") #Prestamos activos
+    prestamos_activos = query.fetchone()[0]
+
+    query.execute("Select Count(*) from prestamos where id_estado = 2") #Prestamos devueltos
+    prestamos_devueltos = query.fetchone()[0]
+
+    query.execute("Select Count(*) from prestamos where id_estado = 3") #Prestamos vencidos
+    prestamos_vencidos = query.fetchone()[0]
+
     query.close()
     conexion.close()
 
 
-    return render_template("prestamos.html",prestamos=prestamos,estados=estados,pagina=pagina,total_paginas=total_paginas)
+    return render_template("prestamos.html",prestamos=prestamos,estados=estados,pagina=pagina,total_paginas=total_paginas,
+                           prestamos_activos=prestamos_activos,prestamos_devueltos=prestamos_devueltos,prestamos_vencidos=prestamos_vencidos)
 
 # ----------------------------------------------------- BUSCAR Prestamo ----------------------------------------------------- #
 
-@app.route("/buscar_prestamo",methods=["POST","GET"])
+@app.route("/buscar_prestamo", methods = ["GET"])
 def buscar_prestamo():
-
+    if "usuario" not in session:
+        return redirect("/") #Solo se puede acceder con session iniciada
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    busqueda = request.form.get["buscar_prestamo",""]
+    busqueda = request.args.get("buscar_prestamo","")
     #Obtiene los datos del formulario filtros en libros.html
-    filtro_busqueda = request.form.get["filtro-busqueda","Titulo"]
-    estados = request.form.get["estados","Todos"]
+    filtro_busqueda = request.args.get("filtro-busqueda","Titulo")
+    estados = request.args.get("estados","Todos")
 
     if filtro_busqueda == "Titulo":
-        SQL_where_busqueda = (f"where l.titulo || ' (' || p.nombre || ' ' || p.apellido || ')' like '%{busqueda}%'")
+        SQL_where_busqueda = (f" where l.titulo || ' (' || p.nombre || ' ' || p.apellido || ')' like '%{busqueda}%'")
     else:
-        SQL_where_busqueda = (f"where p.nombre || ' ' || p.apellido like '%{busqueda}%'")
+        SQL_where_busqueda = (f" where p.nombre || ' ' || p.apellido like '%{busqueda}%'")
     
     if estados == "Todos":
         SQL_where_estado =" "
@@ -519,23 +538,33 @@ def buscar_prestamo():
         SQL_where_estado = (f" and e.id_estado = {estados}")
 
     pagina = request.args.get("page", 1, type=int) #Recibe el parametro de la URL llamado page
-    prestamos_por_pagina = 10
+    prestamos_por_pagina = 7
     offset = (pagina - 1) * prestamos_por_pagina
 
     # Consulta para contar todos los libros conforme a la busqueda
     query.execute(f"""select count(*) from Prestamos p
                     join Libros l on p.id_libro = l.id_libro
                     join Estados e on p.id_estado = e.id_estado 
-                    {busqueda}""")
+                    {SQL_where_busqueda}{SQL_where_estado}""")
+    
     total_prestamos = query.fetchone()[0]
-    total_paginas = math.ceil(total_prestamos / prestamos_por_pagina)
+    total_paginas = math.ceil(total_prestamos / prestamos_por_pagina) #Calculo para cantidad de paginas, redondeando hacia arriba (ej, 2.1 = 3)
 
-    query_busqueda = ("""select p.fecha_prestamo, p.fecha_entrega_estimada, p.fecha_devolucion, l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo
+    query_busqueda = (f"""select p.fecha_prestamo, p.fecha_entrega_estimada, p.fecha_devolucion, l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo
                     from Prestamos p
                     join Libros l on p.id_libro = l.id_libro
-                    join Estados e on p.id_estado = e.id_estado """)
-    
-    query_busqueda = query_busqueda + SQL_where_busqueda + SQL_where_estado
+                    join Estados e on p.id_estado = e.id_estado 
+                    {SQL_where_busqueda}{SQL_where_estado}
+                    limit {prestamos_por_pagina} offset {offset}""")
+
+    query.execute("Select Count(*) from prestamos where id_estado = 1") #Prestamos activos
+    prestamos_activos = query.fetchone()[0]
+
+    query.execute("Select Count(*) from prestamos where id_estado = 2") #Prestamos devueltos
+    prestamos_devueltos = query.fetchone()[0]
+
+    query.execute("Select Count(*) from prestamos where id_estado = 3") #Prestamos vencidos
+    prestamos_vencidos = query.fetchone()[0]
 
     query.execute(query_busqueda)
     prestamos = query.fetchall()
@@ -543,7 +572,8 @@ def buscar_prestamo():
     query.close()
     conexion.close()
 
-    return render_template("prestamos.html",prestamos=prestamos,estados=estados,pagina=pagina,total_paginas=total_paginas)
+    return render_template("prestamos.html",prestamos=prestamos,estados=estados,pagina=pagina,total_paginas=total_paginas,busqueda=busqueda,filtro_busqueda=filtro_busqueda,
+                           prestamos_activos=prestamos_activos,prestamos_devueltos=prestamos_devueltos,prestamos_vencidos=prestamos_vencidos)
 
 # ----------------------------------------------------- Devolver Prestamo ----------------------------------------------------- #
 
@@ -597,6 +627,9 @@ def eliminar_prestamo():
 
 @app.route("/registro_prestamos", methods=["GET", "POST"])
 def registro_prestamos():
+    if "usuario" not in session:
+        return redirect("/") #Solo se puede acceder con session iniciada
+    
     conexion = conexion_BD()
     query = conexion.cursor()
 
@@ -651,10 +684,7 @@ def registro_prestamos():
             #? Guardar cambios
             conexion.commit()  
 
-            # Guardar cambios
-            conexion.commit()
-
-            registro_exitoso = True
+            registro_exitoso = "Prestamo registrado exitosamente."
 
             return render_template("registro_prestamos.html", registro_exitoso=registro_exitoso)
             
@@ -671,6 +701,9 @@ def registro_prestamos():
 
 @app.route("/registrar_usuarios", methods=["GET", "POST"])
 def registrar_usuarios():
+    if "usuario" not in session:
+        return redirect("/") #Solo se puede acceder con session iniciada
+    
     conexion = conexion_BD()
     query = conexion.cursor()
 
@@ -693,8 +726,14 @@ def registrar_usuarios():
             #? Guardar cambios
             conexion.commit()  
             
+            registro_exitoso = "El usuario se registro exitosamente."
+            return render_template("registro_usuarios.html",roles=roles,registro_exitoso=registro_exitoso)
+            
+
         except Exception as e:
             print(f"Error: {e}")
+            error = "Error al ingresar el nuevo usuario"
+            return render_template("registro_usuarios.html",roles=roles,error=error)
         finally:
             query.close()
             conexion.close()
@@ -706,6 +745,9 @@ def registrar_usuarios():
 
 @app.route("/usuarios",methods = ["POST","GET"])
 def usuarios():
+    if "usuario" not in session:
+        return redirect("/") #Solo se puede acceder con session iniciada
+    
     conexion = conexion_BD()
     query = conexion.cursor()
 
@@ -735,10 +777,13 @@ def eliminar_usuario():
 
     return redirect("/usuarios")
 
-# ----------------------------------------------------- BUSCAR LIBROS ----------------------------------------------------- #
+# ----------------------------------------------------- BUSCAR Usuarios ----------------------------------------------------- #
 
 @app.route("/buscar_usuario",methods = ["POST"])
 def buscar_usuario():
+    if "usuario" not in session:
+        return redirect("/") #Solo se puede acceder con session iniciada
+    
     conexion = conexion_BD()
     query = conexion.cursor()
 

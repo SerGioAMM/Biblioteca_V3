@@ -69,9 +69,9 @@
 
                 <button id="btn-registrar-prestamo" type="submit">Registrar prestamo</button>
                 {% if (error) %}
-                    <label id="error-libro" for="error">{{error}}</label>
+                    <label id="error" for="error">{{error}}</label>
                 {% elif (registro_exitoso)  %}
-                    <label id="prestamo-exitoso" for="registro_exitoso">Prestamo registrado exitosamente</label>
+                    <label id="exito" for="registro_exitoso">Prestamo registrado exitosamente</label>
                 {% endif %}
             </form>
 

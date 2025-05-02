@@ -32,3 +32,65 @@
     background-color: rgba(0, 0, 0, 0.294);
     margin-left: 2%;
 }
+
+/*? Tarjeta de informacion general */
+
+.barra-lateral span{
+    padding: 10px;
+    color: #efefef;
+    text-decoration: none;
+    display: block;
+    font-size: 1.4rem;
+    transition: 0.2s ease-in-out;
+    border-radius: 5px;
+    
+}
+
+.conteo-prestamos{
+    margin-top: 3rem;
+    box-shadow: inset 0px 0px 50px 20px rgba(0, 0, 0, 0.57);
+    border-radius: 5px;
+}
+
+#azul{
+    background-color: rgb(182, 209, 245);
+    color: rgb(31,65,175);
+    border: solid 1px rgb(72, 152, 250);
+    width: 1%;
+    height: 1%;
+    display: inline-block;
+}
+#verde{
+    background-color: rgb(200, 255, 200);
+    color: rgb(0, 87, 0);
+    border: solid 1px green;
+    width: 1%;
+    height: 1%;
+    display: inline-block;
+}
+#rojo{
+    background-color: rgb(255, 64, 64);
+    color: rgb(161, 0, 0);
+    border: solid 1px red;
+    width: 2%;
+    height: 1%;
+    display: inline-block;
+}
+
+/*
+#p-activo{
+    background-color: rgb(223,233,246);
+    color: rgb(31,65,175);
+    border: solid 1px rgb(72, 152, 250);
+}
+#p-vencido{
+    background-color: rgb(255, 200, 200);
+    color: rgb(161, 0, 0);
+    border: solid 1px red;
+}
+#p-devuelto{
+    background-color: rgb(200, 255, 200);
+    color: rgb(0, 87, 0);
+    border: solid 1px green;
+}
+*/
