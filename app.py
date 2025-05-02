@@ -17,6 +17,7 @@ app.secret_key = "234_Clav3-Ant1H4ck3r$_1"
 def inicio():
     #TODO: Idea descartada, Libros destacados, donde el libro que se presta aparecia como destacado
 
+
     return render_template("index.html")
 
 # ----------------------------------------------------- LOGOUT ----------------------------------------------------- #
@@ -414,7 +415,7 @@ def sugerencias_prestamo():
 
     query.execute("""select l.titulo || ' (' || p.nombre || ' ' || p.apellido || ')' 
                     from prestamos p
-                    join libros l on l.id = p.id_libro;
+                    join libros l on l.id_libro = p.id_libro;
                     """)
     sugerencia = query.fetchall()
 
