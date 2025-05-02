@@ -19,6 +19,45 @@
     </header>
     <main>
 
+        {% if ((session["rol"]) == "Administrador") or ((session["rol"]) == "Bibliotecario") %}
+        <section class="barra-lateral fondo-cristal">
+            <h2>Administracion</h2>
+            <h4>Usuario: <br>
+            {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
+            <nav>
+                <a href="{{ url_for('prestamos') }}" id="pagina-actual">Prestamos </a>
+                <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
+                <a href="{{ url_for('libros') }}">Catalogo </a>
+                <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
+                {% if session["rol"] == "Administrador" %}
+                <a href="{{ url_for('usuarios') }}">Usuarios</a>
+                <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
+                {% endif %}
+                
+                <div class="conteo-prestamos">
+                    <span>
+                        <strong>Prestamos</strong>
+                    </span>
+                    <span> 
+                        <span id="azul"> </span>&nbsp;Activos:&nbsp;
+                        {{prestamos_activos}}
+                        <br><br>
+                    </span><!-- Conteo de Prestamos Activos  -->
+                    <span>
+                        <span id="verde"> </span>&nbsp;Devueltos:&nbsp;
+                        {{prestamos_devueltos}}
+                        <br><br>
+                    </span>
+                    <span> 
+                        <span id="rojo"> </span>&nbsp;Vencidos:&nbsp;
+                        {{prestamos_vencidos}}
+                        <br><br>
+                    </span>
+                </div>
+            </nav>
+        </section>
+        {% endif %}
+
         <div class="div-busqueda">
             <form class="frm-prestamos" action="/buscar_prestamo" method="GET">
                 <label for="buscar_prestamo"><h1>Gestión de Préstamos</h1>Administra los préstamos de libros, registra nuevos y gestiona devoluciones.</label><br><br><br>
@@ -84,48 +123,6 @@
                 </ul>
             </form>
         </div>
-        
-        <section class="barra-lateral fondo-cristal">
-            <h2>Administracion</h2>
-            <h4>Usuario: <br>
-            {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
-            <nav>
-                
-                <a href="{{ url_for('prestamos') }}" id="pagina-actual">Prestamos </a>
-                <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
-                <a href="{{ url_for('libros') }}">Catalogo </a>
-                <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
-                {% if session["rol"] == "Administrador" %}
-                <a href="{{ url_for('usuarios') }}">Usuarios</a>
-                <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
-                {% endif %}
-                
-                <div class="conteo-prestamos">
-                    <span>
-                        <strong>Prestamos</strong>
-                    </span>
-                    <span> 
-                        <span id="azul"> </span>&nbsp;Activos:&nbsp;
-                        {{prestamos_activos}}
-                        <br><br>
-                    </span><!-- Conteo de Prestamos Activos  -->
-                    <span>
-                        <span id="verde"> </span>&nbsp;Devueltos:&nbsp;
-                        {{prestamos_devueltos}}
-                        <br><br>
-                    </span>
-                    <span> 
-                        <span id="rojo"> </span>&nbsp;Vencidos:&nbsp;
-                        {{prestamos_vencidos}}
-                        <br><br>
-                    </span>
-                </div>
-                    
-
-            </nav>
-            
-        </section>
-
         
         <div class="contendor-prestamos">
 

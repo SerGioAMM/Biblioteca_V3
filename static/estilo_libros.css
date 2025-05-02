@@ -56,55 +56,55 @@ main{
     margin-left: 5px;
 }
 
-/* Colores de la notacion deacuerdo a su seccion*/
+/* Colores de la notacion deacuerdo a su seccion */
 #h2-seccion-0 {
-    background-color: #fef3c7;
-    color: #b98e45;
+    background-color: #e0e0e0;
+    color: #4a4a4a;
 }
 
 #h2-seccion-1 {
-    background-color: #e3d0ff;
-    color: #7a55c6;
+    background-color: #2b2b2b;
+    color: #ffffff;
 }
 
 #h2-seccion-2 {
-    background-color: #ffe0cc; 
-    color: #c05e1c;
+    background-color: #ffdab3; 
+    color: #c25e00;
 }
 
 #h2-seccion-3 {
-    background-color: #d0f0ff; 
-    color: #1e88a8;
+    background-color: #d2b48c; 
+    color: #5c3a1a;
 }
 
 #h2-seccion-4 {
-    background-color: #ffddee;
-    color: #c02b6b;
+    background-color: #fff9c4;
+    color: #bba200;
 }
 
 #h2-seccion-5 {
-    background-color: #fff3c0; 
-    color: #a28200;
+    background-color: #d4edc9; 
+    color: #3a7736;
 }
 
 #h2-seccion-6 {
-    background-color: #d8e7d2;
-    color: #507c4a;
+    background-color: #ffcdd2;
+    color: #b71c1c;
 }
 
 #h2-seccion-7 {
-    background-color: #cce0f4;
-    color: #3b5c8c;
+    background-color: #e1bee7;
+    color: #6a1b9a;
 }
 
 #h2-seccion-8 {
-    background-color: #f9d5f2;
-    color: #994ba7;
+    background-color: #f8bbd0;
+    color: #880e4f;
 }
 
 #h2-seccion-9 {
-    background-color: #ddd6f6;
-    color: #695aa7;
+    background-color: #bbdefb;
+    color: #0d47a1;
 }
 
 /*? Textos que muestran la informacion de los libros */
@@ -152,63 +152,63 @@ main{
 
 /* Colores de las diferentes secciones */
 #h4-seccion-0 {
-    background-color: #fef3c7;
-    color: #785137;
-    border: solid 1px #92400e;
+    background-color: #f5f5f5;
+    color: #4a4a4a;
+    border: solid 1px #9e9e9e;
 }
 
 #h4-seccion-1 {
-    background-color: white;
-    color: #5a3e96;
-    border: solid 1px #c8aef1;
+    background-color: #1c1c1c;
+    color: #ffffff;
+    border: solid 1px #333333;
 }
 
 #h4-seccion-2 {
-    background-color: white;
-    color: #a3521c;
-    border: solid 1px #f2b78c;
+    background-color: #fff3e0;
+    color: #bf360c;
+    border: solid 1px #ffcc80;
 }
 
 #h4-seccion-3 {
-    background-color: white;
-    color: #1e88a8;
-    border: solid 1px #9cd4e8;
+    background-color: #f5e1c3;
+    color: #5d4037;
+    border: solid 1px #a1887f;
 }
 
 #h4-seccion-4 {
-    background-color: white;
-    color: #9f2459;
-    border: solid 1px #f3a9c8;
+    background-color: #fffde7;
+    color: #f9a825;
+    border: solid 1px #fff176;
 }
 
 #h4-seccion-5 {
-    background-color: white;
-    color: #8d7102;
-    border: solid 1px #e5d280;
+    background-color: #e8f5e9;
+    color: #388e3c;
+    border: solid 1px #a5d6a7;
 }
 
 #h4-seccion-6 {
-    background-color: white;
-    color: #487143;
-    border: solid 1px #a4c5a0;
+    background-color: #ffcdd2;
+    color: #b71c1c;
+    border: solid 1px #ef9a9a;
 }
 
 #h4-seccion-7 {
-    background-color: white;
-    color: #324d76;
-    border: solid 1px #a0c0e3;
+    background-color: #f3e5f5;
+    color: #6a1b9a;
+    border: solid 1px #ce93d8;
 }
 
 #h4-seccion-8 {
-    background-color: white;
-    color: #7a3c85;
-    border: solid 1px #e6a8df;
+    background-color: #fce4ec;
+    color: #ad1457;
+    border: solid 1px #f48fb1;
 }
 
 #h4-seccion-9 {
-    background-color: white;
-    color: #564989;
-    border: solid 1px #bcb0e2;
+    background-color: #e3f2fd;
+    color: #1565c0;
+    border: solid 1px #90caf9;
 }
 
 /*? Textos que muestran la disponibilidad de los libros */
@@ -370,9 +370,6 @@ form select{
         width: 20px;
     }
 
-    .barra-lateral {
-        display: none; /* Oculta la barra lateral para móviles */
-    }
 
     .contendor-catalogo {
         display: flex;
@@ -462,6 +459,7 @@ form select{
     }
 
     .frm-buscar {
+
         display: block;
         flex-direction: column;
         gap: 1rem;
@@ -503,9 +501,6 @@ form select{
         width: 20px;
     }
 
-    .barra-lateral {
-        display: none; /* Oculta la barra lateral para móviles */
-    }
 
     .contendor-catalogo {
         display: flex;

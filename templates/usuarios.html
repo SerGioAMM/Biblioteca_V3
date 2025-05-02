@@ -19,6 +19,26 @@
     </header>
     <main>
 
+        {% if ((session["rol"]) == "Administrador") or ((session["rol"]) == "Bibliotecario") %}
+        <section class="barra-lateral fondo-cristal">
+            <h2>Administracion</h2>
+            <h4>Usuario: <br>
+            {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
+            <nav>
+                
+                <a href="{{ url_for('prestamos') }}">Prestamos </a>
+                <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
+                <a href="{{ url_for('libros') }}">Catalogo </a>
+                <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
+                {% if session["rol"] == "Administrador" %}
+                <a href="{{ url_for('usuarios') }}" id="pagina-actual">Usuarios</a>
+                <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
+                {% endif %}
+                
+            </nav>
+        </section>
+        {% endif %}
+
         <div class="div-busqueda">
             <form class="frm-usuarios" action="/buscar_usuario" method="POST">
                 <label for="buscar_usuario"><h1>Gestión de Usuarios</h1>Administra los usuarios del sistema existentes.</label><br><br><br>
@@ -44,24 +64,6 @@
 
             </form>
         </div>
-        
-        <section class="barra-lateral fondo-cristal">
-            <h2>Administracion</h2>
-            <h4>Usuario: <br>
-            {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
-            <nav>
-                
-                <a href="{{ url_for('prestamos') }}">Prestamos </a>
-                <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
-                <a href="{{ url_for('libros') }}">Catalogo </a>
-                <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
-                {% if session["rol"] == "Administrador" %}
-                <a href="{{ url_for('usuarios') }}" id="pagina-actual">Usuarios</a>
-                <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
-                {% endif %}
-                
-            </nav>
-        </section>
 
         <div class="contendor-usuarios">
             

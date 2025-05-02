@@ -18,9 +18,32 @@
             {% else %}
                 <a href="{{ url_for('inicio') }}">Inicio</a>
             {% endif %}
+            
         </div>
     </header>
     <main>
+
+        {% if ((session["rol"]) == "Administrador") or ((session["rol"]) == "Bibliotecario") %}
+        <section class="barra-lateral fondo-cristal">
+            <h2>Administracion</h2>
+            <h4>Usuario: <br>
+            {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
+            <nav>
+                <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
+                <a href="{{ url_for('prestamos') }}">Prestamos </a>
+                <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
+                <a href="{{ url_for('libros') }}" id="pagina-actual">Catalogo </a>
+                <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
+                {% if session["rol"] == "Administrador" %}
+                <a href="{{ url_for('usuarios') }}">Usuarios</a>
+                <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
+                {% endif %}
+            
+            </nav>
+        </section>
+        <button class="boton-lateral fondo-cristal">Menu</button>
+        {% endif %}
+
         <div class="div-busqueda">
             <form class="frm-buscar" action="/buscar_libro" method="GET">
                 <label for="buscar"><h1>Catalogo de Libros</h1>Explora nuestra colección de libros y encuentra tu próxima lectura.</label><br><br><br>
@@ -73,27 +96,6 @@
                 </ul>
             </form>
         </div>
-
-        {% if ((session["rol"]) == "Administrador") or ((session["rol"]) == "Bibliotecario") %}
-        <section class="barra-lateral fondo-cristal">
-            <h2>Administracion</h2>
-            <h4>Usuario: <br>
-            {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
-            <nav>
-                
-                <a href="{{ url_for('prestamos') }}">Prestamos </a>
-                <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
-                <a href="{{ url_for('libros') }}" id="pagina-actual">Catalogo </a>
-                <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
-                {% if session["rol"] == "Administrador" %}
-                <a href="{{ url_for('usuarios') }}">Usuarios</a>
-                <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
-                {% endif %}
-            
-            </nav>
-        </section>
-        {% endif %}
-        
 
         <div class="contendor-catalogo">
             {% for libro in libros%}

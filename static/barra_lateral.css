@@ -1,3 +1,14 @@
+.boton-lateral,.boton-lateral-cerrar{
+    color: #efefef;
+    background-color: red;
+    position: absolute;
+    top: 10%;
+    left: 1%;
+    font-size: 1.1rem;
+    padding: 12px;
+    display: none;
+}
+
 .barra-lateral{
     position: absolute;
     width: 15%;
@@ -17,6 +28,9 @@
     font-size: 1.4rem;
     transition: 0.2s ease-in-out;
     border-radius: 5px;
+}
+.boton-lateral:hover{
+    background-color: rgba(0, 0, 0, 0.294);
 }
 
 .barra-lateral nav a:hover{
@@ -77,20 +91,43 @@
     display: inline-block;
 }
 
-/*
-#p-activo{
-    background-color: rgb(223,233,246);
-    color: rgb(31,65,175);
-    border: solid 1px rgb(72, 152, 250);
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+    .barra-lateral {
+        position:absolute;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 89%;
+        left: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        align-items: center;
+        padding: 10px 20px;
+        z-index: 100;
+        box-shadow: 0px 0px 0 600vmax rgba(0, 0, 0, 0.227) !important;
+        opacity: 0;
+        visibility: hidden;
+    }
+    .barra-lateral-visible{
+        opacity: 1;
+        visibility: visible;
+    }
+    .boton-lateral{
+        display: initial;
+    }
+    
+    .barra-lateral nav {
+        flex-direction: column;
+        width: 100%;
+
+    }
+    .barra-lateral:hover nav{
+        display: initial;
+    }
+
+    .barra-lateral nav a {
+        width: 100%;
+    }
 }
-#p-vencido{
-    background-color: rgb(255, 200, 200);
-    color: rgb(161, 0, 0);
-    border: solid 1px red;
-}
-#p-devuelto{
-    background-color: rgb(200, 255, 200);
-    color: rgb(0, 87, 0);
-    border: solid 1px green;
-}
-*/
