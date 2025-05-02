@@ -412,8 +412,10 @@ def sugerencias_prestamo():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    query.execute("""select concat(l.titulo,' (',p.nombre,' ',p.apellido,')') from prestamos p 
-                  join Libros l on p.id_libro = l.id_libro""")
+    query.execute("""select l.titulo || ' (' || p.nombre || ' ' || p.apellido || ')' 
+                    from prestamos p
+                    join libros l on l.id = p.id_libro;
+                    """)
     sugerencia = query.fetchall()
 
     query.close()
