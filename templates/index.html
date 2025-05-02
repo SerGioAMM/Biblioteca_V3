@@ -25,7 +25,81 @@
                 <a id="btn-catalogo" href="{{ url_for('libros') }}"> Explora nuestro catalogo </a>
             </div>
         </section>
-
+    <!-- SECCION LIBROS DESTACADOS -->
+    <section class="seccion-libros-destacados">
+        <h1 class="h1-titulo">Libros destacados</h1>
+        <!--select l.id_libro,count(l.id_libro) as cantidad, n.notacion, l.Titulo, a.nombre_autor, 
+        a.apellido_autor, l.ano_publicacion, sd.codigo_seccion, sd.seccion, l.numero_copias-->
+        <div class="div-contenedor-libros-destacados">
+            {% for libro in libros_destacados %}
+            <div class="div-libro-destacado">
+            
+                <span class="span-notacion" 
+                    {% if (libro[7]|int) < 100 %}
+                        id="h2-seccion-0"
+                    {% elif (libro[7]|int) < 200 %}
+                        id="h2-seccion-1"
+                    {% elif (libro[7]|int) < 300 %}
+                        id="h2-seccion-2"
+                    {% elif (libro[7]|int) < 400 %}
+                        id="h2-seccion-3"
+                    {% elif (libro[7]|int) < 500 %}
+                        id="h2-seccion-4"
+                    {% elif (libro[7]|int) < 600 %}
+                        id="h2-seccion-5"
+                    {% elif (libro[7]|int) < 700 %}
+                        id="h2-seccion-6"
+                    {% elif (libro[7]|int) < 800 %}
+                        id="h2-seccion-7"
+                    {% elif (libro[7]|int) < 900 %}
+                        id="h2-seccion-8"
+                    {% else %}
+                        id="h2-seccion-9"
+                    {% endif %} > 
+                    <h2>{{libro[2]}}</h2> 
+                </span><!-- Notacion  -->
+                
+                <span id="span-info-libro-d"> 
+                    <h2>{{libro[3]}}</h2> <!-- Titulo  --> 
+                    <h3>{{libro[4]}}&nbsp;{{libro[5]}} <!-- Nombre y apellido del autor  -->
+                    {{libro[6]}} </h3> <!-- Anio de publicacion  -->
+                    
+                    <h5
+                        {% if (libro[7]|int) < 100 %}
+                            id="h4-seccion-0"
+                        {% elif (libro[7]|int) < 200 %}
+                            id="h4-seccion-1"
+                        {% elif (libro[7]|int) < 300 %}
+                            id="h4-seccion-2"
+                        {% elif (libro[7]|int) < 400 %}
+                            id="h4-seccion-3"
+                        {% elif (libro[7]|int) < 500 %}
+                            id="h4-seccion-4"
+                        {% elif (libro[7]|int) < 600 %}
+                            id="h4-seccion-5"
+                        {% elif (libro[7]|int) < 700 %}
+                            id="h4-seccion-6"
+                        {% elif (libro[7]|int) < 800 %}
+                            id="h4-seccion-7"
+                        {% elif (libro[7]|int) < 900 %}
+                            id="h4-seccion-8"
+                        {% else %}
+                            id="h4-seccion-9"
+                        {% endif %} >
+                        {{libro[7]}} - {{libro[8]}} 
+                    </h5> <!-- Codigo de seccion + seccion  --> 
+                </span>
+                {% if libro[9]|int == 1 %}
+                <span id="span-disponibilidad-libro-d"> <h4 id="h4-disponible">Disponible: {{libro[9]}} copia</h4></span>
+                {% elif libro[9]|int > 1 %}
+                <span id="span-disponibilidad-libro-d"> <h4 id="h4-disponible">Disponible: {{libro[9]}} copias</h4></span>
+                {% else %}
+                <span id="span-disponibilidad-libro-d"> <h4 id="h4-no_disponible">No disponible</h4></span>
+                {% endif %}
+            </div>
+            {% endfor %}
+    </div>
+    </section>
         <!-- SECCION Servicios -->
         <section class="seccion-servicios">
             <h1 class="h1-titulo">Eventos</h1>

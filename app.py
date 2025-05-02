@@ -16,9 +16,25 @@ app.secret_key = "234_Clav3-Ant1H4ck3r$_1"
 @app.route("/", methods=["GET", "POST"])
 def inicio():
     #TODO: Idea descartada, Libros destacados, donde el libro que se presta aparecia como destacado
+    conexion = conexion_BD()
+    query = conexion.cursor()
+    
+    query.execute("""select l.id_libro,count(l.id_libro) as cantidad, n.notacion, l.Titulo, a.nombre_autor, a.apellido_autor, l.ano_publicacion, sd.codigo_seccion, sd.seccion, l.numero_copias
+                    from Prestamos p
+					join libros l on p.id_libro = l.id_libro
+                    join RegistroLibros r ON r.id_libro = l.id_libro
+                    join SistemaDewey sd ON sd.codigo_seccion = r.codigo_seccion 
+                    join notaciones n ON n.id_notacion = r.id_notacion
+                    join Autores a ON a.id_autor = n.id_autor
+                    group by p.id_libro
+                    order by cantidad desc
+                    limit 4;""")
+    libros_destacados = query.fetchall()
 
+    query.close()
+    conexion.close()
 
-    return render_template("index.html")
+    return render_template("index.html",libros_destacados=libros_destacados)
 
 # ----------------------------------------------------- LOGOUT ----------------------------------------------------- #
 
@@ -217,7 +233,7 @@ def libros():
     offset = (pagina - 1) * libros_por_pagina
 
     # Consulta para contar todos los libros
-    query.execute("SELECT COUNT(*) FROM Libros")
+    query.execute("select count(*) from Libros")
     total_libros = query.fetchone()[0]
     total_paginas = math.ceil(total_libros / libros_por_pagina)
 
@@ -227,12 +243,12 @@ def libros():
     query.execute("""
         select l.id_libro, Titulo, tomo, ano_publicacion, ISBN, numero_paginas, numero_copias,
                sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor, e.editorial, n.notacion
-        from Libros AS l
-        join RegistroLibros AS r ON r.id_libro = l.id_libro
-        join SistemaDewey AS sd ON sd.codigo_seccion = r.codigo_seccion 
-        join notaciones AS n ON n.id_notacion = r.id_notacion
-        join Autores AS a ON a.id_autor = n.id_autor
-        join Editoriales AS e ON e.id_editorial = n.id_editorial
+        from Libros l
+        join RegistroLibros r ON r.id_libro = l.id_libro
+        join SistemaDewey sd ON sd.codigo_seccion = r.codigo_seccion 
+        join notaciones n ON n.id_notacion = r.id_notacion
+        join Autores a ON a.id_autor = n.id_autor
+        join Editoriales e ON e.id_editorial = n.id_editorial
         LIMIT ? OFFSET ?
     """, (libros_por_pagina, offset))
     libros = query.fetchall()
