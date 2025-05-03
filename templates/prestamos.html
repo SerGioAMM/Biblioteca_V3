@@ -25,6 +25,7 @@
             <h4>Usuario: <br>
             {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
             <nav>
+                <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
                 <a href="{{ url_for('prestamos') }}" id="pagina-actual">Prestamos </a>
                 <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
                 <a href="{{ url_for('libros') }}">Catalogo </a>
@@ -56,6 +57,7 @@
                 </div>
             </nav>
         </section>
+        <button class="boton-lateral fondo-cristal">Menu</button>
         {% endif %}
 
         <div class="div-busqueda">
@@ -213,5 +215,6 @@
     </main>
 
     <script src="/static/js/sugerencias.js"></script>
+    <script src="/static/js/menu.js"></script>
 </body>
 </html>

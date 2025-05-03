@@ -178,5 +178,24 @@ h1 {
     background-color: #00000098;
 }
 
+@media (max-width: 768px) {
+    .navbar a{
+        font-size: 1.2rem;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+
+    }
+    .navbar nav{
+        display: flex;
+        padding: 10px;
+        width: 60%;
+    }
+    #btn-catalogo{
+        position: absolute;
+        left: 15%;
+        top: 70%;
+    }
+}
 
 
