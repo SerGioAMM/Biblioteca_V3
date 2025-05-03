@@ -442,11 +442,12 @@ form select{
         padding-left: 1rem;
         font-size: 0.9rem;
     }
+    /*
     .frm-eliminar-libro{
         position: absolute;
         right: 4rem;
         bottom: -10rem;
-    }
+    }*/
 }
 @media (max-width: 480px) {
     body {
@@ -575,7 +576,7 @@ form select{
     }
     .frm-eliminar-libro{
         position: absolute;
-        right: 1rem;
-        bottom: -10rem;
+        right: 2%;
+        top: 6rem;
     }
 }

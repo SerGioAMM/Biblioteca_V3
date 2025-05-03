@@ -403,7 +403,7 @@ def sugerencias_autores():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    query.execute("select concat(nombre_autor,' ',apellido_autor) as NombreCompleto from autores;")
+    query.execute("select DISTINCT (nombre_autor || ' ' || apellido_autor) as NombreCompleto from autores;")
     sugerencia = query.fetchall()
 
     query.close()
@@ -445,7 +445,7 @@ def sugerencias_lector():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    query.execute("""select DISTINCT concat(nombre,' ',apellido) from prestamos;""")
+    query.execute("""select DISTINCT (nombre || ' ' || apellido) from prestamos;""")
     sugerencia = query.fetchall()
 
     query.close()
