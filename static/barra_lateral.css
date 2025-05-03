@@ -8,6 +8,9 @@
     padding: 12px;
     display: none;
 }
+.boton-lateral-cerrar{
+    top: 1%;
+}
 
 .barra-lateral{
     position: absolute;
@@ -115,6 +118,9 @@
         visibility: visible;
     }
     .boton-lateral{
+        display: initial;
+    }
+    .boton-lateral-visible{
         display: initial;
     }
     

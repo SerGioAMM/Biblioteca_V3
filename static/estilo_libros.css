@@ -432,10 +432,11 @@ form select{
         height: 20px;
 
     }
+    /*
     #h4-disponible{
         position: absolute;
         bottom: -11rem;
-    }
+    }*/
 
     ul.ul-contenedor-sugerencias {
         padding-left: 1rem;
@@ -564,9 +565,8 @@ form select{
 
     }
     #h4-disponible,#h4-no_disponible{
-        position: absolute;
-        bottom: -11rem;
-        margin-right: 30px;
+        position: relative;
+        top: 5rem;
     }
 
     ul.ul-contenedor-sugerencias {
