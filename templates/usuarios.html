@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuarios</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo_usuarios.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='filtros.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
 
 </head>
 <body>
@@ -25,7 +25,7 @@
             <h4>Usuario: <br>
             {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
             <nav>
-                
+                <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
                 <a href="{{ url_for('prestamos') }}">Prestamos </a>
                 <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
                 <a href="{{ url_for('libros') }}">Catalogo </a>
@@ -37,6 +37,7 @@
                 
             </nav>
         </section>
+        <button class="boton-lateral fondo-cristal">Menu</button>
         {% endif %}
 
         <div class="div-busqueda">
@@ -107,5 +108,6 @@
     </main>
 
     <script src="/static/js/sugerencias.js"></script>
+    <script src="/static/js/menu.js"></script>
 </body>
 </html>

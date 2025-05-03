@@ -18,38 +18,42 @@ main{
     display: block;
     position: relative;
     width: 45%;
-    height: 100%; /*! Corregir altura del contenedor porque tiene un bug en su html*/
-    top: 40%;
+    height: auto; /*! Corregir altura del contenedor porque tiene un bug en su html*/
+    top: 32%;
+    z-index: 0;
+    margin: 2rem auto;
 }
 .div-acciones-usuarios{
     display: flex;
-    gap: 5%;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
 
 }
 
-/*? Contenedor que tiene los datos del libro*/
+/*? Tarjeta que tiene los datos del libro*/
 .usuario{
     background-color: rgba(255, 255, 255, 0.721);
     backdrop-filter: blur(10px);
     display: flex;
-    position: relative;
-    top: 5%;
+    flex-wrap: wrap;
     width: 100%;
-    height: 14%;
+    height: 20%;
     border-radius: 10px;
-    margin-bottom: .6rem;
+    margin-bottom: .8rem;
     color: #4a4a4a;
     transition: 0.3s ease-in-out;
-}
 
+}
+/*
 #span-informacion-usuario{
     width: 25%;
-}
+}*/
 
 .span-rol{
     position: relative;
     display: flex;
-    width: 20%;
+    width: 25%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -62,19 +66,19 @@ main{
 /*? Textos que muestran la informacion de los usuarios */
 #span-info-usuarios{
     position: relative;
-    width: 30%;
     display: flex;
-
+    width: 20%;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
     
     
 }
 
 #span-info-usuarios h3{
-    margin-top: 30px;
-    margin-left: 5%;
-    position: absolute;
+    margin: 0;
+    font-size: 1.1rem;
 }
 #span-info-usuarios h4{
     margin-left: 5%;
@@ -85,6 +89,7 @@ main{
     padding: 5px;
     font-size: 14px;
 }
+
 
 .h4-datos-usuario{
     background-color: rgba(255, 255, 255, 0.252);
@@ -99,7 +104,7 @@ main{
 /*? Textos que muestran la disponibilidad de los libros */
 #span-acciones-usuario{
     position: relative;
-    width: 25%;
+    width: 20%;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     display: flex;
@@ -139,6 +144,16 @@ main{
 }
 
 /*? Estilos de Busqueda*/
+.div-busqueda{
+    text-align: center;
+    position: absolute;
+    top: 5rem;
+    height: auto;
+    width: 60%;
+    padding: 15px;
+    border-radius: 4px;
+}
+
 form select, form input {
     padding: 10px;
     font-size: 1rem;
@@ -152,15 +167,6 @@ form select{
     height: 3rem;
 }
 
-.div-busqueda{
-    text-align: center;
-    position: absolute;
-    top: 5rem;
-    height: auto;
-    width: 60%;
-    padding: 15px;
-    border-radius: 4px;
-}
 
 .frm-buscar{
     display: inline;
@@ -174,4 +180,86 @@ form select{
 /*? Eliminar usuario */
 .frm-eliminar-usuario input{
     display: none;
+}
+
+
+/*? Media Queries para responsividad */
+@media (max-width: 768px) {
+    .contendor-usuarios{
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        margin: 2rem 1rem;
+        height: auto;
+        top: 62%;
+        width: 80%;
+    }
+    .usuario {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .span-rol,
+    #span-info-usuarios,
+    #span-acciones-usuario {
+        width: 100%;
+        text-align: center;
+    }
+    .span-rol{
+        border-bottom-left-radius: 0px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+
+    }
+
+    #span-info-usuarios h3,
+    #span-info-usuarios h4 {
+        position: static;
+        margin-left: 0;
+    }
+
+    .div-busqueda {
+        padding: 1rem;
+    }
+
+    .frm-usuarios {
+        display: block;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .frm-usuarios label h1 {
+        font-size: 1.4rem;
+    }
+
+    .buscar-usuario,
+    #btn-buscar,
+    select,
+    #cuadro-busqueda {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+    .menu-filtros{
+        position: absolute;
+        margin-top: 80px;
+    }
+
+    .menu-filtros nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .div-acciones-usuarios {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .contendor-usuarios{
+        top: 90%;
+    }
 }

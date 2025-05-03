@@ -18,7 +18,7 @@ main{
     display: block;
     position: absolute;
     width: 60%;
-    height: 150%;
+    height: auto;
     top: 45%;
     z-index: 0;
 }
@@ -376,7 +376,7 @@ form select{
         flex-direction: column;
         gap: 1.2rem;
         margin: 2rem 1rem;
-        height: 490%;
+        height: auto;
         top: 62%;
         width: 80%;
 
@@ -432,22 +432,22 @@ form select{
         height: 20px;
 
     }
-    /*
-    #h4-disponible{
-        position: absolute;
-        bottom: -11rem;
-    }*/
+    
+    #h4-disponible,#h4-no_disponible{
+        position: relative;
+        top: 6rem;
+    }
 
     ul.ul-contenedor-sugerencias {
         padding-left: 1rem;
         font-size: 0.9rem;
     }
-    /*
+    
     .frm-eliminar-libro{
         position: absolute;
-        right: 4rem;
-        bottom: -10rem;
-    }*/
+        right: 12%;
+        top: 7rem;
+    }
 }
 @media (max-width: 480px) {
     body {
@@ -508,8 +508,8 @@ form select{
         flex-direction: column;
         gap: 1.2rem;
         margin: 2rem 1rem;
-        height: 490%;
-        top: 70%;
+        height: auto;
+        top: 72%;
         width: 80%;
 
     }

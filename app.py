@@ -284,7 +284,7 @@ def buscar_libro():
     if filtro_busqueda == "Titulo":
         SQL_where_busqueda = (f"where l.titulo like '%{busqueda}%'")
     else:
-        SQL_where_busqueda = (f"where concat(a.nombre_autor,' ',a.apellido_autor) like '%{busqueda}%'")
+        SQL_where_busqueda = (f"where (a.nombre_autor || ' ' || a.apellido_autor) like '%{busqueda}%'")
 
     if not Seccion or Seccion == "Todas":
         SQL_where_seccion = ""
