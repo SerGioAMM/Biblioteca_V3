@@ -368,12 +368,15 @@
     
 }
 @media (max-width: 480px) {
+    .seccion-libros-destacados a{
+        width: 98%;
+    }
     .div-libro-destacado{
-        width: 92%;
+        width: 100%;
         height: 22rem;
     }
     .span-notacion{
-        width: 95.2%;
+        width: 94.8%;
         border-radius: 10px 10px 0 0;
         justify-content: flex-start;
         padding-left: 1rem;
