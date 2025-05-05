@@ -19,12 +19,14 @@
         </div>
     </header>
     <main>
+
         <!-- SECCION PRINCIPAL -->
         <section class="seccion-principal">
             <div class="botones">
                 <a id="btn-catalogo" href="{{ url_for('libros') }}"> Explora nuestro catalogo </a>
             </div>
         </section>
+
     <!-- SECCION LIBROS DESTACADOS -->
     <section class="seccion-libros-destacados">
         <h1 class="h1-titulo">Libros destacados</h1>
@@ -61,9 +63,9 @@
                 </span><!-- Notacion  -->
                 
                 <span id="span-info-libro-d"> 
-                    <h2>{{libro[3]}}</h2> <!-- Titulo  --> 
-                    <h3>{{libro[4]}}&nbsp;{{libro[5]}} <!-- Nombre y apellido del autor  -->
-                    {{libro[6]}} </h3> <!-- Anio de publicacion  -->
+                    <h3>{{libro[3]}}</h3> <!-- Titulo  --> 
+                    <h4>{{libro[4]}}&nbsp;{{libro[5]}} <!-- Nombre y apellido del autor  -->
+                    {{libro[6]}} </h4> <!-- Anio de publicacion  -->
                     
                     <h5
                         {% if (libro[7]|int) < 100 %}
@@ -102,6 +104,7 @@
             {% endfor %}
     </div>
     </section>
+
         <!-- SECCION Servicios -->
         <section class="seccion-servicios">
             <h1 class="h1-titulo">Eventos</h1>

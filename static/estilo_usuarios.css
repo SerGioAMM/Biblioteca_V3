@@ -18,7 +18,7 @@ main{
     display: block;
     position: relative;
     width: 45%;
-    height: auto; /*! Corregir altura del contenedor porque tiene un bug en su html*/
+    height: auto;
     top: 32%;
     z-index: 0;
     margin: 2rem auto;
@@ -71,9 +71,6 @@ main{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
-    
-    
 }
 
 #span-info-usuarios h3{

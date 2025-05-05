@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>biblioteca</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo_prestamos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='filtros.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
 
 </head>
 <body>
@@ -148,8 +148,6 @@
                 <span id="span-info-prestamos"> 
                     <h2>{{prestamo[3]}}</h2> <!-- Titulo  --> 
                     <h3>Lector: {{prestamo[4]}}&nbsp;{{prestamo[5]}} <!-- Nombre y apellido del lector  --></h3> 
-                    
-                    
                 </span>
                 <span id="span-informacion-lector">
 
@@ -191,27 +189,27 @@
                 </span>
             </div>
             {% endfor %}
-
-            <div class="paginacion">
-                {% if pagina > 1 %} <!-- Verifica que la pagina actual sea despues de la primera, para mostrar un boton de "Anterior" -->
-                    <a href="{{ url_for('buscar_prestamo', page=pagina - 1, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Anterior</a> <!-- Este enlace lleva a la pagina anterior "pagina-1" -->
-                {% endif %}
+            <br><br><br><br>
             
-                {% for p in range(1, total_paginas + 1) %}
-                    {% if p == pagina %} <!-- Verifica cual es la pagina actual para aplicarle otro estilo -->
-                        <strong>{{ p }}</strong>
-                    {% else %} <!-- Genera todos los demas enlaces o "numeros de pagina", "[1],[2],[3]" -->
-                        <a href="{{ url_for('buscar_prestamo', page=p, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
-                    {% endif %}
-                {% endfor %}
-            
-                {% if pagina < total_paginas %} <!-- Verifica que la pagina actual no sea la ultima, para mostrar un boton de "Siguiente" -->
-                    <a href="{{ url_for('buscar_prestamo', page=pagina + 1, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Siguiente</a> <!-- Este enlace lleva a la pagina siguiente "pagina+1" -->
-                {% endif %}
-            </div> 
-
         </div>        
         
+        <div class="paginacion">
+            {% if pagina > 1 %} <!-- Verifica que la pagina actual sea despues de la primera, para mostrar un boton de "Anterior" -->
+                <a href="{{ url_for('buscar_prestamo', page=pagina - 1, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Anterior</a> <!-- Este enlace lleva a la pagina anterior "pagina-1" -->
+            {% endif %}
+        
+            {% for p in range(1, total_paginas + 1) %}
+                {% if p == pagina %} <!-- Verifica cual es la pagina actual para aplicarle otro estilo -->
+                    <strong>{{ p }}</strong>
+                {% else %} <!-- Genera todos los demas enlaces o "numeros de pagina", "[1],[2],[3]" -->
+                    <a href="{{ url_for('buscar_prestamo', page=p, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
+                {% endif %}
+            {% endfor %}
+        
+            {% if pagina < total_paginas %} <!-- Verifica que la pagina actual no sea la ultima, para mostrar un boton de "Siguiente" -->
+                <a href="{{ url_for('buscar_prestamo', page=pagina + 1, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Siguiente</a> <!-- Este enlace lleva a la pagina siguiente "pagina+1" -->
+            {% endif %}
+        </div> 
     </main>
 
     <script src="/static/js/sugerencias.js"></script>

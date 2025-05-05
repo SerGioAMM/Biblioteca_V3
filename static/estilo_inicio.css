@@ -41,12 +41,12 @@
     background-image: url("/static/img/estanterias\ -\ v6.jpg");
     background-size: cover;
     background-position: center;
-    height: 70vh;
+    height: 80vh;
     border-top: solid 5px gray;
     text-align: center;
 }
 .div-contenedor-libros-destacados{
-    display:flex;
+    display: flex;
     flex-direction: row;
     position: relative;
     height: 65%;
@@ -56,7 +56,7 @@
 .div-contenedor-libros-destacados a{
     display: flex;
     flex-direction: row;
-    margin-left: 80px;
+    margin-left: 30px;
     width: 22rem;
     height: 85%;
     text-decoration: none;
@@ -67,7 +67,7 @@
     background-color: rgba(255, 255, 255, 0.721);
     backdrop-filter: blur(10px);
     position: relative;
-    width: 100%;
+    width: 90%;
     border-radius: 10px;
     margin-bottom: .6rem;
     color: #4a4a4a;
@@ -265,5 +265,120 @@
 }
 
 @media (max-width: 768px) {
+    .seccion-libros-destacados{
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+    .seccion-libros-destacados a{
+        margin: 0;
+        display: initial;
+        width: 120%;
+    }
+
+    #span-info-libro-d {
+        width: 100%;
+
+    }
+
+    #span-disponibilidad-libro-d {
+        width: 105%;
+        min-width: unset;
+        border-radius: 0 0 10px 10px;
+        margin-top: 0.5rem;
+    }
+    .h4-datos-libro2 {
+        height: auto;
+    }
+    body {
+        background-size: cover;
+        background-position: center top;
+        overflow-x: hidden;
+    }
+    .div-contenedor-libros-destacados {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        margin: 2rem 1rem;
+        height: auto;
+        top: 62%;
+        width: 80%;
+
+    }
+
+    .div-libro-destacado {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.8rem;
+        height: 18rem;
+        width: 100%;
+
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        top: 0;
+        
+    }
+    .span-notacion{
+        width: 97.4%;
+        border-radius: 10px 10px 0 0;
+        justify-content: flex-start;
+        padding-left: 1rem;
+    }
+
+    .span-notacion h2 {
+        font-size: 1.2rem;
+    }
+    .h4-datos-libro2{
+        font-size: .90rem;
+        position: absolute;
+        width: 93%;
+        text-align: center;
+    }
+
+    #span-info-libro-d h3{
+        font-size: 1.3rem;
+        margin-left: 0;
+    }
+
+    #span-info-libro-d h4{
+        font-size: .95rem;
+        margin-top: 55px;
+    }
+    #span-info-libro-d h5,
+    #span-disponibilidad-libro-d {
+        font-size: 0.95rem;
+    }
+
+    #span-info-libro-d h5{
+        position: absolute;
+        right: 1rem;
+        top: -5.1rem;
+        height: 20px;
+    }
     
+    #h4-disponible,#h4-no_disponible{
+        position: absolute;
+        margin: auto;
+    }
+    h1{
+        font-size: 2rem !important;
+    }
+    
+}
+@media (max-width: 480px) {
+    .div-libro-destacado{
+        width: 92%;
+        height: 22rem;
+    }
+    .span-notacion{
+        width: 95.2%;
+        border-radius: 10px 10px 0 0;
+        justify-content: flex-start;
+        padding-left: 1rem;
+    }
+    #span-info-libro-d h5{
+        top: -5.4rem;
+    }
 }
