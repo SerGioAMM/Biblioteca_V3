@@ -93,7 +93,7 @@
                     </h4> <!-- Datos del usuario  --> 
                 </span>
                 <span id="span-acciones-usuario">                 
-                    {% if session["rol"] == 'Administrador' and usuario[5]|int != 1%}
+                    {% if session["rol"] == 'Administrador' and usuario[5]|int != 1 and session["usuario"] != usuario[2] %}
                         <form class="frm-eliminar-usuario" action="/eliminar_usuario" method="POST">
                             <input type="text" value="{{usuario[5]}}" name="id_usuario"> 
                             <button type="submit"> Eliminar </button>
