@@ -415,7 +415,7 @@ def sugerencias_libros_prestamos():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    query.execute("select titulo from libros where numero_copias > 0")
+    query.execute("select (titulo || '(' || ano_publicacion || ')') from libros where numero_copias > 0")
     sugerencia = query.fetchall()
 
     query.close()
@@ -512,6 +512,7 @@ def prestamos():
                     from Prestamos p
                     join Libros l on p.id_libro = l.id_libro
                     join Estados e on p.id_estado = e.id_estado
+                  order by e.id_estado desc
                   limit ? offset ?""",(prestamos_por_pagina,offset))
     prestamos = query.fetchall()
 
@@ -573,6 +574,7 @@ def buscar_prestamo():
                     join Libros l on p.id_libro = l.id_libro
                     join Estados e on p.id_estado = e.id_estado 
                     {SQL_where_busqueda}{SQL_where_estado}
+                    order by e.id_estado desc
                     limit {prestamos_por_pagina} offset {offset}""")
 
     query.execute("Select Count(*) from prestamos where id_estado = 1") #Prestamos activos
@@ -667,7 +669,7 @@ def registro_prestamos():
             
         try:
             # Verificar si el libro existe y tiene al menos 1 copia
-            query.execute("SELECT id_libro, numero_copias FROM Libros WHERE titulo = ?", (Libro,))
+            query.execute("SELECT id_libro, numero_copias FROM Libros WHERE (titulo || '(' || ano_publicacion || ')') = ?", (Libro,))
             libro_data = query.fetchone()
 
             if libro_data is None:

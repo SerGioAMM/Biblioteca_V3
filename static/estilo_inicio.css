@@ -51,13 +51,14 @@
     position: relative;
     height: 65%;
     top: 17%;
+
     
 }
 .div-contenedor-libros-destacados a{
     display: flex;
     flex-direction: row;
     margin-left: 30px;
-    width: 22rem;
+    width: 25%;
     height: 85%;
     text-decoration: none;
 }
@@ -263,8 +264,25 @@
     background-color: #bbdefb;
     color: #0d47a1;
 }
+.barra-lateral{
+    transition: .15s ease-in-out !important;
+}
+
+
+@media(min-width: 768px){
+    .barra-lateral{
+        visibility: hidden;
+        opacity: 0;
+        transition: .1s ease-in-out;
+    }
+
+}
 
 @media (max-width: 768px) {
+    .navbar nav{
+        visibility: hidden;
+        opacity: 0;
+    }
     .seccion-libros-destacados{
         display: flex;
         flex-direction: column;
@@ -321,7 +339,7 @@
         
     }
     .span-notacion{
-        width: 97.4%;
+        width: 96.8%;
         border-radius: 10px 10px 0 0;
         justify-content: flex-start;
         padding-left: 1rem;
@@ -374,6 +392,9 @@
     .div-libro-destacado{
         width: 100%;
         height: 22rem;
+    }
+    .div-contenedor-libros-destacados{
+        width: auto;
     }
     .span-notacion{
         width: 94.8%;

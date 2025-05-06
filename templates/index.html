@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Comunitaria</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo_inicio.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
 </head>
@@ -19,6 +20,16 @@
         </div>
     </header>
     <main>
+        <section class="barra-lateral fondo-cristal">
+            <nav>
+                <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
+                <br>
+                <a href="{{ url_for('login') }}">Iniciar como administrador</a>
+                <a href="{{ url_for('libros') }}">Catalogo </a>
+                <a href="#">Acerca de</a>
+            </nav>
+        </section>
+        <button class="boton-lateral fondo-cristal">Menu</button>
 
         <!-- SECCION PRINCIPAL -->
         <section class="seccion-principal">
@@ -118,6 +129,7 @@
     <footer>
 
     </footer>
+    <script src="/static/js/menu.js"></script>
     </body>
 </html>
 

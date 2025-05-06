@@ -166,11 +166,11 @@
                                 <input type="text" value="{{prestamo[10]}}" name="id_prestamo"> 
                                 <button type="submit">Devolver</button>
                             </form>
-                        </div>                          
+                                                
                     {% elif (prestamo[9]) == 'Devuelto' %}
                         <h4 id="p-devuelto">Devuelto</h4>
                         <div class="div-acciones-prestamo">
-                        </div>
+                        
                     {% elif (prestamo[9]) == 'Vencido' %}
                         <h4 id="p-vencido">Vencido</h4>
                         <div class="div-acciones-prestamo">
@@ -178,7 +178,7 @@
                                 <input type="text" value="{{prestamo[10]}}" name="id_prestamo"> 
                                 <button type="submit">Devolver</button>
                             </form>
-                        </div>
+                        
                     {% endif %}
                     
                     {% if session["rol"] == 'Administrador' %}
@@ -187,7 +187,7 @@
                             <button type="submit"> Eliminar </button>
                         </form>
                     {% endif %}
-                    
+                    </div>
                 </span>
             </div>
             {% endfor %}

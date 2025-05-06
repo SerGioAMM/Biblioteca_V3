@@ -118,6 +118,7 @@
         opacity: 1;
         visibility: visible;
         width: 89%;
+        height: auto;
     }
     .boton-lateral{
         display: initial;
