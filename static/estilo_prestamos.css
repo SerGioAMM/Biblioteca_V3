@@ -19,6 +19,7 @@ main{
     position: relative;
     width: 60%;
     height: auto;
+    min-height: 90%;
     top: 60%;
     z-index: 0;
     margin: 2rem auto;
