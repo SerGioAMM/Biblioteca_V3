@@ -269,7 +269,7 @@
 }
 
 
-@media(min-width: 768px){
+@media(min-width: 992px){
     .barra-lateral{
         visibility: hidden;
         opacity: 0;

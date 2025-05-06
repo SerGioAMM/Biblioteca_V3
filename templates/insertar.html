@@ -24,7 +24,7 @@
             <h4>Usuario: <br>
                 {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
             <nav>
-                
+                <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
                 <a href="{{ url_for('prestamos') }}">Prestamos </a>
                 <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
                 <a href="{{ url_for('libros') }}">Catalogo </a>
@@ -36,6 +36,7 @@
                 
             </nav>
         </section>
+        <button class="boton-lateral fondo-cristal">Menu</button>
         {% endif %}
 
         <h1 id="h1-titulo">Registrar nuevo libro</h1>
@@ -52,8 +53,8 @@
                 
                 <input type="text" name="titulo" placeholder="" autocomplete="off">
                 <span id="span-informacion-autor">
-                    <input type="text" name="nombre_autor" class="input-autor" placeholder="Nombre del autor" autocomplete="off">
-                    <input type="text" name="apellido_autor" class="input-autor" placeholder="Apellido del autor" autocomplete="off">
+                    <input type="text" name="nombre_autor" class="input-autor" placeholder="Nombre" autocomplete="off">
+                    <input type="text" name="apellido_autor" class="input-autor" placeholder="Apellido" autocomplete="off">
                 </span>
                 
                 <label for="ISBN">ISBN</label>
@@ -104,6 +105,7 @@
         </div>
     </main>
     <script src="{{ url_for('static', filename='js/sugerencias.js') }}"></script>
+    <script src="/static/js/menu.js"></script>
 </body>
 </html>
 

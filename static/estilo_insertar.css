@@ -7,7 +7,6 @@
     margin: 20px auto;
     width: 45%;
 
-    position: relative;
 }
 
 .formulario-insertar{
@@ -30,5 +29,88 @@
 #span-informacion-autor{
     display: grid;
     grid-template-columns: repeat(2,1fr);
+}
+
+
+@media (max-width: 768px) {
+    .div-container-insertar {
+        width: 80%;
+        padding: 15px;
+
+    }
+
+    .formulario-insertar {
+        grid-template-columns: repeat(2,1fr);
+        gap: 1rem;
+    }
+
+    #span-informacion-autor {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .formulario-insertar label {
+        font-size: .80rem;
+    }
+
+    .formulario-insertar input,
+    .formulario-insertar select {
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    #btn-registrar {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .ul-contenedor-sugerencias {
+        font-size: 0.9rem;
+        padding-left: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    main{
+        padding-top: 130px;
+        padding-bottom: 50px;
+    }
+    .div-container-insertar {
+        width: 85%;
+    }
+
+    .formulario-insertar {
+        gap: 10px;
+    }
+
+    .formulario-insertar label {
+        font-size: 0.85rem;
+    }
+
+    .formulario-insertar input,
+    .formulario-insertar select {
+        height: 2.5rem;
+    }
+    .formulario-insertar input{
+        width: 92%;
+    }
+    #span-informacion-autor input{
+        width: 87%;
+    }
+
+    #btn-registrar {
+        font-size: .9rem;
+        padding: 0.65rem;
+    }
+
+    #h1-titulo {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    #h5-nota {
+        font-size: 1rem;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
 }
 

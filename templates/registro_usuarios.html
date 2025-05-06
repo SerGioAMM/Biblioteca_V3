@@ -24,7 +24,7 @@
             <h4>Usuario: <br>
                 {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
             <nav>
-                
+                <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
                 <a href="{{ url_for('prestamos') }}">Prestamos </a>
                 <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
                 <a href="{{ url_for('libros') }}">Catalogo </a>
@@ -34,6 +34,7 @@
                 
             </nav>
         </section>
+        <button class="boton-lateral fondo-cristal">Menu</button>
         {% endif %}
 
         <h1 id="h1-titulo">Registrar nuevo usuario</h1>
@@ -70,6 +71,7 @@
             </form>
         </div>
     </main>
+    <script src="/static/js/menu.js"></script>
 </body>
 </html>
 

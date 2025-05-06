@@ -147,7 +147,11 @@ def insertar_libro():
         if editorial or ApellidoAutor or NombreAutor:
             for i in range (0,3): #Notacion es un arreglo, este for funciona para pasar ese arreglo a ser una variable
                 _notacion = _notacion + Notacion[i]
-            
+        
+        #Cuado no se ingresa un lugar de publicacion se ingresa un lugar vacio(id_lugar 1 = "-")
+        if LugarPublicacion=="":
+            LugarPublicacion = "-"
+
         try:
             #? INSERT DE LIBROS
             query.execute(f"Insert into Libros (Titulo,ano_publicacion,numero_paginas,isbn,tomo,numero_copias) values (?,?,?,?,?,?)",(Titulo,AnoPublicacion,NumeroPaginas,ISBN,tomo,NumeroCopias))
@@ -335,6 +339,7 @@ def buscar_libro():
 @app.route("/eliminar_libro", methods=["GET", "POST"])
 def eliminar_libro():
     id_libro = request.form["id_libro"]
+    motivo = request.form["motivo"]
 
     # Obtenre la fecha actual
     hoy = datetime.today().date()
@@ -343,7 +348,10 @@ def eliminar_libro():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    query.execute("insert into libros_eliminados(id_administrador,id_libro,fecha) values(?,?,?)",(id_administrador,id_libro,hoy))
+    query.execute("select titulo from libros where id_libro = ?",(id_libro,))
+    titulo_libro = query.fetchone()[0]
+
+    query.execute("insert into libros_eliminados(id_administrador,id_libro,fecha,titulo,motivo) values(?,?,?,?,?)",(id_administrador,id_libro,hoy,titulo_libro,motivo))
 
     query.execute("delete from libros where id_libro = ?",(id_libro,))
     conexion.commit()
@@ -482,7 +490,7 @@ def prestamos():
     # Buscar prestamos para verificar si estan vencidos
     query.execute("""select id_prestamo, fecha_entrega_estimada
                     from Prestamos
-                    where id_estado = 1""")  # Solo prestamos que esten activos (no revisaremos los que ya esten devueltos o vencidos)
+                    where id_estado = 2""")  # Solo prestamos que esten activos (no revisaremos los que ya esten devueltos o vencidos)
     prestamos_para_verificar = query.fetchall()
 
     #Verifica que si existan prestamos activos
@@ -492,9 +500,10 @@ def prestamos():
             id_prestamo = prestamo[0]
             fecha_entrega_estimada = datetime.strptime(prestamo[1], "%Y-%m-%d").date()
 
+        #Actualiza el estado de los prestamos a vencidos cuando se pasan dela fecha estimada de entrega
         if fecha_entrega_estimada < hoy:
             query.execute("""update Prestamos
-                            set id_estado = 3
+                            set id_estado = 1
                             where id_prestamo = ?""", (id_prestamo,))
             conexion.commit()  # Guardamos los cambios
     
@@ -515,15 +524,16 @@ def prestamos():
                   order by e.id_estado desc
                   limit ? offset ?""",(prestamos_por_pagina,offset))
     prestamos = query.fetchall()
+    
+    query.execute("Select Count(*) from prestamos where id_estado = 1") #Prestamos vencidos
+    prestamos_vencidos = query.fetchone()[0]
 
-    query.execute("Select Count(*) from prestamos where id_estado = 1") #Prestamos activos
+    query.execute("Select Count(*) from prestamos where id_estado = 2") #Prestamos activos
     prestamos_activos = query.fetchone()[0]
 
-    query.execute("Select Count(*) from prestamos where id_estado = 2") #Prestamos devueltos
+    query.execute("Select Count(*) from prestamos where id_estado = 3") #Prestamos devueltos
     prestamos_devueltos = query.fetchone()[0]
 
-    query.execute("Select Count(*) from prestamos where id_estado = 3") #Prestamos vencidos
-    prestamos_vencidos = query.fetchone()[0]
 
     query.close()
     conexion.close()
@@ -577,14 +587,14 @@ def buscar_prestamo():
                     order by e.id_estado desc
                     limit {prestamos_por_pagina} offset {offset}""")
 
-    query.execute("Select Count(*) from prestamos where id_estado = 1") #Prestamos activos
+    query.execute("Select Count(*) from prestamos where id_estado = 1") #Prestamos vencidos
+    prestamos_vencidos = query.fetchone()[0]
+
+    query.execute("Select Count(*) from prestamos where id_estado = 2") #Prestamos activos
     prestamos_activos = query.fetchone()[0]
 
-    query.execute("Select Count(*) from prestamos where id_estado = 2") #Prestamos devueltos
+    query.execute("Select Count(*) from prestamos where id_estado = 3") #Prestamos devueltos
     prestamos_devueltos = query.fetchone()[0]
-
-    query.execute("Select Count(*) from prestamos where id_estado = 3") #Prestamos vencidos
-    prestamos_vencidos = query.fetchone()[0]
 
     query.execute(query_busqueda)
     prestamos = query.fetchall()
@@ -609,7 +619,8 @@ def devolver_prestamo():
 
     query.execute("update prestamos set fecha_devolucion = (?) where id_prestamo = (?)",(hoy,id_prestamo,))
 
-    query.execute("update prestamos set id_estado = 2 where id_prestamo = (?)",(id_prestamo,))
+    #Pone el prestamo en estado 3 (devuelto)
+    query.execute("update prestamos set id_estado = 3 where id_prestamo = (?)",(id_prestamo,))
 
     query.execute("update libros set numero_copias = (numero_copias+1) where (select id_libro from prestamos where id_prestamo = ?)",(id_prestamo,))
     conexion.commit() #Guarda la actualizacion de estado del prestamo
@@ -625,6 +636,7 @@ def devolver_prestamo():
 @app.route("/eliminar_prestamo", methods=["GET", "POST"])
 def eliminar_prestamo():
     id_prestamo = request.form["id_prestamo"]
+    motivo = request.form["motivo"]
 
     # Obtenre la fecha actual
     hoy = datetime.today().date()
@@ -633,7 +645,13 @@ def eliminar_prestamo():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    query.execute("insert into prestamos_eliminados(id_administrador,id_prestamo,fecha) values(?,?,?)",(id_administrador,id_prestamo,hoy))
+    query.execute("select (nombre || ' ' || apellido) from prestamos where id_prestamo = ?",(id_prestamo,))
+    lector = query.fetchone()[0]
+
+    query.execute("select l.titulo from libros l join prestamos p on l.id_libro = p.id_libro where p.id_prestamo = ?",(id_prestamo,))
+    libro = query.fetchone()[0]
+
+    query.execute("insert into prestamos_eliminados(id_administrador,id_prestamo,fecha,nombre_lector,titulo,motivo) values(?,?,?,?,?,?)",(id_administrador,id_prestamo,hoy,lector,libro,motivo))
 
     query.execute("delete from prestamos where id_prestamo = ?",(id_prestamo,))
     conexion.commit()
@@ -665,7 +683,7 @@ def registro_prestamos():
         GradoEstudio = request.form["grado"]
         fecha_prestamo = request.form["fecha_prestamo"]
         fecha_entrega_estimada = request.form["fecha_entrega_estimada"]
-        Estado = 1 #Activo
+        Estado = 2 #Activo
             
         try:
             # Verificar si el libro existe y tiene al menos 1 copia

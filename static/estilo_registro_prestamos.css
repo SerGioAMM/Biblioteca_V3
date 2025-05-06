@@ -88,4 +88,98 @@ TEST FORMULARIO BLANCO
 .filtro{
     display: none;
 }
+@media (max-width: 768px) {
+    .div-container-registro-prestamos {
+        width: 80%;
+        padding: 15px;
+    }
+
+    .formulario-prestamo {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    #span-informacion-lector {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .formulario-prestamo label {
+        font-size: 0.80rem;
+    }
+
+    .formulario-prestamo input,
+    .formulario-prestamo select {
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    #btn-registrar {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .ul-contenedor-sugerencias {
+        font-size: 0.9rem;
+        padding-left: 1rem;
+        width: 100% !important;
+        top: auto !important;
+        position: static;
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        padding-top: 130px;
+        padding-bottom: 50px;
+    }
+
+    .div-container-registro-prestamos {
+        width: 85%;
+    }
+
+    .formulario-prestamo {
+        gap: 10px;
+    }
+
+    .formulario-prestamo label {
+        font-size: 0.85rem;
+    }
+
+    .formulario-prestamo input,
+    .formulario-prestamo select {
+        height: 2.5rem;
+    }
+
+    .formulario-prestamo input {
+        width: 92%;
+    }
+
+    #span-informacion-lector input {
+        width: 87%;
+    }
+
+    #btn-registrar {
+        font-size: 0.9rem;
+        padding: 0.65rem;
+        width: 100%;
+    }
+
+    #h1-titulo {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    #h5-nota {
+        font-size: 1rem;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .ul-contenedor-sugerencias {
+        font-size: 0.85rem;
+        width: 100% !important;
+        top: auto !important;
+        position: static;
+    }
+}
 

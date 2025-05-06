@@ -24,7 +24,7 @@
             <h4>Usuario: <br>
                 {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
             <nav>
-                
+                <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
                 <a href="{{ url_for('prestamos') }}">Prestamos </a>
                 <a href="{{ url_for('registro_prestamos') }}" id="pagina-actual">Registro Prestamos</a>
                 <a href="{{ url_for('libros') }}">Catalogo </a>
@@ -36,6 +36,7 @@
                 
             </nav>
         </section>
+        <button class="boton-lateral fondo-cristal">Menu</button>
         {% endif %}
 
         <h1 id="h1-titulo">Registrar nuevo prestamo</h1>
@@ -50,8 +51,8 @@
                 
                 <input type="text" name="DPI" placeholder="" required autocomplete="off" value="{{ DPI or '' }}">
                 <span id="span-informacion-lector">
-                    <input type="text" name="nombre_lector" placeholder="Nombre del lector" autocomplete="off" value="{{ nombre_lector or '' }}">
-                    <input type="text" name="apellido_lector" placeholder="Apellido del lector" autocomplete="off" value="{{ apellido_lector or '' }}">
+                    <input type="text" name="nombre_lector" placeholder="Nombre" autocomplete="off" value="{{ nombre_lector or '' }}">
+                    <input type="text" name="apellido_lector" placeholder="Apellido" autocomplete="off" value="{{ apellido_lector or '' }}">
                 </span>
                 
                 <label for="direccion">Direccion</label>
@@ -90,6 +91,7 @@
     </main>
     <script src="/static/js/sugerencias.js"></script>
     <script src="/static/js/obtener_fecha.js"></script>
+    <script src="/static/js/menu.js"></script>
 </body>
 </html>
 
