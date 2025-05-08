@@ -245,11 +245,11 @@ form select{
     }
 
     .span-fechas,
-    #span-info-prestamos,
-    .div-acciones-prestamo {
+    #span-info-prestamos{
         width: 100%;
         text-align: center;
     }
+
     .span-fechas{
         border-bottom-left-radius: 0px;
         border-top-left-radius: 10px;
@@ -304,8 +304,9 @@ form select{
         position: absolute;
         flex-direction: column;
         align-items: center;
-        right: -35%;
+        right: 5%;
         bottom: 4rem;
+        width: auto;
     }
     
 }

@@ -135,7 +135,7 @@ def insertar_libro():
         
         elif NombreAutor: #Para el extranio caso de que no exista ni editorial ni apellido de autor
             editorial = "Otros"
-            ApellidoAutor = "Otros"
+            ApellidoAutor = "-"
             Notacion = NombreAutor[0:3].upper() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres del nombre del autor
 
         else: #No se agrega ni autor ni editorial notacion va a ser "-"
@@ -885,8 +885,39 @@ def prestamos_eliminados():
 
     return render_template("prestamos_eliminados.html",prestamos_eliminados=prestamos_eliminados,pagina=pagina,total_paginas=total_paginas)
 
-    return render_template("prestamos.html",prestamos=prestamos,estados=estados,pagina=pagina,total_paginas=total_paginas,
-                           prestamos_activos=prestamos_activos,prestamos_devueltos=prestamos_devueltos,prestamos_vencidos=prestamos_vencidos)
+# ----------------------------------------------------- Libros Eliminados ----------------------------------------------------- #
+
+@app.route("/libros_eliminados",methods = ["POST","GET"])
+def libros_eliminados():
+    if "usuario" not in session:
+        return redirect("/") #Solo se puede acceder con session iniciada
+    
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    #Paginacion
+    pagina = request.args.get("page", 1, type=int) #Recibe el parametro de la URL llamado page
+    libros_por_pagina = 10
+    offset = (pagina - 1) * libros_por_pagina
+
+    # Consulta para contar todos los libros
+    query.execute("select count(*) from libros_eliminados")
+    total_libros = query.fetchone()[0]
+    total_paginas = math.ceil(total_libros / libros_por_pagina)
+    
+    query_busqueda = (f"""select a.usuario,r.rol,le.fecha,le.titulo,le.motivo from libros_eliminados le
+                        join Administradores a on le.id_administrador = a.id_administrador
+                        join roles r on a.id_rol =  r.id_rol
+                        limit {libros_por_pagina} offset {offset}""")
+
+    query.execute(query_busqueda)
+    libros_eliminados = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+
+    return render_template("libros_eliminados.html",libros_eliminados=libros_eliminados,pagina=pagina,total_paginas=total_paginas)
 
 # ----------------------------------------------------- APP ----------------------------------------------------- #
 

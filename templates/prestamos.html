@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>biblioteca</title>
+    <title>Prestamos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo_prestamos.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='filtros.css') }}">
@@ -33,6 +33,7 @@
                 {% if session["rol"] == "Administrador" %}
                 <a href="{{ url_for('usuarios') }}">Usuarios</a>
                 <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
+                <a href="{{ url_for('libros_eliminados') }}">Libros Eliminados</a>
                 <a href="{{ url_for('prestamos_eliminados') }}">Prestamos Eliminados</a>
                 {% endif %}
                 

@@ -269,7 +269,7 @@
 }
 
 
-@media(min-width: 992px){
+@media(min-width: 768px){
     .barra-lateral{
         visibility: hidden;
         opacity: 0;
@@ -317,7 +317,7 @@
         display: flex;
         flex-direction: column;
         gap: 1.2rem;
-        margin: 2rem 1rem;
+        margin: auto 5%;
         height: auto;
         top: 62%;
         width: 80%;
@@ -390,8 +390,8 @@
         width: 98%;
     }
     .div-libro-destacado{
-        width: 100%;
-        height: 22rem;
+        width: 102%;
+        height: 20rem;
     }
     .div-contenedor-libros-destacados{
         width: auto;

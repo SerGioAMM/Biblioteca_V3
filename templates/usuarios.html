@@ -33,6 +33,8 @@
                 {% if session["rol"] == "Administrador" %}
                 <a href="{{ url_for('usuarios') }}" id="pagina-actual">Usuarios</a>
                 <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
+                <a href="{{ url_for('libros_eliminados') }}">Libros Eliminados</a>
+                <a href="{{ url_for('prestamos_eliminados') }}">Prestamos Eliminados</a>
                 {% endif %}
                 
             </nav>

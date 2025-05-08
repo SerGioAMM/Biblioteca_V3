@@ -24,7 +24,10 @@ h1 {
 /*? Botones*/
 .botones {
     display: flex;
-    gap: 20px;    
+    position: absolute;
+    top: 70%; 
+    width: 100%;
+    justify-content: center;
 }
 
 #btn-registrar, #btn-buscar, #btn-catalogo, #btn-login, #btn-registrar-prestamo{
@@ -36,12 +39,6 @@ h1 {
     border: none;
     border-radius: 4px;
     transition: background-color 0.2s ease-in-out;
-}
-
-#btn-catalogo{
-    position: absolute;
-    left: 42%;
-    top: 70%;
 }
 
 #btn-registrar:hover, #btn-buscar:hover, #btn-catalogo:hover,#btn-login:hover, #btn-registrar-prestamo:hover{
@@ -190,12 +187,6 @@ h1 {
         display: flex;
         padding: 10px;
     }
-    #btn-catalogo{
-            position: absolute;
-            left: 35%;
-            top: 70%;
-            margin: auto;
-    }
 }
 @media (max-width: 480px) {
     .navbar a{
@@ -206,15 +197,10 @@ h1 {
 
     }
     .navbar nav{
-        display: flex;
-        padding: 10px;
-        width: 60%;
+        display: none;
+
     }
-    #btn-catalogo{
-        position: absolute;
-        left: 8%;
-        top: 70%;
-    }
+
 }
 
 
