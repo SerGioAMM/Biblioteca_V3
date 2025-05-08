@@ -363,9 +363,6 @@ def eliminar_libro():
 
 # ----------------------------------------------------- SUGERENCIAS DINAMICAS ----------------------------------------------------- #
 
-#TODO: Completar conforme a las sugerencias que faltan
-#? Aun no se si sugerir en la busqueda de libros
-
 @app.route("/sugerencias-lugares")
 def sugerencias_lugares():
     conexion = conexion_BD()
@@ -473,19 +470,66 @@ def sugerencias_usuarios():
 
     return jsonify([fila[0] for fila in sugerencia])
 
-# ----------------------------------------------------- PRESTAMOS ----------------------------------------------------- #
-
-@app.route("/prestamos",methods = ["GET","POST"])
-def prestamos():
-    if "usuario" not in session:
-        return redirect("/") #Solo se puede acceder con session iniciada
+@app.route("/sugerencias-prestamo-eliminado-administradores")
+def sugerencias_prestamo_eliminado_administradores():
     conexion = conexion_BD()
     query = conexion.cursor()
 
+    query.execute("""select DISTINCT a.usuario from administradores a
+                    join prestamos_eliminados pe on a.id_administrador = pe.id_administrador""")
+    sugerencia = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+    return jsonify([fila[0] for fila in sugerencia])
+
+@app.route("/sugerencias-prestamo-eliminado-libro")
+def sugerencias_prestamo_eliminado_libro():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("""select DISTINCT titulo from prestamos_eliminados""")
+    sugerencia = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+    return jsonify([fila[0] for fila in sugerencia])
+
+@app.route("/sugerencias-libro-eliminado-administradores")
+def sugerencias_libro_eliminado_administradores():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("""select DISTINCT a.usuario from administradores a
+                    join libros_eliminados le on a.id_administrador = le.id_administrador""")
+    sugerencia = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+    return jsonify([fila[0] for fila in sugerencia])
+
+@app.route("/sugerencias-libro-eliminado")
+def sugerencias_libro_eliminado():
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    query.execute("""select DISTINCT titulo from libros_eliminados""")
+    sugerencia = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+    return jsonify([fila[0] for fila in sugerencia])
+
+# ----------------------------------------------------- Verificar prestamos vencidos ----------------------------------------------------- #
+def verificar_vencidos():
+    conexion = conexion_BD()
+    query = conexion.cursor()
     # Obtenre la fecha actual
     hoy = datetime.today().date()
-
-    estados = request.args.get("estados", "Todos")
 
     # Buscar prestamos para verificar si estan vencidos
     query.execute("""select id_prestamo, fecha_entrega_estimada
@@ -500,13 +544,30 @@ def prestamos():
             id_prestamo = prestamo[0]
             fecha_entrega_estimada = datetime.strptime(prestamo[1], "%Y-%m-%d").date()
 
-        #Actualiza el estado de los prestamos a vencidos cuando se pasan dela fecha estimada de entrega
-        if fecha_entrega_estimada < hoy:
-            query.execute("""update Prestamos
-                            set id_estado = 1
-                            where id_prestamo = ?""", (id_prestamo,))
-            conexion.commit()  # Guardamos los cambios
-    
+            #Actualiza el estado de los prestamos a vencidos cuando se pasan dela fecha estimada de entrega
+            if fecha_entrega_estimada < hoy:
+                print("TEST ACTUALIZACION DE ESTADO")
+                query.execute("""update Prestamos
+                                set id_estado = 1
+                                where id_prestamo = ?""", (id_prestamo,)) #Establece estado vencido
+                conexion.commit()  # Guardamos los cambios
+    query.close()
+    conexion.close()
+
+
+# ----------------------------------------------------- PRESTAMOS ----------------------------------------------------- #
+
+@app.route("/prestamos",methods = ["GET","POST"])
+def prestamos():
+    if "usuario" not in session:
+        return redirect("/") #Solo se puede acceder con session iniciada
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    estados = request.args.get("estados", "Todos")
+
+    verificar_vencidos()
+
     #Paginacion
     pagina = request.args.get("page", 1, type=int) #Recibe el parametro de la URL llamado page
     prestamos_por_pagina = 7
@@ -522,7 +583,7 @@ def prestamos():
                     from Prestamos p
                     join Libros l on p.id_libro = l.id_libro
                     join Estados e on p.id_estado = e.id_estado
-                  order by e.id_estado desc
+                  order by e.id_estado asc
                   limit ? offset ?""",(prestamos_por_pagina,offset))
     prestamos = query.fetchall()
     
@@ -535,10 +596,8 @@ def prestamos():
     query.execute("Select Count(*) from prestamos where id_estado = 3") #Prestamos devueltos
     prestamos_devueltos = query.fetchone()[0]
 
-
     query.close()
     conexion.close()
-
 
     return render_template("prestamos.html",prestamos=prestamos,estados=estados,pagina=pagina,total_paginas=total_paginas,
                            prestamos_activos=prestamos_activos,prestamos_devueltos=prestamos_devueltos,prestamos_vencidos=prestamos_vencidos)
@@ -585,7 +644,7 @@ def buscar_prestamo():
                     join Libros l on p.id_libro = l.id_libro
                     join Estados e on p.id_estado = e.id_estado 
                     {SQL_where_busqueda}{SQL_where_estado}
-                    order by e.id_estado desc
+                    order by e.id_estado asc
                     limit {prestamos_por_pagina} offset {offset}""")
 
     query.execute("Select Count(*) from prestamos where id_estado = 1") #Prestamos vencidos
@@ -871,12 +930,13 @@ def prestamos_eliminados():
     total_prestamos = query.fetchone()[0]
     total_paginas = math.ceil(total_prestamos / prestamos_por_pagina)
     
-    query_busqueda = (f"""select a.usuario,r.rol,pe.fecha,pe.nombre_lector,pe.titulo,pe.motivo from prestamos_eliminados pe
+    _query = (f"""select a.usuario,r.rol,pe.fecha,pe.nombre_lector,pe.titulo,pe.motivo from prestamos_eliminados pe
                         join Administradores a on pe.id_administrador = a.id_administrador
                         join roles r on a.id_rol =  r.id_rol
+                        order by fecha desc
                         limit {prestamos_por_pagina} offset {offset}""")
 
-    query.execute(query_busqueda)
+    query.execute(_query)
     prestamos_eliminados = query.fetchall()
 
     query.close()
@@ -884,6 +944,50 @@ def prestamos_eliminados():
 
 
     return render_template("prestamos_eliminados.html",prestamos_eliminados=prestamos_eliminados,pagina=pagina,total_paginas=total_paginas)
+
+
+# ----------------------------------------------------- BUSCAR Prestamo Eliminado ----------------------------------------------------- #
+
+@app.route("/buscar_prestamo_eliminado", methods = ["GET"])
+def buscar_prestamo_eliminado():
+    if "usuario" not in session:
+        return redirect("/") #Solo se puede acceder con session iniciada
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    busqueda = request.args.get("buscar_prestamo_eliminado","")
+    #Obtiene los datos del formulario filtros en libros.html
+    filtro_busqueda = request.args.get("filtro-busqueda","Titulo")
+
+    if filtro_busqueda == "Titulo":
+        SQL_where_busqueda = (f" where pe.titulo like '%{busqueda}%'")
+    else:
+        SQL_where_busqueda = (f" where a.usuario = '{busqueda}'")
+
+    pagina = request.args.get("page", 1, type=int) #Recibe el parametro de la URL llamado page
+    prestamos_por_pagina = 10
+    offset = (pagina - 1) * prestamos_por_pagina
+
+    # Consulta para contar todos los prestamos conforme a la busqueda
+    query.execute(f"""select count(*) from prestamos_eliminados pe
+                        join administradores a on pe.id_administrador = a.id_administrador
+                        {SQL_where_busqueda}""")
+    total_prestamos_eliminados = query.fetchone()[0]
+    total_paginas = math.ceil(total_prestamos_eliminados / prestamos_por_pagina) #Calculo para cantidad de paginas, redondeando hacia arriba (ej, 2.1 = 3)
+
+    query_busqueda = (f"""select a.usuario,r.rol,pe.fecha,pe.nombre_lector,pe.titulo,pe.motivo from prestamos_eliminados pe
+                            join Administradores a on pe.id_administrador = a.id_administrador
+                            join roles r on a.id_rol =  r.id_rol
+                            {SQL_where_busqueda}
+                            limit {prestamos_por_pagina} offset {offset}""")
+
+    query.execute(query_busqueda)
+    prestamos_eliminados = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+    return render_template("prestamos_eliminados.html",prestamos_eliminados=prestamos_eliminados,pagina=pagina,total_paginas=total_paginas,busqueda=busqueda,filtro_busqueda=filtro_busqueda)
 
 # ----------------------------------------------------- Libros Eliminados ----------------------------------------------------- #
 
@@ -918,6 +1022,50 @@ def libros_eliminados():
 
 
     return render_template("libros_eliminados.html",libros_eliminados=libros_eliminados,pagina=pagina,total_paginas=total_paginas)
+
+# ----------------------------------------------------- Buscar Libro Eliminado ----------------------------------------------------- #
+
+@app.route("/buscar_libro_eliminado", methods = ["GET"])
+def buscar_libro_eliminado():
+    if "usuario" not in session:
+        return redirect("/") #Solo se puede acceder con session iniciada
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    busqueda = request.args.get("buscar_libro_eliminado","")
+    #Obtiene los datos del formulario filtros en libros.html
+    filtro_busqueda = request.args.get("filtro-busqueda","Titulo")
+
+    if filtro_busqueda == "Titulo":
+        SQL_where_busqueda = (f" where le.titulo like '%{busqueda}%'")
+    else:
+        SQL_where_busqueda = (f" where a.usuario = '{busqueda}'")
+
+    #Paginacion
+    pagina = request.args.get("page", 1, type=int) #Recibe el parametro de la URL llamado page
+    libros_por_pagina = 10
+    offset = (pagina - 1) * libros_por_pagina
+
+    # Consulta para contar todos los libros
+    query.execute("select count(*) from libros_eliminados")
+    total_libros = query.fetchone()[0]
+    total_paginas = math.ceil(total_libros / libros_por_pagina)
+    
+    query_busqueda = (f"""select a.usuario,r.rol,le.fecha,le.titulo,le.motivo from libros_eliminados le
+                        join Administradores a on le.id_administrador = a.id_administrador
+                        join roles r on a.id_rol =  r.id_rol
+                        {SQL_where_busqueda}
+                        limit {libros_por_pagina} offset {offset}""")
+
+    query.execute(query_busqueda)
+    libros_eliminados = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+
+    return render_template("libros_eliminados.html",libros_eliminados=libros_eliminados,pagina=pagina,total_paginas=total_paginas,busqueda=busqueda,filtro_busqueda=filtro_busqueda)
+
 
 # ----------------------------------------------------- APP ----------------------------------------------------- #
 

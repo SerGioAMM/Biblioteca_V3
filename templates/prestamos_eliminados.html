@@ -43,9 +43,9 @@
         {% endif %}
 
         <div class="div-busqueda">
-            <form class="frm-prestamos" action="/buscar_prestamo" method="GET">
-                <label for="buscar_prestamo"><h1>Gestión de Préstamos</h1>Administra los préstamos de libros, registra nuevos y gestiona devoluciones.</label><br><br><br>
-                <input class="buscar-prestamo" id="cuadro-busqueda" type="text" name="buscar_prestamo" autocomplete="off" placeholder="Buscar...">&nbsp;&nbsp;
+            <form class="frm-prestamos" action="/buscar_prestamo_eliminado" method="GET">
+                <label for="buscar_prestamo_eliminado"><h1>Préstamos Eliminados</h1>Ver quien elimino que prestamo y cual fue su motivo.</label><br><br><br>
+                <input class="buscar-prestamo-eliminado" id="cuadro-busqueda" type="text" name="buscar_prestamo_eliminado" autocomplete="off" placeholder="Buscar...">&nbsp;&nbsp;
                 
                 <section class="menu-filtros">
                     <nav>
@@ -59,11 +59,11 @@
                                     {% endif %}>
                                     Titulo
                                 </option>
-                                <option value="Lector" 
-                                    {% if filtro_busqueda == "Lector" %}
+                                <option value="Administrador" 
+                                    {% if filtro_busqueda == "Administrador" %}
                                         selected
                                     {% endif %}>
-                                    Lector
+                                    Usuario
                                 </option>
                             </select>
                         </section>
@@ -103,19 +103,21 @@
         
         <div class="paginacion">
             {% if pagina > 1 %} <!-- Verifica que la pagina actual sea despues de la primera, para mostrar un boton de "Anterior" -->
-                <a href="{{ url_for('buscar_prestamo', page=pagina - 1, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Anterior</a> <!-- Este enlace lleva a la pagina anterior "pagina-1" -->
+                <a href="{{ url_for('buscar_prestamo_eliminado', page=pagina - 1, buscar_prestamo_eliminado=busqueda, filtro_busqueda=filtro_busqueda) }}">Anterior</a> <!-- Este enlace lleva a la pagina anterior "pagina-1" -->
             {% endif %}
         
-            {% for p in range(1, total_paginas + 1) %}
-                {% if p == pagina %} <!-- Verifica cual es la pagina actual para aplicarle otro estilo -->
-                    <strong>{{ p }}</strong>
-                {% else %} <!-- Genera todos los demas enlaces o "numeros de pagina", "[1],[2],[3]" -->
-                    <a href="{{ url_for('buscar_prestamo', page=p, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
+            {% for p in range(pagina - 1, pagina + 2) %}
+                {% if 1 <= p <= total_paginas %}
+                    {% if p == pagina %}
+                        <strong>{{ p }}</strong>
+                    {% else %}
+                        <a href="{{ url_for('buscar_prestamo_eliminado', page=p, buscar_prestamo_eliminado=busqueda, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
+                    {% endif %}
                 {% endif %}
-            {% endfor %}
+            {% endfor %}    
         
             {% if pagina < total_paginas %} <!-- Verifica que la pagina actual no sea la ultima, para mostrar un boton de "Siguiente" -->
-                <a href="{{ url_for('buscar_prestamo', page=pagina + 1, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Siguiente</a> <!-- Este enlace lleva a la pagina siguiente "pagina+1" -->
+                <a href="{{ url_for('buscar_prestamo_eliminado', page=pagina + 1, buscar_prestamo_eliminado=busqueda, filtro_busqueda=filtro_busqueda) }}">Siguiente</a> <!-- Este enlace lleva a la pagina siguiente "pagina+1" -->
             {% endif %}
         </div> 
     </main>

@@ -193,7 +193,7 @@ form select{
         gap: 1.2rem;
         margin: 2rem 1rem;
         height: auto;
-        top: 56%;
+        top: 55%;
         width: 90%;
     }
     .usuario {
@@ -276,6 +276,6 @@ form select{
 
 @media (max-width: 480px) {
     .contendor-usuarios{
-        top: 75%;
+        top: 65%;
     }
 }

@@ -26,7 +26,7 @@ function seleccionar_Sugerencia(sug) {
   caja_sugerencias.innerHTML = '';
 }
 
-document.querySelectorAll('.input-lugar, .input-editorial, .buscar, .buscar-libro-prestamo, .buscar-prestamo, .buscar-usuario').forEach(input => {
+document.querySelectorAll('.input-lugar, .input-editorial, .buscar, .buscar-libro-prestamo, .buscar-prestamo, .buscar-usuario, .buscar-prestamo-eliminado, .buscar-libro-eliminado').forEach(input => {
   input.addEventListener('focus', () => {
     inputActivo = input;
     moverSugerencias(input);
@@ -71,10 +71,20 @@ document.querySelectorAll('.input-lugar, .input-editorial, .buscar, .buscar-libr
     else if(input.classList.contains('buscar-usuario')){
       endpoint = '/sugerencias-usuarios';
     }
-
-    /*else if (input.classList.contains('input-autor')) {
-      endpoint = '/sugerencias-autores';
-    }*/
+    else if(input.classList.contains('buscar-prestamo-eliminado')){
+      if(filtro.value == "Titulo"){
+        endpoint = '/sugerencias-prestamo-eliminado-libro';
+      }else if(filtro.value == "Administrador"){
+        endpoint = '/sugerencias-prestamo-eliminado-administradores';
+      }
+    }
+    else if(input.classList.contains('buscar-libro-eliminado')){
+      if(filtro.value == "Titulo"){
+        endpoint = '/sugerencias-libro-eliminado';
+      }else if(filtro.value == "Administrador"){
+        endpoint = '/sugerencias-libro-eliminado-administradores';
+      }
+    }
 
     fetch(endpoint)
       .then(r => r.json())

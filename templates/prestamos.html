@@ -206,13 +206,15 @@
                 <a href="{{ url_for('buscar_prestamo', page=pagina - 1, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Anterior</a> <!-- Este enlace lleva a la pagina anterior "pagina-1" -->
             {% endif %}
         
-            {% for p in range(1, total_paginas + 1) %}
-                {% if p == pagina %} <!-- Verifica cual es la pagina actual para aplicarle otro estilo -->
-                    <strong>{{ p }}</strong>
-                {% else %} <!-- Genera todos los demas enlaces o "numeros de pagina", "[1],[2],[3]" -->
-                    <a href="{{ url_for('buscar_prestamo', page=p, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
+            {% for p in range(pagina - 1, pagina + 2) %}
+                {% if 1 <= p <= total_paginas %}
+                    {% if p == pagina %} <!-- Verifica cual es la pagina actual para aplicarle otro estilo -->
+                        <strong>{{ p }}</strong>
+                    {% else %} <!-- Genera todos los demas enlaces o "numeros de pagina", "[1],[2],[3]" -->
+                        <a href="{{ url_for('buscar_prestamo', page=p, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
+                    {% endif %}
                 {% endif %}
-            {% endfor %}
+            {% endfor %}   
         
             {% if pagina < total_paginas %} <!-- Verifica que la pagina actual no sea la ultima, para mostrar un boton de "Siguiente" -->
                 <a href="{{ url_for('buscar_prestamo', page=pagina + 1, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Siguiente</a> <!-- Este enlace lleva a la pagina siguiente "pagina+1" -->

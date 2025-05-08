@@ -4,6 +4,7 @@
 
 #span-info-prestamos{
     padding-left: 5px;
+    max-width: 660px;
     width: auto;
     font-size: 120%;
     justify-content: flex-start;
@@ -11,7 +12,7 @@
 }
 .span-fechas{
     align-items: center;
-    width: 30%;
+    width: 25%;
     border-right: solid 1px #4a4a4a;
 }
 .span-fechas h2{
@@ -28,5 +29,10 @@
     }
     #span-info-prestamos{
         border-top: solid 1px #4a4a4a;
+    }
+}
+@media (max-width: 480px) {
+    .contendor-prestamos{
+        top: 65%;
     }
 }
