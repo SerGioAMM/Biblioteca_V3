@@ -507,6 +507,7 @@ def prestamos():
                             where id_prestamo = ?""", (id_prestamo,))
             conexion.commit()  # Guardamos los cambios
     
+    #Paginacion
     pagina = request.args.get("page", 1, type=int) #Recibe el parametro de la URL llamado page
     prestamos_por_pagina = 7
     offset = (pagina - 1) * prestamos_por_pagina
@@ -848,6 +849,44 @@ def buscar_usuario():
 
 
     return render_template("usuarios.html",usuarios=usuarios)
+
+
+# ----------------------------------------------------- Prestamos Eliminados ----------------------------------------------------- #
+
+@app.route("/prestamos_eliminados",methods = ["POST","GET"])
+def prestamos_eliminados():
+    if "usuario" not in session:
+        return redirect("/") #Solo se puede acceder con session iniciada
+    
+    conexion = conexion_BD()
+    query = conexion.cursor()
+
+    #Paginacion
+    pagina = request.args.get("page", 1, type=int) #Recibe el parametro de la URL llamado page
+    prestamos_por_pagina = 10
+    offset = (pagina - 1) * prestamos_por_pagina
+
+    # Consulta para contar todos los libros
+    query.execute("select count(*) from prestamos_eliminados")
+    total_prestamos = query.fetchone()[0]
+    total_paginas = math.ceil(total_prestamos / prestamos_por_pagina)
+    
+    query_busqueda = (f"""select a.usuario,r.rol,pe.fecha,pe.nombre_lector,pe.titulo,pe.motivo from prestamos_eliminados pe
+                        join Administradores a on pe.id_administrador = a.id_administrador
+                        join roles r on a.id_rol =  r.id_rol
+                        limit {prestamos_por_pagina} offset {offset}""")
+
+    query.execute(query_busqueda)
+    prestamos_eliminados = query.fetchall()
+
+    query.close()
+    conexion.close()
+
+
+    return render_template("prestamos_eliminados.html",prestamos_eliminados=prestamos_eliminados,pagina=pagina,total_paginas=total_paginas)
+
+    return render_template("prestamos.html",prestamos=prestamos,estados=estados,pagina=pagina,total_paginas=total_paginas,
+                           prestamos_activos=prestamos_activos,prestamos_devueltos=prestamos_devueltos,prestamos_vencidos=prestamos_vencidos)
 
 # ----------------------------------------------------- APP ----------------------------------------------------- #
 

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>biblioteca</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo_prestamos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='filtros.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo_prestamos_eliminados.css') }}">
+
+</head>
+<body>
+    <header>
+
+        <div class="navbar fondo-cristal">
+            <a href="{{ url_for('logout') }}">Cerrar sesion</a>
+        </div>
+    </header>
+    <main>
+
+        {% if ((session["rol"]) == "Administrador")%}
+        <section class="barra-lateral fondo-cristal">
+            <h2>Administracion</h2>
+            <h4>Usuario: <br>
+            {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
+            <nav>
+                <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
+                <a href="{{ url_for('prestamos') }}">Prestamos </a>
+                <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
+                <a href="{{ url_for('libros') }}">Catalogo </a>
+                <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
+                {% if session["rol"] == "Administrador" %}
+                <a href="{{ url_for('usuarios') }}">Usuarios</a>
+                <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
+                <a href="{{ url_for('prestamos_eliminados') }}" id="pagina-actual">Prestamos Eliminados</a>
+                {% endif %}
+                
+        </section>
+        <button class="boton-lateral fondo-cristal">Menu</button>
+        {% endif %}
+
+        <div class="div-busqueda">
+            <form class="frm-prestamos" action="/buscar_prestamo" method="GET">
+                <label for="buscar_prestamo"><h1>Gestión de Préstamos</h1>Administra los préstamos de libros, registra nuevos y gestiona devoluciones.</label><br><br><br>
+                <input class="buscar-prestamo" id="cuadro-busqueda" type="text" name="buscar_prestamo" autocomplete="off" placeholder="Buscar...">&nbsp;&nbsp;
+                
+                <section class="menu-filtros">
+                    <nav>
+                        <section>
+                            <h4> Buscar por: &nbsp;&nbsp;</h4>
+                            <select name="filtro-busqueda" id="filtro-busqueda">
+                                <!-- Estas decisiones sirven para guardar la seleccion de filtros -->
+                                <option value="Titulo" 
+                                    {% if filtro_busqueda == "Titulo" %}
+                                        selected
+                                    {% endif %}>
+                                    Titulo
+                                </option>
+                                <option value="Lector" 
+                                    {% if filtro_busqueda == "Lector" %}
+                                        selected
+                                    {% endif %}>
+                                    Lector
+                                </option>
+                            </select>
+                        </section>
+
+                    </nav>
+                </section>
+                
+                <button id="btn-buscar" type="submit">Buscar</button>
+
+                <ul class="ul-contenedor-sugerencias">
+                    <li>sugerencia 1</li>
+                </ul>
+            </form>
+        </div>
+        
+        <div class="contendor-prestamos">
+
+            {% for prestamo in prestamos_eliminados %}
+            <div class="prestamo">
+                
+                <span class="span-fechas"> 
+                    <h2>Fecha eliminacion: <br>{{prestamo[2]}}</h2>
+                </span><!-- Fecha  -->
+                
+                <span id="span-info-prestamos"> 
+                     <!-- Usuario  --> 
+                    <p> El <strong>{{prestamo[1]}}&nbsp;{{prestamo[0]}}</strong> eliminó un prestamo 
+                        del libro <strong>{{prestamo[4]}}</strong> con el lector <strong>{{prestamo[3]}}</strong>.<!-- Nombre del lector  -->
+                    <br><strong>Motivo: </strong>{{prestamo[5]}}</p> 
+                    <!--!Mover la fecha de eliminacion al lado derecho y reacomodar el parrafo-->
+                </span>
+            </div>
+            {% endfor %}
+            <br><br><br><br>
+            
+        </div>        
+        
+        <div class="paginacion">
+            {% if pagina > 1 %} <!-- Verifica que la pagina actual sea despues de la primera, para mostrar un boton de "Anterior" -->
+                <a href="{{ url_for('buscar_prestamo', page=pagina - 1, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Anterior</a> <!-- Este enlace lleva a la pagina anterior "pagina-1" -->
+            {% endif %}
+        
+            {% for p in range(1, total_paginas + 1) %}
+                {% if p == pagina %} <!-- Verifica cual es la pagina actual para aplicarle otro estilo -->
+                    <strong>{{ p }}</strong>
+                {% else %} <!-- Genera todos los demas enlaces o "numeros de pagina", "[1],[2],[3]" -->
+                    <a href="{{ url_for('buscar_prestamo', page=p, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
+                {% endif %}
+            {% endfor %}
+        
+            {% if pagina < total_paginas %} <!-- Verifica que la pagina actual no sea la ultima, para mostrar un boton de "Siguiente" -->
+                <a href="{{ url_for('buscar_prestamo', page=pagina + 1, buscar_prestamo=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Siguiente</a> <!-- Este enlace lleva a la pagina siguiente "pagina+1" -->
+            {% endif %}
+        </div> 
+    </main>
+
+    <script src="/static/js/sugerencias.js"></script>
+    <script src="/static/js/menu.js"></script>
+    <script src="/static/js/eliminar_item.js"></script>
+</body>
+</html>

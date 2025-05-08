@@ -180,16 +180,18 @@
                     {% else %}
                         <h4 id="h4-no_disponible">No disponible</h4>
                     {% endif %}
-                    {% if session["rol"] == 'Administrador' %}
-                    <form class="frm-eliminar-libro" action="/eliminar_libro" method="POST">
-                        <input type="text" value="{{libro[0]}}" name="id_libro"> 
-                        <button type="reset" class="btn-eliminacion"> Eliminar </button>
-                        <span class="motivo_eliminacion">
-                            <input type="text" placeholder="Escribe el motivo de la eliminacion del libro" name="motivo">
-                            <button type="submit">Confirmar eliminacion</button> <button type="reset" class="btn-cancelar-eliminacion">Cancelar</button>
-                        </span>
-                    </form>
-                    {% endif %}
+                    <span id="span-acciones-libro">
+                        {% if session["rol"] == 'Administrador' %}
+                        <form class="frm-eliminar-libro" action="/eliminar_libro" method="POST">
+                            <input type="text" value="{{libro[0]}}" name="id_libro"> 
+                            <button type="reset" class="btn-eliminacion"> Eliminar </button>
+                            <span class="motivo_eliminacion">
+                                <input type="text" placeholder="Escribe el motivo de la eliminacion del libro" name="motivo" required autocomplete="off">
+                                <button type="submit">Confirmar eliminacion</button> <button type="reset" class="btn-cancelar-eliminacion">Cancelar</button>
+                            </span>
+                        </form>
+                        {% endif %}
+                    </span>
                 </span>
             </div>
             {% endfor %}

@@ -120,10 +120,7 @@ TEST FORMULARIO BLANCO
 
     .ul-contenedor-sugerencias {
         font-size: 0.9rem;
-        padding-left: 1rem;
-        width: 100% !important;
-        top: auto !important;
-        position: static;
+
     }
 }
 
@@ -174,12 +171,10 @@ TEST FORMULARIO BLANCO
         text-align: center;
         margin-bottom: 1rem;
     }
-
     .ul-contenedor-sugerencias {
-        font-size: 0.85rem;
-        width: 100% !important;
-        top: auto !important;
-        position: static;
+        font-size: 0.77rem;
+
     }
+
 }
 

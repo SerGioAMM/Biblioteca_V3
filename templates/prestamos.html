@@ -33,6 +33,7 @@
                 {% if session["rol"] == "Administrador" %}
                 <a href="{{ url_for('usuarios') }}">Usuarios</a>
                 <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
+                <a href="{{ url_for('prestamos_eliminados') }}">Prestamos Eliminados</a>
                 {% endif %}
                 
                 <div class="conteo-prestamos">
@@ -186,7 +187,7 @@
                             <input type="text" value="{{prestamo[10]}}" name="id_prestamo"> 
                             <button type="reset" class="btn-eliminacion"> Eliminar </button>
                             <span class="motivo_eliminacion">
-                                <input type="text" placeholder="Escribe el motivo de la eliminacion del prestamo" name="motivo">
+                                <input type="text" placeholder="Escribe el motivo de la eliminacion del prestamo" name="motivo" required autocomplete="off">
                                 <button type="submit">Confirmar eliminacion</button> <button type="reset" class="btn-cancelar-eliminacion">Cancelar</button>
                             </span>
                         </form>
