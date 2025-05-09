@@ -128,17 +128,15 @@ def insertar_libro():
                 #if caracter == ' ':
                     #print("ESPACIO")
             Notacion = editorial[0:3].upper() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres de la editorial
-
         elif ApellidoAutor:
             editorial = "Otros"
             Notacion = ApellidoAutor[0:3].upper() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres del apellido autor
-        
         elif NombreAutor: #Para el extranio caso de que no exista ni editorial ni apellido de autor
             editorial = "Otros"
             ApellidoAutor = "-"
             Notacion = NombreAutor[0:3].upper() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres del nombre del autor
-
         else: #No se agrega ni autor ni editorial notacion va a ser "-"
+            print("TEST SIN EDITORIAL")
             editorial = "Otros"
             NombreAutor = "Otros"
             ApellidoAutor = "Otros"
