@@ -188,6 +188,13 @@ button a{
     text-decoration: none;
     color: black;
 }
+@media (max-width: 1024px) {
+    .contendor-usuarios{
+        width: auto;
+        top: 50%;
+    }
+    
+}
 
 
 /*? Media Queries para responsividad */

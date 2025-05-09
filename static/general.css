@@ -103,7 +103,7 @@ h1 {
     top: 0px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     border-left: none !important;
     border-right: none !important;
     

@@ -93,6 +93,18 @@
     height: 1%;
     display: inline-block;
 }
+@media (max-width: 1024px) {
+    .barra-lateral{
+        font-size: 80%;
+    }
+    .barra-lateral nav a{
+        font-size: 90%;
+    }
+    .barra-lateral div span{
+        font-size: 90%;
+    }
+
+}
 
 
 /* Responsividad para pantallas pequeñas */

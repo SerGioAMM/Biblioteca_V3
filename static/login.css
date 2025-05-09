@@ -24,3 +24,8 @@ h5{
     margin-bottom: 3px;
     font-size: 1.4rem;
 }
+
+.navbar{
+    align-items: center !important;
+    justify-content: space-between !important;
+}

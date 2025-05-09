@@ -267,6 +267,10 @@
 .barra-lateral{
     transition: .15s ease-in-out !important;
 }
+.navbar{
+    align-items: center !important;
+    justify-content: space-between !important;
+}
 
 
 @media(min-width: 768px){

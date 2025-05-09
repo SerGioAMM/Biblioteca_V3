@@ -223,6 +223,14 @@ form select{
     visibility: visible;
     opacity: 1;
 }
+@media (max-width: 1024px) {
+    .contendor-prestamos{
+        left: 10%;
+        width: 70%;
+        top: 60%;
+    }
+    
+}
 
 
 /*? Media Queries para responsividad */
@@ -236,6 +244,7 @@ form select{
         height: auto;
         top: 55%;
         width: 80%;
+        left: auto;
     }
     .prestamo {
         flex-direction: column;
