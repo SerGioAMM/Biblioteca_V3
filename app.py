@@ -98,8 +98,15 @@ def insertar_libro():
     query.execute("select codigo_seccion from RegistroLibros order by id_registro desc limit 1")
     select_seccion = query.fetchone()
 
-    query.execute("select * from SistemaDewey where SistemaDewey.codigo_seccion = (?)",(select_seccion[0],))
-    ultima_seccion = query.fetchall()
+    if not select_seccion:
+        ultima_seccion = "0"
+    else:
+        query.execute("""
+        select * from SistemaDewey 
+        where SistemaDewey.codigo_seccion = 
+        (?)""",(select_seccion[0],))
+        ultima_seccion = query.fetchall()
+        
 
     #Consulta para mostrar un listado de todas las secciones del Sistema Dewey
     query.execute("select * from SistemaDewey")
@@ -125,28 +132,25 @@ def insertar_libro():
         _notacion = ""
         if editorial:
             Notacion = editorial[0:3].upper() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres de la editorial
-            if editorial or ApellidoAutor or NombreAutor:
-                for i in range (0,3): #Notacion es un arreglo, este for funciona para pasar ese arreglo a ser una variable
-                    _notacion = _notacion + Notacion[i]
-        elif ApellidoAutor:
+        elif (ApellidoAutor) and not editorial:
             editorial = "Otros"
             Notacion = ApellidoAutor[0:3].upper() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres del apellido autor
-            if editorial or ApellidoAutor or NombreAutor:
-                for i in range (0,3): #Notacion es un arreglo, este for funciona para pasar ese arreglo a ser una variable
-                    _notacion = _notacion + Notacion[i]
-        elif NombreAutor: #Para el extranio caso de que no exista ni editorial ni apellido de autor
+        elif (NombreAutor) and not ApellidoAutor: #Para el extranio caso de que no exista ni editorial ni apellido de autor
             editorial = "Otros"
             ApellidoAutor = "-"
             Notacion = NombreAutor[0:3].upper() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres del nombre del autor
-            if editorial or ApellidoAutor or NombreAutor:
-                for i in range (0,3): #Notacion es un arreglo, este for funciona para pasar ese arreglo a ser una variable
-                    _notacion = _notacion + Notacion[i]
-        else: #No se agrega ni autor ni editorial notacion va a ser "-"
+        else: #No se agrega ni autor ni editorial notacion va a ser "OTR"
             editorial = "Otros"
             NombreAutor = "Otros"
             ApellidoAutor = "Otros"
-            _notacion = "OTR"
+            Notacion = "OTR"
 
+        #!Fallo en ingreso de notacion cuando no hay editorial
+
+        if editorial or ApellidoAutor or NombreAutor:
+            for i in range (0,3): #Notacion es un arreglo, este for funciona para pasar ese arreglo a ser una variable
+                _notacion = _notacion + Notacion[i]
+                print(_notacion)
 
         #Cuado no se ingresa un lugar de publicacion se ingresa un lugar vacio(id_lugar 1 = "-")
         if LugarPublicacion=="":
@@ -176,7 +180,7 @@ def insertar_libro():
 
             #? INSERT DE NOTACIONES
             #Si no existe insertar nuevo ya que columna notacion es UNIQUE
-            query.execute("Insert or ignore into notaciones (notacion,id_editorial,id_autor) values (?,?,?)",(_notacion,id_autor,id_editorial))
+            query.execute("Insert or ignore into notaciones (notacion,id_editorial,id_autor) values (?,?,?)",(_notacion,id_editorial,id_autor))
             query.execute("Select id_notacion from notaciones where notacion = (?)",(_notacion,))
             id_notacion = query.fetchone()[0]
 
@@ -191,12 +195,16 @@ def insertar_libro():
             #Si se ingresan por seccion no hace falta estar seleccionando nuevamente la seccion
             query.execute("select codigo_seccion from RegistroLibros order by id_registro desc limit 1")
             select_seccion = query.fetchone()
+            
+            if not select_seccion:
+                ultima_seccion = "0"
+            else:
+                query.execute("""
+                select * from SistemaDewey 
+                where SistemaDewey.codigo_seccion = 
+                (?)""",(select_seccion[0],))
+                ultima_seccion = query.fetchall()
 
-            query.execute("""
-            select * from SistemaDewey 
-            where SistemaDewey.codigo_seccion = 
-            (?)""",(select_seccion[0],))
-            ultima_seccion = query.fetchall()
             
             registro_exitoso = "Libro registrado exitosamente."
             return render_template("insertar.html", secciones = secciones, ultima_seccion = ultima_seccion, registro_exitoso=registro_exitoso) 
