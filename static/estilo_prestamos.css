@@ -223,13 +223,30 @@ form select{
     visibility: visible;
     opacity: 1;
 }
+
 @media (max-width: 1024px) {
+
     .contendor-prestamos{
-        left: 10%;
-        width: 70%;
+        left: 7%;
+        width: 75%;
         top: 60%;
     }
-    
+    .frm-prestamos label h1 {
+        font-size: 1.9rem;
+    }
+
+    .buscar,
+    #btn-buscar,
+    select,
+    #cuadro-busqueda {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+    .menu-filtros{
+        top: 80%;
+    }
+
 }
 
 

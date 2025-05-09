@@ -93,15 +93,16 @@
     height: 1%;
     display: inline-block;
 }
+
 @media (max-width: 1024px) {
     .barra-lateral{
-        font-size: 80%;
+        font-size: 85%;
     }
     .barra-lateral nav a{
-        font-size: 90%;
+        font-size: 95%;
     }
     .barra-lateral div span{
-        font-size: 90%;
+        font-size: 95%;
     }
 
 }
@@ -125,6 +126,15 @@
         opacity: 0;
         visibility: hidden;
         transition: .2s ease-in-out;
+    }
+    .barra-lateral{
+        font-size: 100%;
+    }
+    .barra-lateral nav a{
+        font-size: 120%;
+    }
+    .barra-lateral div span{
+        font-size: 120%;
     }
     .barra-lateral-visible{
         opacity: 1;

@@ -30,6 +30,17 @@
     display: grid;
     grid-template-columns: repeat(2,1fr);
 }
+@media (max-width: 1024px){
+    .div-container-insertar{
+        width: 50%;
+    }
+    .formulario-insertar{
+        width: 90%;
+    }
+    #span-informacion-autor input{
+        width: 87%;
+    }
+}
 
 
 @media (max-width: 768px) {
