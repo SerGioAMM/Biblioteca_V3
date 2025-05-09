@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, session
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session, send_file, abort
 from config import conexion_BD
 from datetime import datetime
 import math
@@ -142,7 +142,7 @@ def insertar_libro():
         else: #No se agrega ni autor ni editorial notacion va a ser "OTR"
             editorial = "Otros"
             NombreAutor = "Otros"
-            ApellidoAutor = "Otros"
+            ApellidoAutor = "-"
             Notacion = "OTR"
 
         #!Fallo en ingreso de notacion cuando no hay editorial
@@ -1074,6 +1074,15 @@ def buscar_libro_eliminado():
 
     return render_template("libros_eliminados.html",libros_eliminados=libros_eliminados,pagina=pagina,total_paginas=total_paginas,busqueda=busqueda,filtro_busqueda=filtro_busqueda)
 
+
+# ----------------------------------------------------- Descargar BD ----------------------------------------------------- #
+
+@app.route('/descargar-bd')
+def descargar_bd():
+    if ("usuario" not in session) or (session["rol"]  != 'Administrador'):
+        return redirect("/") #Solo se puede acceder con session iniciada
+
+    return send_file('Data/Biblioteca_GM.db', as_attachment=True)
 
 # ----------------------------------------------------- APP ----------------------------------------------------- #
 
