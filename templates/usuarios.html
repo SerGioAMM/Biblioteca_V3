@@ -100,7 +100,10 @@
                             <input type="text" value="{{usuario[5]}}" name="id_usuario"> 
                             <button type="submit"> Eliminar </button>
                         </form>
-
+                    {% elif (session["id_administrador"]) == 1 %}
+                        <button>
+                            <a href="{{ url_for('descargar_bd') }}">Descargar base de datos</a>
+                        </button>
                     {% endif %}
                 </span>
             </div>

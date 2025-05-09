@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, session
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session, send_file, abort
 from config import conexion_BD
 from datetime import datetime
 import math
@@ -1077,7 +1077,12 @@ def buscar_libro_eliminado():
 
 # ----------------------------------------------------- Descargar BD ----------------------------------------------------- #
 
+@app.route('/descargar-bd')
+def descargar_bd():
+    if ("usuario" not in session) or (session["rol"]  != 'Administrador'):
+        return redirect("/") #Solo se puede acceder con session iniciada
 
+    return send_file('Data/Biblioteca_GM.db', as_attachment=True)
 
 # ----------------------------------------------------- APP ----------------------------------------------------- #
 
