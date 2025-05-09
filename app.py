@@ -124,28 +124,30 @@ def insertar_libro():
         #Variable para guardar la notacion interna
         _notacion = ""
         if editorial:
-            #for caracter in editorial: #!TOMAR INICIALES DE EDITORIAL COMPUESTA
-                #if caracter == ' ':
-                    #print("ESPACIO")
             Notacion = editorial[0:3].upper() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres de la editorial
+            if editorial or ApellidoAutor or NombreAutor:
+                for i in range (0,3): #Notacion es un arreglo, este for funciona para pasar ese arreglo a ser una variable
+                    _notacion = _notacion + Notacion[i]
         elif ApellidoAutor:
             editorial = "Otros"
             Notacion = ApellidoAutor[0:3].upper() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres del apellido autor
+            if editorial or ApellidoAutor or NombreAutor:
+                for i in range (0,3): #Notacion es un arreglo, este for funciona para pasar ese arreglo a ser una variable
+                    _notacion = _notacion + Notacion[i]
         elif NombreAutor: #Para el extranio caso de que no exista ni editorial ni apellido de autor
             editorial = "Otros"
             ApellidoAutor = "-"
             Notacion = NombreAutor[0:3].upper() #string[inicio:fin:paso] // Para tomar los primeros 3 caracteres del nombre del autor
+            if editorial or ApellidoAutor or NombreAutor:
+                for i in range (0,3): #Notacion es un arreglo, este for funciona para pasar ese arreglo a ser una variable
+                    _notacion = _notacion + Notacion[i]
         else: #No se agrega ni autor ni editorial notacion va a ser "-"
-            print("TEST SIN EDITORIAL")
             editorial = "Otros"
             NombreAutor = "Otros"
             ApellidoAutor = "Otros"
             _notacion = "OTR"
 
-        if editorial or ApellidoAutor or NombreAutor:
-            for i in range (0,3): #Notacion es un arreglo, este for funciona para pasar ese arreglo a ser una variable
-                _notacion = _notacion + Notacion[i]
-        
+
         #Cuado no se ingresa un lugar de publicacion se ingresa un lugar vacio(id_lugar 1 = "-")
         if LugarPublicacion=="":
             LugarPublicacion = "-"
