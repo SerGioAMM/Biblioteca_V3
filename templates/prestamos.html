@@ -28,7 +28,7 @@
                 <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
                 <a href="{{ url_for('prestamos') }}" id="pagina-actual">Prestamos </a>
                 <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
-                <a href="{{ url_for('libros') }}">Catalogo </a>
+                <a href="{{ url_for('libros') }}">Catálogo de Libros </a>
                 <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
                 {% if session["rol"] == "Administrador" %}
                 <a href="{{ url_for('usuarios') }}">Usuarios</a>

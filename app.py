@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, session, send_file, abort
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session, send_file
 from config import conexion_BD
 from datetime import datetime
 import math
@@ -41,16 +41,6 @@ def inicio():
 @app.route("/logout")
 def logout():
     session.clear()
-
-    return redirect(url_for("inicio"))
-
-@app.route("/logout_commit")
-def logout_commit():
-    session.clear()
-
-    # Llama al commit
-    import git_commit
-    git_commit.hacer_commit()
 
     return redirect(url_for("inicio"))
 

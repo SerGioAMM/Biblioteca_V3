@@ -18,10 +18,10 @@
 }
 
 .seccion-actividades{
-    background-color:rgb(29, 79, 196);
+    background-color:#77190b;
     background-size: cover;
     background-position: center;
-    height: 60vh;
+    height: auto;
     border-top: solid 5px gray;
     text-align: center;
 }
@@ -273,6 +273,108 @@
 }
 
 
+
+.seccion-actividades {
+    background-color: #77190b;
+    background-size: cover;
+    background-position: center;
+    border-top: solid 5px gray;
+    text-align: center;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contenedor-actividades {
+    width: 90%;
+    margin: 5rem auto;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Cuadrícula de actividades */
+.cuadricula-actividades {
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    gap: 2.5rem;
+    margin-top: 1rem;
+}
+
+.tarjeta-actividad {
+    background-color: rgba(255, 255, 255, 0.889);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    height: 4rem;
+}
+
+.tarjeta-actividad:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.tarjeta-actividad h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+    text-align: center;
+}
+
+/* Etiquetas de categoría */
+.etiqueta {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.etiqueta-educativa {
+    background-color: rgba(29, 79, 196, 0.15);
+    color: rgb(29, 79, 196);
+}
+
+.etiqueta-recreativa {
+    background-color: rgba(76, 175, 80, 0.15);
+    color: rgb(76, 175, 80);
+}
+
+.etiqueta-social {
+    background-color: rgba(255, 152, 0, 0.15);
+    color: rgb(255, 152, 0);
+}
+
+.etiqueta-servicio {
+    background-color: rgba(156, 39, 176, 0.15);
+    color: rgb(156, 39, 176);
+}
+
+/* Iconos SVG simplificados */
+.icono-actividad i {
+    width: 28px;
+    height: 28px;
+    display: block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+
 @media(min-width: 768px){
     .barra-lateral{
         visibility: hidden;
@@ -387,6 +489,33 @@
     h1{
         font-size: 2rem !important;
     }
+        .seccion-actividades {
+        padding: 1.5rem 0;
+        height: auto;
+    }
+  
+    .contenedor-actividades {
+        width: 95%;
+        padding: 0.8rem;
+    }
+
+    .cuadricula-actividades {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+  
+    .tarjeta-actividad {
+        padding: 1.2rem 1rem;
+    }
+
+    .tarjeta-actividad h3 {
+        font-size: 1rem;
+    }
+  
+    .etiqueta {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.6rem;
+    }
     
 }
 @media (max-width: 480px) {
@@ -409,4 +538,22 @@
     #span-info-libro-d h5{
         top: -5.4rem;
     }
+        .contenedor-actividades {
+        width: 100%;
+        border-radius: 0;
+    }
+  
+    .cuadricula-actividades {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 0.8rem;
+    }
+  
+    .tarjeta-actividad {
+        padding: 1rem 0.8rem;
+    }
+    .etiqueta {
+        font-size: 0.6rem;
+        padding: 0.15rem 0.5rem;
+    }
 }
+
