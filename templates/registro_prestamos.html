@@ -48,29 +48,29 @@
         
             <form method="POST" action="/registro_prestamos" class="formulario-prestamo">
                 
-                <label for="DPI">DPI</label>
-                <label for="nombre_lector apellido_lector">Lector</label>
+                <label for="DPI">DPI*</label>
+                <label for="nombre_lector apellido_lector">Lector*</label>
                 
-                <input type="text" name="DPI" placeholder="" value="{{ DPI or '' }}" required autocomplete="off">
+                <input type="text" name="DPI" placeholder="" value="{{ DPI }}" required autocomplete="off">
                 <span id="span-informacion-lector">
-                    <input type="text" name="nombre_lector" placeholder="Nombre" value="{{ nombre_lector or '' }}" autocomplete="off">
-                    <input type="text" name="apellido_lector" placeholder="Apellido" value="{{ apellido_lector or '' }}" autocomplete="off">
+                    <input type="text" name="nombre_lector" placeholder="Nombre" value="{{ nombre_lector }}" autocomplete="off" required>
+                    <input type="text" name="apellido_lector" placeholder="Apellido" value="{{ apellido_lector }}" autocomplete="off" required>
                 </span>
                 
-                <label for="direccion">Direccion</label>
+                <label for="direccion">Direccion*</label>
                 <label for="num_telefono">Numero de Telefono</label>
-                <input type="text" name="direccion" placeholder="" value="{{ direccion or '' }}"  autocomplete="off">
+                <input type="text" name="direccion" placeholder="" value="{{ direccion }}"  autocomplete="off" required>
                 <input type="text" name="num_telefono" placeholder="" value="{{ num_telefono or '' }}" autocomplete="off">
                 
-                <label for="libro">Libro</label>
+                <label for="libro">Libro*</label>
                 <label for="grado">Grado de Estudio</label>
-                <input class="buscar-libro-prestamo" type="text" name="libro" placeholder="" value="{{ libro or '' }}" autocomplete="off">
+                <input class="buscar-libro-prestamo" type="text" name="libro" placeholder="" value="{{ libro }}" autocomplete="off" required>
                 <input type="text" name="grado" placeholder="" value="{{ grado or '' }}" autocomplete="off">
                                 
                 <label for="fecha_prestamo">Fecha de prestamo</label>
                 <label for="fecha_entrega_estimada">Fecha limite de entrega</label>
-                <input type="date" id="fecha_prestamo" name="fecha_prestamo" placeholder="" value="{{ fecha_prestamo or '' }}">
-                <input type="date" id="fecha_entrega_estimada" name="fecha_entrega_estimada" placeholder="" value="{{ fecha_entrega_estimada or '' }}">
+                <input type="date" id="fecha_prestamo" name="fecha_prestamo" placeholder="" value="{{ fecha_prestamo }}">
+                <input type="date" id="fecha_entrega_estimada" name="fecha_entrega_estimada" placeholder="" value="{{ fecha_entrega_estimada }}">
 
                 <button id="btn-registrar-prestamo" type="submit">Registrar prestamo</button>
                 {% if (error) %}

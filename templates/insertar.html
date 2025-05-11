@@ -50,10 +50,10 @@
                 
                 <!--TODO: REDORDENAR DATOS PARA MAYOR COMODIDAD-->
                 
-                <label for="titulo">Titulo</label>
+                <label for="titulo">Titulo*</label>
                 <label for="nombre_autor apellido_autor">Datos del autor</label>
                 
-                <input type="text" name="titulo" placeholder="" autocomplete="off">
+                <input type="text" name="titulo" placeholder="" autocomplete="off" required>
                 <span id="span-informacion-autor">
                     <input type="text" name="nombre_autor" class="input-autor" placeholder="Nombre" autocomplete="off">
                     <input type="text" name="apellido_autor" class="input-autor" placeholder="Apellido" autocomplete="off">
@@ -66,41 +66,41 @@
                 <input type="text" name="editorial" class="input-editorial" placeholder="" autocomplete="off">
                 
                 <label for="tomo">Tomo</label>
-                <label for="paginas">Numero de Paginas</label>
+                <label for="paginas">Numero de Paginas*</label>
                 
                 <input type="text" name="tomo" placeholder="" autocomplete="off">
-            <input type="number" name="num_paginas" placeholder="" autocomplete="off">
-            
-            <label for="copias">Numero de Copias</label>
-            <label for="sistema_dewey">Sistema Dewey</label>
-            
-            <input type="text" name="num_copias" placeholder="" autocomplete="off">
-            <select name="sistema_dewey" id="" >
-                {% for ultima in ultima_seccion %}
-                <option value="{{ ultima[0] }}">{{ ultima[0] }} - {{ ultima[1] }}</option>
-                {% endfor %}
-                {% for seccion in secciones %}
-                <option value="{{ seccion[0] }}">{{ seccion[0] }} - {{ seccion[1] }}</option>
-                {% endfor %}
-            </select>
-            
-            <label for="lugar">Lugar de Publicacion</label>
-            <label for="anio">Año de Publicacion</label>
-            
-            <input type="text" name="lugar" class="input-lugar" placeholder="" autocomplete="off">
-            <input type="text" name="anio" placeholder="" autocomplete="off">
-            
-            <ul class="ul-contenedor-sugerencias">
-                <li>sugerencia 1</li>
-                <li>sugerencia 2</li>
-            </ul>
-            
-            <button id="btn-registrar" type="submit">Registrar libro</button>
-            {% if (error) %}
-                <label id="error" for="error">{{error}}</label>
-            {% elif (registro_exitoso)  %}
-                <label id="exito" for="registro_exitoso">{{registro_exitoso}}</label>
-            {% endif %}
+                <input type="number" name="num_paginas" placeholder="" autocomplete="off" required>
+                
+                <label for="copias">Numero de Copias*</label>
+                <label for="sistema_dewey">Sistema Dewey</label>
+                
+                <input type="text" name="num_copias" placeholder="" autocomplete="off" required>
+                <select name="sistema_dewey" id="" >
+                    {% for ultima in ultima_seccion %}
+                    <option value="{{ ultima[0] }}">{{ ultima[0] }} - {{ ultima[1] }}</option>
+                    {% endfor %}
+                    {% for seccion in secciones %}
+                    <option value="{{ seccion[0] }}">{{ seccion[0] }} - {{ seccion[1] }}</option>
+                    {% endfor %}
+                </select>
+                
+                <label for="lugar">Lugar de Publicacion</label>
+                <label for="anio">Año de Publicacion</label>
+                
+                <input type="text" name="lugar" class="input-lugar" placeholder="" autocomplete="off">
+                <input type="text" name="anio" placeholder="" autocomplete="off">
+                
+                <ul class="ul-contenedor-sugerencias">
+                    <li>sugerencia 1</li>
+                    <li>sugerencia 2</li>
+                </ul>
+                
+                <button id="btn-registrar" type="submit">Registrar libro</button>
+                {% if (error) %}
+                    <label id="error" for="error">{{error}}</label>
+                {% elif (registro_exitoso)  %}
+                    <label id="exito" for="registro_exitoso">{{registro_exitoso}}</label>
+                {% endif %}
             
             
             </form>

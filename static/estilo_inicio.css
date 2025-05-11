@@ -354,23 +354,13 @@
 }
 
 .etiqueta-social {
-    background-color: rgba(255, 152, 0, 0.15);
-    color: rgb(255, 152, 0);
+    background-color: rgba(255, 153, 0, 0.242);
+    color: rgb(207, 124, 0);
 }
 
 .etiqueta-servicio {
     background-color: rgba(156, 39, 176, 0.15);
     color: rgb(156, 39, 176);
-}
-
-/* Iconos SVG simplificados */
-.icono-actividad i {
-    width: 28px;
-    height: 28px;
-    display: block;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 

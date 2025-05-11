@@ -46,16 +46,16 @@
             
             <form method="POST" action="/registrar_usuarios" class="formulario-insertar">
                 
-                <label for="usuario">Usuario</label>
-                <label for="contrasena">Contraseña</label>
+                <label for="usuario">Usuario*</label>
+                <label for="contrasena">Contraseña*</label>
                 
-                <input type="text" name="usuario" placeholder="" autocomplete="off">
-                <input type="text" name="contrasena" placeholder="" autocomplete="off">
+                <input type="text" name="usuario" placeholder="" autocomplete="off" required>
+                <input type="text" name="contrasena" placeholder="" autocomplete="off" required>
                 
-                <label for="telefono">Numero de telefono</label>
+                <label for="telefono">Numero de telefono*</label>
                 <label for="rol">Rol</label>
                 
-                <input type="number" name="telefono" placeholder="" autocomplete="off">
+                <input type="number" name="telefono" placeholder="" autocomplete="off" required>
                 <select name="rol" id="" >
                     {% for rol in roles %}
                     <option value="{{ rol[0] }}">{{ rol[1] }}</option>

@@ -22,15 +22,15 @@
                 <label for=""> <h2> Inicio de Sesion </h2> </label>
                 
                 <label for="usuario">Usuario administrador</label>
-                <input type="text" name="usuario" placeholder="" required autocomplete="off" value="sergio">
+                <input type="text" name="usuario" placeholder="" required autocomplete="off">
                 
                 <label for="password">Contraseña</label>
-                <input type="password" name="password" placeholder="" value="Admin1234">
+                <input type="password" name="password" placeholder="" required>
                 
                 <button type="submit" id="btn-login"> Entrar </button>
                 
                 {% if login == False %}
-                <h5>Datos incorrectos</h5>
+                    <h5>Datos incorrectos</h5>
                 {% endif %}
                 
             </form>
