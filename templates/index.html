@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Comunitaria Gabriela Mistral</title>
+    <link rel="icon" href="/static/img/books_3145874.png">
     <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo_inicio.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
@@ -16,7 +17,7 @@
             <nav>
                 <a href="{{ url_for('login') }}">Iniciar como administrador</a>
                 <a href="{{ url_for('libros') }}">Catalogo </a>
-                <a href="#">Acerca de</a>
+                <a href="{{ url_for('acercade') }}">Acerca de</a>
             </nav>
         </div>
     </header>
@@ -27,7 +28,7 @@
                 <br>
                 <a href="{{ url_for('login') }}">Iniciar como administrador</a>
                 <a href="{{ url_for('libros') }}">Catálogo de Libros</a>
-                <a href="#">Acerca de</a>
+                <a href="{{ url_for('acercade') }}">Acerca de</a>
             </nav>
         </section>
         <button class="boton-lateral fondo-cristal">Menu</button>

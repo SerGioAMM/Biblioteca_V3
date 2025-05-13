@@ -1,12 +1,12 @@
 .boton-lateral,.boton-lateral-cerrar{
     color: #efefef;
-    background-color: red;
     position: absolute;
     top: 10%;
     left: 1%;
     font-size: 1.1rem;
     padding: 12px;
     display: none;
+    z-index: 5;
 }
 .boton-lateral-cerrar{
     top: 1%;

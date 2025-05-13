@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Municipal</title>
+    <link rel="icon" href="/static/img/books_3145874.png">
+    <link rel="stylesheet" href="/static/estilo_acercade.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
+</head>
+<body>
+    <header>
+
+        <div class="navbar fondo-cristal">
+            <a href="{{ url_for('inicio') }}">Inicio</a>
+            <nav>
+                <a href="{{ url_for('login') }}">Iniciar como administrador</a>
+                <a href="{{ url_for('libros') }}">Catalogo </a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="barra-lateral fondo-cristal">
+            <nav>
+                <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
+                <br>
+                <a href="{{ url_for('login') }}">Iniciar como administrador</a>
+                <a href="{{ url_for('libros') }}">Catálogo de Libros</a>
+                <a href="#">Acerca de</a>
+            </nav>
+        </section>
+        <button class="boton-lateral fondo-cristal">Menu</button>
+        <!-- Sección Hero -->
+        <section class="hero">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>Biblioteca Comunitaria Gabriela Mistral</h1>
+                <p>Un espacio de conocimiento, cultura y comunidad al servicio de todos los ciudadanos.</p>
+                
+            </div>
+        </section>
+
+        <!-- Sección Historia -->
+        <section class="section bg-light">
+            <div class="container">
+                <div class="card-grid">
+                    <div id="historia" class="card">
+                        <div class="card-header bg-primary">
+                            <h2>Nuestra Historia</h2>
+                        </div>
+                        <div class="card-body">
+                                    <p>Fundada en 1952, la Biblioteca Municipal ha sido durante décadas un pilar fundamental en el desarrollo cultural y educativo de nuestra comunidad.</p>
+                                    <p>Lo que comenzó como una pequeña colección de libros donados por los ciudadanos, se ha transformado en un moderno centro de recursos informativos y culturales.</p>
+                        </div>
+                    </div>
+                    <div class="section-image">
+                        <img src="/static/img/biblioteca.jpg" alt="Historia de la biblioteca">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Misión y Visión -->
+        <section class="section bg-light">
+            <div class="container">
+                <div class="card-grid">
+                    <!-- Misión -->
+                    <div id="mision" class="card">
+                        <div class="card-header bg-primary">
+                            <h3>Nuestra Misión</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Promover la democracia y la prosperidad en las comunidades a través de diferentes actividades que despierten un espíritu de descubrimiento y la participación social.</p>
+                            <p>Contribuyendo al desarrollo con espacios comunitarios, participativos y abiertos a la diversidad, a fin de extender el acceso a la lectura, la información, el conocimiento y la recreación.</p>
+                        </div>
+                    </div>
+
+                    <!-- Visión -->
+                    <div id="vision" class="card">
+                        <div class="card-header bg-dark">
+                            <h3>Nuestra Visión</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>
+                                Ser una institución referente en el ámbito de la cultura y educación, a partir de su rol en el acceso a la lectura en la comunidad, reconocer el carácter comunitario,
+                                participativo, brindando el acceso libre e ilimitado al conocimiento, el pensamiento y la cultura; permitiendo el acceso a la imformación, generando oportunidades de
+                                cambio social y ser agente de desarrollo humano comuitario.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Servicios -->
+        <section id="servicios" class="section bg-dark">
+            <div class="container">
+              <h2 class="section-title">Nuestros Servicios</h2>
+              <div class="services-grid">
+                <div class="service-card">
+                  <div class="service-icon">
+                    <img src="/static/img/libro.png" alt="">
+                  </div>
+                  <h3>Préstamo de Libros</h3>
+                  <p>Accede a una amplia variedad de libros para llevar a casa.</p>
+                </div>
+                <div class="service-card">
+                  <div class="service-icon">
+                    <img src="/static/img/computadora.png" alt="">
+                  </div>
+                  <h3>Equipo de Cómputo</h3>
+                  <p>Zona con computadoras e internet gratuito para estudio o investigación.</p>
+                </div>
+                <div class="service-card">
+                  <div class="service-icon">
+                    <img src="/static/img/Secretariales.png" alt="">
+                  </div>
+                  <h3>Servicios Secretariales</h3>
+                  <p>Accede a servicios de impresión, búsqueda de información y apoyo en tareas administrativas.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+
+        <!-- Sección Contacto -->
+        <section id="contacto" class="section bg-dark text-white">
+            <div class="container">
+                <h2 class="section-title">Visítanos</h2>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <svg class="contact-icon" viewBox="0 0 24 24">
+                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        <h3>Dirección</h3>
+                        <a href="https://maps.app.goo.gl/REikBZCtGn19zBQB6">San Juan Chamelco, Guatemala</a>
+                    </div>
+                    <div class="contact-item">
+                        <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="#b88c14"  stroke-width="2"  stroke-linecap="round"  
+                            stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-week"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path 
+                            d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M7 14h.013" />
+                            <path d="M10.01 14h.005" /><path d="M13.01 14h.005" /><path d="M16.015 14h.005" /><path d="M13.015 17h.005" /><path d="M7.01 17h.005" /><path d="M10.01 17h.005" />
+                        </svg>
+                        <i class="fa-solid fa-clock contact-icon"></i>
+                        <h3 class="contact-title">Horario</h3>
+                        <p>Lunes a Viernes: 8:00 - 16:00</p>
+                        <p>Sábados: Cerrado</p>
+                        <p>Domingos: Cerrado</p>
+                    </div>
+            
+                    <div class="contact-item">
+                        <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="#b88c14"  stroke-width="2"  stroke-linecap="round"  
+                            stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-mail"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path 
+                            d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" /><path d="M3 7l9 6l9 -6" /></svg>
+                        <i class="fa-solid fa-phone contact-icon"></i>
+                        <h3 class="contact-title">Contacto</h3>
+                        <p>Teléfono: (123) 456-7890</p>
+                        <p>Email: info@bibliotecamunicipal.org</p>
+                    </div>
+                    <!-- Más información de contacto... -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="logo">
+
+                        <span>Biblioteca Municipal</span>
+                    </div>
+                    <p>Un espacio de conocimiento, cultura y comunidad.</p>
+                </div>
+                <!-- Más secciones del footer... -->
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; <span id="current-year"></span> Biblioteca Municipal. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="/static/js/menu.js"></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

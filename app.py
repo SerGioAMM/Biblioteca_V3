@@ -80,6 +80,12 @@ def login():
 
     return render_template("login.html", login = login)
 
+# ----------------------------------------------------- ACERCA DE ----------------------------------------------------- #
+@app.route("/acercade")
+def acercade():
+
+    return render_template('nosotros.html')
+
 # ----------------------------------------------------- INSERTAR LIBROS ----------------------------------------------------- #
 
 @app.route("/insertar", methods=["GET", "POST"])

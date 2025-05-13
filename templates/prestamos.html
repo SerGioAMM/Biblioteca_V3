@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prestamos</title>
+    <link rel="icon" href="/static/img/books_3145874.png">
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo_prestamos.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='barra_lateral.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='filtros.css') }}">
@@ -183,7 +184,7 @@
                         
                     {% endif %}
                     
-                    {% if session["rol"] == 'Administrador' %}
+                    {% if (session["rol"] == 'Administrador') or (session["rol"] == 'Bibliotecario') %}
                         <form class="frm-eliminar-prestamo" action="/eliminar_prestamo" method="POST">
                             <input type="text" value="{{prestamo[10]}}" name="id_prestamo"> 
                             <button type="reset" class="btn-eliminacion"> Eliminar </button>

@@ -19,7 +19,7 @@
 }
 
 h5{
-    color: rgb(140, 0, 0);
+    color: rgb(255, 112, 112);
     margin-top: 3px;
     margin-bottom: 3px;
     font-size: 1.4rem;
@@ -29,3 +29,6 @@ h5{
     align-items: center !important;
     justify-content: space-between !important;
 }
+
+
+
