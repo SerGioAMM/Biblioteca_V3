@@ -13,7 +13,7 @@
     background-size: cover;
     background-position: center;
     height: 60vh;
-    border-top: solid 5px gray;
+    border-top: solid 5px #77190b;
     text-align: center;
 }
 
@@ -22,7 +22,7 @@
     background-size: cover;
     background-position: center;
     height: auto;
-    border-top: solid 5px gray;
+    border-top: solid 5px #77190b;
     text-align: center;
 }
 
@@ -42,7 +42,7 @@
     background-size: cover;
     background-position: center;
     height: 80vh;
-    border-top: solid 5px gray;
+    border-top: solid 5px #77190b;
     text-align: center;
 }
 .div-contenedor-libros-destacados{
@@ -275,10 +275,10 @@
 
 
 .seccion-actividades {
-    background-color: #77190b;
+    background-image: url("/static/img/estanterias\ -\ v6.jpg");
     background-size: cover;
     background-position: center;
-    border-top: solid 5px gray;
+    border-top: solid 5px #77190b;
     text-align: center;
     padding: 2rem 0;
     display: flex;

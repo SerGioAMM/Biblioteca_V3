@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, session, send_file
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session, send_file, flash
 from config import conexion_BD
 from datetime import datetime
 import math
@@ -253,17 +253,18 @@ def libros():
     total_paginas = math.ceil(total_libros / libros_por_pagina)
 
     #? Selecciona todos los libros disponibles
-    #! Con el nuevo disenio algunos datos ya no se utilizan, como la editorial o el tomo
-        # Consulta paginada
+    # Consulta paginada
     query.execute("""
         select l.id_libro, Titulo, tomo, ano_publicacion, ISBN, numero_paginas, numero_copias,
-               sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor, e.editorial, n.notacion
+               sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor, e.editorial, n.notacion,lu.lugar
         from Libros l
         join RegistroLibros r ON r.id_libro = l.id_libro
         join SistemaDewey sd ON sd.codigo_seccion = r.codigo_seccion 
         join notaciones n ON n.id_notacion = r.id_notacion
         join Autores a ON a.id_autor = n.id_autor
         join Editoriales e ON e.id_editorial = n.id_editorial
+        join Lugares lu ON r.id_lugar = lu.id_lugar
+        order by sd.codigo_seccion asc, Titulo asc
         LIMIT ? OFFSET ?
     """, (libros_por_pagina, offset))
     libros = query.fetchall()
@@ -290,7 +291,7 @@ def buscar_libro():
 
     pagina = request.args.get("page", 1, type=int)
     libros_por_pagina = 16
-    offset = (pagina - 1) * libros_por_pagina #Calculo del offset
+    offset = (pagina - 1) * libros_por_pagina
 
     # Secciones Dewey para filtros
     query.execute("select * from SistemaDewey")
@@ -310,12 +311,13 @@ def buscar_libro():
 
     # Conteo total para paginación
     query.execute(f"""
-        SELECT COUNT(*) FROM Libros AS l
-        LEFT JOIN RegistroLibros AS r ON r.id_libro = l.id_libro
-        LEFT JOIN SistemaDewey AS sd ON sd.codigo_seccion = r.codigo_seccion 
-        LEFT JOIN notaciones AS n ON n.id_notacion = r.id_notacion
-        LEFT JOIN Autores AS a ON a.id_autor = n.id_autor
-        LEFT JOIN Editoriales AS e ON e.id_editorial = n.id_editorial
+        SELECT COUNT(*) FROM Libros l
+        LEFT JOIN RegistroLibros r ON r.id_libro = l.id_libro
+        LEFT JOIN SistemaDewey sd ON sd.codigo_seccion = r.codigo_seccion 
+        LEFT JOIN notaciones n ON n.id_notacion = r.id_notacion
+        LEFT JOIN Autores a ON a.id_autor = n.id_autor
+        LEFT JOIN Editoriales e ON e.id_editorial = n.id_editorial
+        LEFT JOIN Lugares lu on r.id_lugar
         {filtro_total}
     """)
     total_libros = query.fetchone()[0]
@@ -324,14 +326,16 @@ def buscar_libro():
     # Consulta paginada
     query.execute(f"""
         SELECT l.id_libro, Titulo, tomo, ano_publicacion, ISBN, numero_paginas, numero_copias,
-               sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor, e.editorial, n.notacion
-        FROM Libros AS l
-        LEFT JOIN RegistroLibros AS r ON r.id_libro = l.id_libro
-        LEFT JOIN SistemaDewey AS sd ON sd.codigo_seccion = r.codigo_seccion 
-        LEFT JOIN notaciones AS n ON n.id_notacion = r.id_notacion
-        LEFT JOIN Autores AS a ON a.id_autor = n.id_autor
-        LEFT JOIN Editoriales AS e ON e.id_editorial = n.id_editorial
+               sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor, e.editorial, n.notacion, lu.lugar
+        FROM Libros l
+        LEFT JOIN RegistroLibros r ON r.id_libro = l.id_libro
+        LEFT JOIN SistemaDewey sd ON sd.codigo_seccion = r.codigo_seccion 
+        LEFT JOIN notaciones n ON n.id_notacion = r.id_notacion
+        LEFT JOIN Autores a ON a.id_autor = n.id_autor
+        LEFT JOIN Editoriales e ON e.id_editorial = n.id_editorial
+        LEFT JOIN Lugares lu ON r.id_lugar = lu.id_lugar
         {filtro_total}
+        order by sd.codigo_seccion asc,Titulo asc
         LIMIT ? OFFSET ?
     """, (libros_por_pagina, offset))
     libros = query.fetchall()
@@ -359,6 +363,13 @@ def eliminar_libro():
 
     conexion = conexion_BD()
     query = conexion.cursor()
+
+    query.execute("select id_prestamo from prestamos where id_libro = ?",(id_libro,))
+    libroprestado = query.fetchall()
+
+    if(libroprestado):
+        error = "Error, el libro esta prestado"
+        return render_template("/libros",error=error)
 
     query.execute("select titulo from libros where id_libro = ?",(id_libro,))
     titulo_libro = query.fetchone()[0]
@@ -537,6 +548,7 @@ def sugerencias_libro_eliminado():
     return jsonify([fila[0] for fila in sugerencia])
 
 # ----------------------------------------------------- Verificar prestamos vencidos ----------------------------------------------------- #
+
 def verificar_vencidos():
     conexion = conexion_BD()
     query = conexion.cursor()
@@ -558,7 +570,6 @@ def verificar_vencidos():
 
             #Actualiza el estado de los prestamos a vencidos cuando se pasan dela fecha estimada de entrega
             if fecha_entrega_estimada < hoy:
-                print("TEST ACTUALIZACION DE ESTADO")
                 query.execute("""update Prestamos
                                 set id_estado = 1
                                 where id_prestamo = ?""", (id_prestamo,)) #Establece estado vencido
@@ -595,7 +606,7 @@ def prestamos():
                     from Prestamos p
                     join Libros l on p.id_libro = l.id_libro
                     join Estados e on p.id_estado = e.id_estado
-                  order by e.id_estado asc
+                  order by e.id_estado asc, p.fecha_prestamo desc
                   limit ? offset ?""",(prestamos_por_pagina,offset))
     prestamos = query.fetchall()
     
@@ -656,7 +667,7 @@ def buscar_prestamo():
                     join Libros l on p.id_libro = l.id_libro
                     join Estados e on p.id_estado = e.id_estado 
                     {SQL_where_busqueda}{SQL_where_estado}
-                    order by e.id_estado asc
+                    order by e.id_estado asc, p.fecha_prestamo desc
                     limit {prestamos_por_pagina} offset {offset}""")
 
     query.execute("Select Count(*) from prestamos where id_estado = 1") #Prestamos vencidos
@@ -694,9 +705,11 @@ def devolver_prestamo():
     #Pone el prestamo en estado 3 (devuelto)
     query.execute("update prestamos set id_estado = 3 where id_prestamo = (?)",(id_prestamo,))
 
-    query.execute("update libros set numero_copias = (numero_copias+1) where (select id_libro from prestamos where id_prestamo = ?)",(id_prestamo,))
-    conexion.commit() #Guarda la actualizacion de estado del prestamo
+    query.execute("select id_libro from prestamos where id_prestamo = ?",(id_prestamo,))
+    id_libro = query.fetchone()[0]
 
+    query.execute("update libros set numero_copias = (numero_copias + 1) where id_libro = ?",(id_libro,))
+    conexion.commit() #Guarda la actualizacion de estado del prestamo
 
     query.close()
     conexion.close()

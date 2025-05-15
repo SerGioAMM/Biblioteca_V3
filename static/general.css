@@ -40,6 +40,10 @@ h1 {
     border-radius: 4px;
     transition: background-color 0.2s ease-in-out;
 }
+#btn-catalogo{
+    background-color: #00000068;
+    scale: 1.2;
+}
 
 #btn-registrar:hover, #btn-buscar:hover, #btn-catalogo:hover,#btn-login:hover, #btn-registrar-prestamo:hover{
     background-color: #000000a9;

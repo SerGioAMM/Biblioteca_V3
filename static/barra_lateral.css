@@ -94,7 +94,7 @@
     display: inline-block;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
     .barra-lateral{
         font-size: 85%;
     }
