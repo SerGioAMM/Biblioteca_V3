@@ -189,6 +189,44 @@ button a{
     color: black;
 }
 
+.motivo_eliminacion{
+    background-color: rgba(31, 31, 31, 0.551);
+    backdrop-filter: blur(5px);
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    left: 0;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 1px;
+    visibility: hidden;
+    opacity: 0;
+    transition: .3s ease-in-out;
+    
+}
+.motivo_eliminacion input{
+    display: initial !important;
+    width: 80%;
+    margin-top: 1%;
+}
+.motivo_eliminacion label{
+    color: white;
+    font-size: 120%;
+}
+.motivo_eliminacion button{
+    width: 30%;
+}
+.mostrar_motivo{
+    visibility: visible;
+    opacity: 1;
+}
+
+
 @media (max-width: 1024px) {
 
     .contendor-usuarios{

@@ -14,37 +14,47 @@
     <header>
 
         <div class="navbar fondo-cristal">
-            <a href="{{ url_for('logout') }}">Cerrar sesion</a>
+            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
         </div>
     </header>
     <main class="main">
 
         {% if ((session["rol"]) == "Administrador") or ((session["rol"]) == "Bibliotecario") %}
         <section class="barra-lateral fondo-cristal">
-            <h2>Administracion</h2>
+            <h2>Administración</h2>
             <h4>Usuario: <br>
                 {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
             <nav>
                 <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
-                <a href="{{ url_for('prestamos') }}">Prestamos </a>
-                <a href="{{ url_for('registro_prestamos') }}" id="pagina-actual">Registro Prestamos</a>
+                <a href="{{ url_for('prestamos') }}">Préstamos </a>
+                <a href="{{ url_for('registro_prestamos') }}" id="pagina-actual">Registro Préstamos</a>
                 <a href="{{ url_for('libros') }}">Catálogo de Libros </a>
                 <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
                 {% if session["rol"] == "Administrador" %}
                 <a href="{{ url_for('usuarios') }}">Usuarios</a>
                 <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
                 <a href="{{ url_for('libros_eliminados') }}">Libros Eliminados</a>
-                <a href="{{ url_for('prestamos_eliminados') }}">Prestamos Eliminados</a>
+                <a href="{{ url_for('prestamos_eliminados') }}">Préstamos Eliminados</a>
                 {% endif %}
                 
             </nav>
         </section>
-        <button class="boton-lateral fondo-cristal">Menu</button>
+        <button class="boton-lateral fondo-cristal">Menú</button>
         {% endif %}
 
-        <h1 id="h1-titulo">Registrar nuevo prestamo</h1>
-        <h5 id="h5-nota">Complete el formulario para agregar un nuevo prestamo.</h5>
+        <h1 id="h1-titulo">Registrar nuevos préstamos</h1>
+        <h5 id="h5-nota">Complete el formulario para agregar un nuevo préstamos.</h5>
                 
+        {% if (alerta) %}
+        <span class="error-eliminacion">
+            <h4><strong>{{alerta}}</strong></h4>
+        </span>
+        {% elif (registro_exitoso) %}
+        <span class="exito-ingreso">
+            <h4><strong>{{registro_exitoso}}</strong></h4>
+        </span>
+        {% endif %}  
+
         <div class="div-container-registro-prestamos">
         
             <form method="POST" action="/registro_prestamos" class="formulario-prestamo">
@@ -59,7 +69,7 @@
                 </span>
                 
                 <label for="direccion">Direccion*</label>
-                <label for="num_telefono">Numero de Telefono</label>
+                <label for="num_telefono">Numero de Teléfono</label>
                 <input type="text" name="direccion" placeholder="" value="{{ direccion }}"  autocomplete="off" required>
                 <input type="text" name="num_telefono" placeholder="" value="{{ num_telefono or '' }}" autocomplete="off">
                 
@@ -68,17 +78,13 @@
                 <input class="buscar-libro-prestamo" type="text" name="libro" placeholder="" value="{{ libro }}" autocomplete="off" required>
                 <input type="text" name="grado" placeholder="" value="{{ grado or '' }}" autocomplete="off">
                                 
-                <label for="fecha_prestamo">Fecha de prestamo</label>
-                <label for="fecha_entrega_estimada">Fecha limite de entrega</label>
+                <label for="fecha_prestamo">Fecha de préstamo</label>
+                <label for="fecha_entrega_estimada">Fecha límite de entrega</label>
                 <input type="date" id="fecha_prestamo" name="fecha_prestamo" placeholder="" value="{{ fecha_prestamo }}">
                 <input type="date" id="fecha_entrega_estimada" name="fecha_entrega_estimada" placeholder="" value="{{ fecha_entrega_estimada }}">
 
-                <button id="btn-registrar-prestamo" type="submit">Registrar prestamo</button>
-                {% if (error) %}
-                    <label id="error" for="error">{{error}}</label>
-                {% elif (registro_exitoso)  %}
-                    <label id="exito" for="registro_exitoso">Prestamo registrado exitosamente</label>
-                {% endif %}
+                <button id="btn-registrar-prestamo" type="submit">Registrar préstamo</button>
+
             </form>
 
             <ul class="ul-contenedor-sugerencias">

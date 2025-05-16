@@ -17,10 +17,15 @@
         </div>
     </header>
     <main class="main">
+        {% if (alerta) %}
+        <span class="error-eliminacion">
+            <h4><strong>{{alerta}}</strong></h4>
+        </span>
+        {% endif %}
         <div class="div-container-login fondo-cristal">
             
             <form method="POST" action="/login" class="formulario-login">
-                <label for=""> <h2> Inicio de Sesion </h2> </label>
+                <label for=""> <h2> Inicio de Sesión </h2> </label>
                 
                 <label for="usuario">Usuario administrador</label>
                 <input type="text" name="usuario" placeholder="" required autocomplete="off">
@@ -29,10 +34,6 @@
                 <input type="password" name="password" placeholder="" required>
                 
                 <button type="submit" id="btn-login"> Entrar </button>
-                
-                {% if login == False %}
-                    <h5>Datos incorrectos</h5>
-                {% endif %}
                 
             </form>
         </div>

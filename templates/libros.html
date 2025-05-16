@@ -26,25 +26,25 @@
 
         {% if ((session["rol"]) == "Administrador") or ((session["rol"]) == "Bibliotecario") %}
         <section class="barra-lateral fondo-cristal">
-            <h2>Administracion</h2>
+            <h2>Administración</h2>
             <h4>Usuario: <br>
             {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
             <nav>
                 <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
-                <a href="{{ url_for('prestamos') }}">Prestamos </a>
-                <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
+                <a href="{{ url_for('prestamos') }}">Préstamos </a>
+                <a href="{{ url_for('registro_prestamos') }}">Registro Préstamos</a>
                 <a href="{{ url_for('libros') }}" id="pagina-actual">Catálogo de Libros </a>
                 <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
                 {% if session["rol"] == "Administrador" %}
                 <a href="{{ url_for('usuarios') }}">Usuarios</a>
                 <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
                 <a href="{{ url_for('libros_eliminados') }}">Libros Eliminados</a>
-                <a href="{{ url_for('prestamos_eliminados') }}">Prestamos Eliminados</a>
+                <a href="{{ url_for('prestamos_eliminados') }}">Préstamos Eliminados</a>
                 {% endif %}
             
             </nav>
         </section>
-        <button class="boton-lateral fondo-cristal">Menu</button>
+        <button class="boton-lateral fondo-cristal">Menú</button>
         {% endif %}
 
         <div class="div-busqueda">
@@ -99,6 +99,12 @@
                 </ul>
             </form>
         </div>
+
+        {% if (alerta) %}
+        <span class="error-eliminacion">
+            <h4><strong>{{alerta}}</strong></h4>
+        </span>
+        {% endif %}
 
         <div class="contendor-catalogo">
             {% for libro in libros%}

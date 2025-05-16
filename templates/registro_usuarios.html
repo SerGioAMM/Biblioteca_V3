@@ -14,34 +14,44 @@
     <header>
 
         <div class="navbar fondo-cristal">
-            <a href="{{ url_for('logout') }}">Cerrar sesion</a>
+            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
         </div>
     </header>
     <main class="main">
 
         {% if ((session["rol"]) == "Administrador") or ((session["rol"]) == "Bibliotecario") %}
         <section class="barra-lateral fondo-cristal">
-            <h2>Administracion</h2>
+            <h2>Administración</h2>
             <h4>Usuario: <br>
                 {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
             <nav>
                 <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
-                <a href="{{ url_for('prestamos') }}">Prestamos </a>
-                <a href="{{ url_for('registro_prestamos') }}">Registro Prestamos</a>
+                <a href="{{ url_for('prestamos') }}">Préstamos </a>
+                <a href="{{ url_for('registro_prestamos') }}">Registro Préstamos</a>
                 <a href="{{ url_for('libros') }}">Catálogo de Libros </a>
                 <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
                 <a href="{{ url_for('usuarios') }}">Usuarios</a>
                 <a href="{{ url_for('registrar_usuarios') }}" id="pagina-actual">Registro de Usuarios</a>
                 <a href="{{ url_for('libros_eliminados') }}">Libros Eliminados</a>
-                <a href="{{ url_for('prestamos_eliminados') }}">Prestamos Eliminados</a>
+                <a href="{{ url_for('prestamos_eliminados') }}">Préstamos Eliminados</a>
                 
             </nav>
         </section>
-        <button class="boton-lateral fondo-cristal">Menu</button>
+        <button class="boton-lateral fondo-cristal">Menú</button>
         {% endif %}
 
         <h1 id="h1-titulo">Registrar nuevo usuario</h1>
         <h5 id="h5-nota">Complete el formulario para agregar un nuevo usuario al sistema.</h5>
+        
+        {% if (alerta) %}
+        <span class="error-eliminacion">
+            <h4><strong>{{alerta}}</strong></h4>
+        </span>
+        {% elif (registro_exitoso) %}
+        <span class="exito-ingreso">
+            <h4><strong>{{registro_exitoso}}</strong></h4>
+        </span>
+        {% endif %}  
         
         <div class="div-container-insertar">
             
@@ -53,7 +63,7 @@
                 <input type="text" name="usuario" placeholder="" autocomplete="off" required>
                 <input type="text" name="contrasena" placeholder="" autocomplete="off" required>
                 
-                <label for="telefono">Numero de telefono*</label>
+                <label for="telefono">Número de teléfono*</label>
                 <label for="rol">Rol</label>
                 
                 <input type="number" name="telefono" placeholder="" autocomplete="off" required>
@@ -64,12 +74,6 @@
                 </select>
 
                 <button id="btn-registrar" type="submit">Registrar usuario</button>
-                {% if (error) %}
-                    <label id="error" for="error">{{error}}</label>
-                {% elif (registro_exitoso)  %}
-                    <label id="exito" for="registro_exitoso">{{registro_exitoso}}</label>
-                {% endif %}
-
 
             </form>
         </div>

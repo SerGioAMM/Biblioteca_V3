@@ -15,7 +15,7 @@ app.secret_key = "234_Clav3-Ant1H4ck3r$_1"
 
 @app.route("/", methods=["GET", "POST"])
 def inicio():
-    #TODO: Idea descartada, Libros destacados, donde el libro que se presta aparecia como destacado
+    session.clear()
     conexion = conexion_BD()
     query = conexion.cursor()
     
@@ -41,14 +41,14 @@ def inicio():
 @app.route("/logout")
 def logout():
     session.clear()
-
     return redirect(url_for("inicio"))
 
 # ----------------------------------------------------- LOGIN ----------------------------------------------------- #
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    login = True
+    alerta= request.args.get("alerta", "")
+
 
     conexion = conexion_BD()
     query = conexion.cursor()
@@ -68,17 +68,15 @@ def login():
             session["usuario"] = login_usuario[1]
             session["rol"] = login_usuario[2]         
 
-            login = True
-
             return redirect(url_for('prestamos'))
         else:
-            login = False
+            alerta = "Datos incorrectos"
             session["rol"] = "false"
 
     query.close()
     conexion.close()
 
-    return render_template("login.html", login = login)
+    return render_template("login.html", alerta = alerta)
 
 # ----------------------------------------------------- ACERCA DE ----------------------------------------------------- #
 @app.route("/acercade")
@@ -215,8 +213,8 @@ def insertar_libro():
 
         except Exception as e:
             print(f"Error: {e}")
-            error = "Error al ingresar libro."
-            return render_template("insertar.html", secciones = secciones, ultima_seccion = ultima_seccion, error=error) 
+            alerta = "Error al ingresar libro."
+            return render_template("insertar.html", secciones = secciones, ultima_seccion = ultima_seccion, alerta=alerta) 
         finally:
             query.close()
             conexion.close()
@@ -275,8 +273,11 @@ def libros():
 
     query.close()
     conexion.close()
+    
+    alerta = request.args.get("error", "")
 
-    return render_template("libros.html",libros=libros,categorias=categorias,pagina=pagina,total_paginas=total_paginas)
+    return render_template("libros.html",libros=libros,categorias=categorias,pagina=pagina,total_paginas=total_paginas,
+                           alerta=alerta)
 
 # ----------------------------------------------------- BUSCAR LIBROS ----------------------------------------------------- #
 
@@ -347,9 +348,6 @@ def buscar_libro():
                            pagina=pagina, total_paginas=total_paginas,
                            busqueda=busqueda, filtro_busqueda=filtro_busqueda, Seccion=Seccion)
 
-    ## "' OR '1'='1' -- "
-    ## "' UNION SELECT id_lugar, lugar, '', '', '', '', '', '', '', '', '', '', '' FROM lugares -- "
-
 # ----------------------------------------------------- ELIMINAR LIBROS ----------------------------------------------------- #
 
 @app.route("/eliminar_libro", methods=["GET", "POST"])
@@ -368,8 +366,8 @@ def eliminar_libro():
     libroprestado = query.fetchall()
 
     if(libroprestado):
-        error = "Error, el libro esta prestado"
-        return render_template("/libros",error=error)
+        alerta = "Error, el libro esta prestado"
+        return redirect(f"/libros?error={alerta}")
 
     query.execute("select titulo from libros where id_libro = ?",(id_libro,))
     titulo_libro = query.fetchone()[0]
@@ -662,7 +660,7 @@ def buscar_prestamo():
     total_prestamos = query.fetchone()[0]
     total_paginas = math.ceil(total_prestamos / prestamos_por_pagina) #Calculo para cantidad de paginas, redondeando hacia arriba (ej, 2.1 = 3)
 
-    query_busqueda = (f"""select p.fecha_prestamo, p.fecha_entrega_estimada, p.fecha_devolucion, l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo
+    query_busqueda = (f"""select strftime('%d-%m-%y', p.fecha_prestamo), p.fecha_entrega_estimada, p.fecha_devolucion, l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo
                     from Prestamos p
                     join Libros l on p.id_libro = l.id_libro
                     join Estados e on p.id_estado = e.id_estado 
@@ -807,7 +805,7 @@ def registro_prestamos():
             #? Guardar cambios
             conexion.commit()  
 
-            registro_exitoso = "Prestamo registrado exitosamente."
+            registro_exitoso = "Préstamo registrado exitósamente."
 
             return render_template("registro_prestamos.html", registro_exitoso=registro_exitoso)
             
@@ -849,14 +847,14 @@ def registrar_usuarios():
             #? Guardar cambios
             conexion.commit()  
             
-            registro_exitoso = "El usuario se registro exitosamente."
+            registro_exitoso = "El usuario se registró exitósamente."
             return render_template("registro_usuarios.html",roles=roles,registro_exitoso=registro_exitoso)
             
 
         except Exception as e:
             print(f"Error: {e}")
-            error = "Error al ingresar el nuevo usuario"
-            return render_template("registro_usuarios.html",roles=roles,error=error)
+            alerta = "Error al ingresar el nuevo usuario"
+            return render_template("registro_usuarios.html",roles=roles,alerta=alerta)
         finally:
             query.close()
             conexion.close()
