@@ -183,7 +183,7 @@ def insertar_libro():
             #? INSERT DE NOTACIONES
             #Si no existe insertar nuevo ya que columna notacion es UNIQUE
             query.execute("Insert or ignore into notaciones (notacion,id_editorial,id_autor) values (?,?,?)",(_notacion,id_editorial,id_autor))
-            query.execute("Select id_notacion from notaciones where notacion = (?)",(_notacion,))
+            query.execute("Select id_notacion from notaciones where notacion = (?) and id_autor = (?) and id_editorial = (?)",(_notacion,id_autor,id_editorial,))
             id_notacion = query.fetchone()[0]
 
             #? INSERT DE REGISTRO LIBROS
@@ -600,7 +600,7 @@ def prestamos():
     total_paginas = math.ceil(total_prestamos / prestamos_por_pagina)
 
     # Consulta para mostrar los prestamos en tarjetas de prestamos.html
-    query.execute("""select p.fecha_prestamo, p.fecha_entrega_estimada, p.fecha_devolucion, l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo
+    query.execute(f"""select strftime('%d-%m-%Y', p.fecha_prestamo), strftime('%d-%m-%Y', p.fecha_entrega_estimada), strftime('%d-%m-%Y', p.fecha_devolucion), l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo
                     from Prestamos p
                     join Libros l on p.id_libro = l.id_libro
                     join Estados e on p.id_estado = e.id_estado
@@ -660,7 +660,7 @@ def buscar_prestamo():
     total_prestamos = query.fetchone()[0]
     total_paginas = math.ceil(total_prestamos / prestamos_por_pagina) #Calculo para cantidad de paginas, redondeando hacia arriba (ej, 2.1 = 3)
 
-    query_busqueda = (f"""select strftime('%d-%m-%y', p.fecha_prestamo), p.fecha_entrega_estimada, p.fecha_devolucion, l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo
+    query_busqueda = (f"""select strftime('%d-%m-%Y', p.fecha_prestamo), strftime('%d-%m-%Y', p.fecha_entrega_estimada), strftime('%d-%m-%Y', p.fecha_devolucion), l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo
                     from Prestamos p
                     join Libros l on p.id_libro = l.id_libro
                     join Estados e on p.id_estado = e.id_estado 
@@ -953,7 +953,7 @@ def prestamos_eliminados():
     total_prestamos = query.fetchone()[0]
     total_paginas = math.ceil(total_prestamos / prestamos_por_pagina)
     
-    _query = (f"""select a.usuario,r.rol,pe.fecha,pe.nombre_lector,pe.titulo,pe.motivo from prestamos_eliminados pe
+    _query = (f"""select a.usuario,r.rol,strftime('%d-%m-%Y', pe.fecha),pe.nombre_lector,pe.titulo,pe.motivo from prestamos_eliminados pe
                         join Administradores a on pe.id_administrador = a.id_administrador
                         join roles r on a.id_rol =  r.id_rol
                         order by fecha desc
@@ -998,7 +998,7 @@ def buscar_prestamo_eliminado():
     total_prestamos_eliminados = query.fetchone()[0]
     total_paginas = math.ceil(total_prestamos_eliminados / prestamos_por_pagina) #Calculo para cantidad de paginas, redondeando hacia arriba (ej, 2.1 = 3)
 
-    query_busqueda = (f"""select a.usuario,r.rol,pe.fecha,pe.nombre_lector,pe.titulo,pe.motivo from prestamos_eliminados pe
+    query_busqueda = (f"""select a.usuario,r.rol,strftime('%d-%m-%Y', pe.fecha),pe.nombre_lector,pe.titulo,pe.motivo from prestamos_eliminados pe
                             join Administradores a on pe.id_administrador = a.id_administrador
                             join roles r on a.id_rol =  r.id_rol
                             {SQL_where_busqueda}
@@ -1032,10 +1032,10 @@ def libros_eliminados():
     total_libros = query.fetchone()[0]
     total_paginas = math.ceil(total_libros / libros_por_pagina)
     
-    query_busqueda = (f"""select a.usuario,r.rol,le.fecha,le.titulo,le.motivo from libros_eliminados le
-                        join Administradores a on le.id_administrador = a.id_administrador
-                        join roles r on a.id_rol =  r.id_rol
-                        limit {libros_por_pagina} offset {offset}""")
+    query_busqueda = (f"""select a.usuario,r.rol,strftime('%d-%m-%Y', le.fecha),le.titulo,le.motivo from libros_eliminados le
+                            join Administradores a on le.id_administrador = a.id_administrador
+                            join roles r on a.id_rol =  r.id_rol
+                            limit {libros_por_pagina} offset {offset}""")
 
     query.execute(query_busqueda)
     libros_eliminados = query.fetchall()
@@ -1074,9 +1074,9 @@ def buscar_libro_eliminado():
     total_libros = query.fetchone()[0]
     total_paginas = math.ceil(total_libros / libros_por_pagina)
     
-    query_busqueda = (f"""select a.usuario,r.rol,le.fecha,le.titulo,le.motivo from libros_eliminados le
-                        join Administradores a on le.id_administrador = a.id_administrador
-                        join roles r on a.id_rol =  r.id_rol
+    query_busqueda = (f"""select a.usuario,r.rol,strftime('%d-%m-%Y', le.fecha),le.titulo,le.motivo from libros_eliminados le
+                            join Administradores a on le.id_administrador = a.id_administrador
+                            join roles r on a.id_rol =  r.id_rol
                         {SQL_where_busqueda}
                         limit {libros_por_pagina} offset {offset}""")
 

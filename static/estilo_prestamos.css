@@ -96,11 +96,11 @@ main{
     padding: 10px;
     line-height: 1.4;
     margin: 0;
-    height: 83%;
+    height: 89%;
     border-radius: 3px;
     box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.2); /* sombra hacia dentro */
-    max-width: 200px;
-    min-width: 190px;
+    max-width: 280px;
+    min-width: 250px;
     white-space: normal;
     text-overflow: ellipsis;
     overflow: hidden;
