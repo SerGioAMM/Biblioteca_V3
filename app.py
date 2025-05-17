@@ -956,7 +956,7 @@ def prestamos_eliminados():
     _query = (f"""select a.usuario,r.rol,strftime('%d-%m-%Y', pe.fecha),pe.nombre_lector,pe.titulo,pe.motivo from prestamos_eliminados pe
                         join Administradores a on pe.id_administrador = a.id_administrador
                         join roles r on a.id_rol =  r.id_rol
-                        order by fecha desc
+                        order by pe.fecha desc
                         limit {prestamos_por_pagina} offset {offset}""")
 
     query.execute(_query)
@@ -1002,6 +1002,7 @@ def buscar_prestamo_eliminado():
                             join Administradores a on pe.id_administrador = a.id_administrador
                             join roles r on a.id_rol =  r.id_rol
                             {SQL_where_busqueda}
+                            order by pe.fecha desc
                             limit {prestamos_por_pagina} offset {offset}""")
 
     query.execute(query_busqueda)
@@ -1035,6 +1036,7 @@ def libros_eliminados():
     query_busqueda = (f"""select a.usuario,r.rol,strftime('%d-%m-%Y', le.fecha),le.titulo,le.motivo from libros_eliminados le
                             join Administradores a on le.id_administrador = a.id_administrador
                             join roles r on a.id_rol =  r.id_rol
+                            order by le.fecha desc
                             limit {libros_por_pagina} offset {offset}""")
 
     query.execute(query_busqueda)
@@ -1077,8 +1079,9 @@ def buscar_libro_eliminado():
     query_busqueda = (f"""select a.usuario,r.rol,strftime('%d-%m-%Y', le.fecha),le.titulo,le.motivo from libros_eliminados le
                             join Administradores a on le.id_administrador = a.id_administrador
                             join roles r on a.id_rol =  r.id_rol
-                        {SQL_where_busqueda}
-                        limit {libros_por_pagina} offset {offset}""")
+                            {SQL_where_busqueda}
+                            order by le.fecha desc
+                            limit {libros_por_pagina} offset {offset}""")
 
     query.execute(query_busqueda)
     libros_eliminados = query.fetchall()
