@@ -241,7 +241,7 @@ def libros():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    pagina = request.args.get("page", 1, type=int) #Recibe el parametro de la URL llamado page
+    pagina = request.args.get("pag", 1, type=int)
     libros_por_pagina = 16
     offset = (pagina - 1) * libros_por_pagina
 
@@ -290,7 +290,8 @@ def buscar_libro():
     filtro_busqueda = request.args.get("filtro-busqueda", "Titulo") #Valores por default necesarios cuando se accede con una URL directa y no existen parametros
     Seccion = request.args.get("categorias", "Todas") #Valores por default necesarios cuando se accede con una URL directa y no existen parametros
 
-    pagina = request.args.get("page", 1, type=int)
+
+    pagina = request.args.get("pag", 1, type=int)
     libros_por_pagina = 16
     offset = (pagina - 1) * libros_por_pagina
 
@@ -313,12 +314,12 @@ def buscar_libro():
     # Conteo total para paginación
     query.execute(f"""
         SELECT COUNT(*) FROM Libros l
-        LEFT JOIN RegistroLibros r ON r.id_libro = l.id_libro
-        LEFT JOIN SistemaDewey sd ON sd.codigo_seccion = r.codigo_seccion 
-        LEFT JOIN notaciones n ON n.id_notacion = r.id_notacion
-        LEFT JOIN Autores a ON a.id_autor = n.id_autor
-        LEFT JOIN Editoriales e ON e.id_editorial = n.id_editorial
-        LEFT JOIN Lugares lu on r.id_lugar
+        join RegistroLibros r ON r.id_libro = l.id_libro
+        join SistemaDewey sd ON sd.codigo_seccion = r.codigo_seccion 
+        join notaciones n ON n.id_notacion = r.id_notacion
+        join Autores a ON a.id_autor = n.id_autor
+        join Editoriales e ON e.id_editorial = n.id_editorial
+        join Lugares lu on r.id_lugar
         {filtro_total}
     """)
     total_libros = query.fetchone()[0]
@@ -329,12 +330,12 @@ def buscar_libro():
         SELECT l.id_libro, Titulo, tomo, ano_publicacion, ISBN, numero_paginas, numero_copias,
                sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor, e.editorial, n.notacion, lu.lugar
         FROM Libros l
-        LEFT JOIN RegistroLibros r ON r.id_libro = l.id_libro
-        LEFT JOIN SistemaDewey sd ON sd.codigo_seccion = r.codigo_seccion 
-        LEFT JOIN notaciones n ON n.id_notacion = r.id_notacion
-        LEFT JOIN Autores a ON a.id_autor = n.id_autor
-        LEFT JOIN Editoriales e ON e.id_editorial = n.id_editorial
-        LEFT JOIN Lugares lu ON r.id_lugar = lu.id_lugar
+        join RegistroLibros r ON r.id_libro = l.id_libro
+        join SistemaDewey sd ON sd.codigo_seccion = r.codigo_seccion 
+        join notaciones n ON n.id_notacion = r.id_notacion
+        join Autores a ON a.id_autor = n.id_autor
+        join Editoriales e ON e.id_editorial = n.id_editorial
+        join Lugares lu ON r.id_lugar = lu.id_lugar
         {filtro_total}
         order by sd.codigo_seccion asc,Titulo asc
         LIMIT ? OFFSET ?
@@ -890,7 +891,7 @@ def eliminar_usuario():
     conexion = conexion_BD()
     query = conexion.cursor()
 
-    query.execute("delete from administradores where id_administrador = ?",(id_usuario))
+    query.execute("delete from administradores where id_administrador = ?",(id_usuario,))
     conexion.commit()
 
     query.close()

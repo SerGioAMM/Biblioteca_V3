@@ -209,21 +209,21 @@
         </div>
         <div class="paginacion">
             {% if pagina > 1 %} <!-- Verifica que la pagina actual sea despues de la primera, para mostrar un boton de "Anterior" -->
-                <a href="{{ url_for('buscar_libro', page=pagina - 1, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">Anterior</a> <!-- Este enlace lleva a la pagina anterior "pagina-1" -->
+                <a href="{{ url_for('buscar_libro', pag=pagina - 1, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">Anterior</a> <!-- Este enlace lleva a la pagina anterior "pagina-1" -->
             {% endif %}
         
             {% for p in range(pagina - 1, pagina + 2) %}
-                {% if 1 <= p <= total_paginas %}
+                {% if (1 <= p) and (p <= total_paginas) %}
                     {% if p == pagina %} <!-- Verifica cual es la pagina actual para aplicarle otro estilo -->
                         <strong>{{ p }}</strong>
                     {% else %} <!-- Genera todos los demas enlaces o "numeros de pagina", "[1],[2],[3]" -->
-                        <a href="{{ url_for('buscar_libro', page=p, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
+                        <a href="{{ url_for('buscar_libro', pag=p, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
                     {% endif %}
                 {% endif %}
             {% endfor %}   
         
             {% if pagina < total_paginas %} <!-- Verifica que la pagina actual no sea la ultima, para mostrar un boton de "Siguiente" -->
-                <a href="{{ url_for('buscar_libro', page=pagina + 1, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">Siguiente</a> <!-- Este enlace lleva a la pagina siguiente "pagina+1" -->
+                <a href="{{ url_for('buscar_libro', pag=pagina + 1, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">Siguiente</a> <!-- Este enlace lleva a la pagina siguiente "pagina+1" -->
             {% endif %}
         </div>            
     </main>
