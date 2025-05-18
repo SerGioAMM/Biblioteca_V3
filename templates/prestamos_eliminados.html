@@ -16,7 +16,7 @@
     <header>
 
         <div class="navbar fondo-cristal">
-            <a href="{{ url_for('logout') }}">Cerrar sesion</a>
+            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
         </div>
     </header>
     <main>
@@ -45,7 +45,7 @@
 
         <div class="div-busqueda">
             <form class="frm-prestamos" action="/buscar_prestamo_eliminado" method="GET">
-                <label for="buscar_prestamo_eliminado"><h1>Préstamos Eliminados</h1>Ver quien elimino que prestamo y cual fue su motivo.</label><br><br><br>
+                <label for="buscar_prestamo_eliminado"><h1>Préstamos Eliminados</h1>Ver quién eliminó qué préstamo y cuál fue su motivo.</label><br><br><br>
                 <input class="buscar-prestamo-eliminado" id="cuadro-busqueda" type="text" name="buscar_prestamo_eliminado" autocomplete="off" placeholder="Buscar...">&nbsp;&nbsp;
                 
                 <section class="menu-filtros">
@@ -86,15 +86,14 @@
             <div class="prestamo">
                 
                 <span class="span-fechas"> 
-                    <h2>Fecha eliminacion: <br>{{prestamo[2]}}</h2>
+                    <h2>Fecha eliminación: <br>{{prestamo[2]}}</h2>
                 </span><!-- Fecha  -->
                 
                 <span id="span-info-prestamos"> 
                      <!-- Usuario  --> 
-                    <p> El <strong>{{prestamo[1]}}&nbsp;{{prestamo[0]}}</strong> eliminó un prestamo 
+                    <p> El <strong>{{prestamo[1]}}&nbsp;{{prestamo[0]}}</strong> eliminó un préstamo 
                         del libro <strong>{{prestamo[4]}}</strong> con el lector <strong>{{prestamo[3]}}</strong>.<!-- Nombre del lector  -->
                     <br><strong>Motivo: </strong>{{prestamo[5]}}</p> 
-                    <!--!Mover la fecha de eliminacion al lado derecho y reacomodar el parrafo-->
                 </span>
             </div>
             {% endfor %}

@@ -16,7 +16,7 @@
     <header>
 
         <div class="navbar fondo-cristal">
-            <a href="{{ url_for('logout') }}">Cerrar sesion</a>
+            <a href="{{ url_for('logout') }}">Cerrar sesión</a>
         </div>
     </header>
     <main>
@@ -45,7 +45,7 @@
 
         <div class="div-busqueda">
             <form class="frm-prestamos" action="/buscar_libro_eliminado" method="GET">
-                <label for="buscar_libro_eliminado"><h1>Libros Eliminados</h1>Ver quien elimino que libro y cual fue su motivo.</label><br><br><br>
+                <label for="buscar_libro_eliminado"><h1>Libros Eliminados</h1>Ver quién eliminó qué libro y cuál fue su motivo.</label><br><br><br>
                 <input class="buscar-libro-eliminado" id="cuadro-busqueda" type="text" name="buscar_libro_eliminado" autocomplete="off" placeholder="Buscar...">&nbsp;&nbsp;
                 
                 <section class="menu-filtros">
@@ -84,12 +84,12 @@
             <div class="prestamo">
                 
                 <span class="span-fechas"> 
-                    <h2>Fecha eliminacion: <br>{{libro[2]}}</h2>
+                    <h2>Fecha eliminación: <br>{{libro[2]}}</h2>
                 </span><!-- Fecha  -->
                 
                 <span id="span-info-prestamos"> 
                     <p> El <strong>{{libro[1]}}&nbsp;{{libro[0]}}</strong> eliminó un libro 
-                        con el titulo <strong>{{libro[3]}}</strong>.
+                        con el título <strong>{{libro[3]}}</strong>.
                     <br><strong>Motivo: </strong>{{libro[4]}}</p> 
                 </span>
             </div>

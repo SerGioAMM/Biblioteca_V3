@@ -15,7 +15,7 @@
     <header>
         <div class="navbar fondo-cristal">
             {% if session %}
-                <a href="{{ url_for('logout') }}">Cerrar sesion</a>
+                <a href="{{ url_for('logout') }}">Cerrar sesión</a>
             {% else %}
                 <a href="{{ url_for('inicio') }}">Inicio</a>
             {% endif %}
@@ -175,7 +175,7 @@
                     <h4 class="h4-datos-libro2">
                         ISBN: {{libro[4]}}<br>
                         Tomo:  {{libro[2]}}<br>
-                        Numero de paginas: {{libro[5]}}<br>
+                        Número de páginas: {{libro[5]}}<br>
                         Editorial: {{libro[11]}}<br>
                         Lugar: {{libro[13]}} 
                     </h4> <!-- Datos extras del libro  --> 
@@ -202,7 +202,7 @@
                             <button type="reset" class="btn-eliminacion"> Eliminar </button>
                             <span class="motivo_eliminacion">
                                 <input type="text" placeholder="Escribe el motivo de la eliminacion del libro" name="motivo" required autocomplete="off">
-                                <button type="submit">Confirmar eliminacion</button> <button type="reset" class="btn-cancelar-eliminacion">Cancelar</button>
+                                <button type="submit">Confirmar eliminación</button> <button type="reset" class="btn-cancelar-eliminacion">Cancelar</button>
                             </span>
                         </form>
                         {% endif %}
