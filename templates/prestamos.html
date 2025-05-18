@@ -63,6 +63,16 @@
         <button class="boton-lateral fondo-cristal">Menú</button>
         {% endif %}
 
+        {% if (devuelto) %}
+        <span class="devuelto">
+            <h4><strong>{{devuelto}}</strong></h4>
+        </span>
+        {% elif (exito) %}
+        <span class="exito-ingreso">
+            <h4><strong>{{exito}}</strong></h4>
+        </span>
+        {% endif %}
+
         <div class="div-busqueda">
             <form class="frm-prestamos" action="/buscar_prestamo" method="GET">
                 <label for="buscar_prestamo"><h1>Gestión de Préstamos</h1>Administra los préstamos de libros, registra nuevos y gestiona devoluciones.</label><br><br><br>
@@ -129,6 +139,8 @@
             </form>
         </div>
         
+
+
         <div class="contendor-prestamos">
 
             {% for prestamo in prestamos %}

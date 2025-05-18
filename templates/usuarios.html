@@ -69,6 +69,12 @@
             </form>
         </div>
 
+        {% if (exito) %}
+        <span class="exito-ingreso">
+            <h4><strong>{{exito}}</strong></h4>
+        </span>
+        {% endif %} 
+
         <div class="contendor-usuarios">
             
             {% for usuario in usuarios %}

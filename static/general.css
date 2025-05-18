@@ -218,6 +218,27 @@ h1 {
     opacity: 0;
     visibility: hidden;
 }
+
+.devuelto{
+    background-color: rgba(230, 253, 255, 0.912);
+    border: solid 1px rgb(2, 106, 170);
+    color: rgb(1, 80, 126);
+    border-radius: 5px;
+    backdrop-filter: blur(10px);
+    height: auto;
+    width: 20%;
+    top: 25%;
+    position: fixed;
+    display: flex;
+    z-index: 10;
+    justify-content: center;
+    align-items: center;
+    animation-name: alerta;
+    animation-duration: 4s;
+    opacity: 0;
+    visibility: hidden;
+}
+
 .footer {
     color: var(--white);
     padding: 2rem 0;

@@ -272,10 +272,11 @@ def libros():
     query.close()
     conexion.close()
     
-    alerta = request.args.get("error", "")
+    alerta = request.args.get("alerta", "")
+    exito = request.args.get("exito", "")
 
     return render_template("libros.html",libros=libros,categorias=categorias,pagina=pagina,total_paginas=total_paginas,
-                           alerta=alerta)
+                           alerta=alerta, exito = exito)
 
 # ----------------------------------------------------- BUSCAR LIBROS ----------------------------------------------------- #
 
@@ -287,6 +288,8 @@ def buscar_libro():
     busqueda = request.args.get("buscar", "")
     filtro_busqueda = request.args.get("filtro-busqueda", "Titulo") 
     Seccion = request.args.get("categorias", "Todas") 
+    alerta = request.args.get("alerta","")
+    exito = request.args.get("exito","")
 
 
     pagina = request.args.get("pag", 1, type=int)
@@ -346,7 +349,8 @@ def buscar_libro():
 
     return render_template("libros.html", libros=libros, categorias=categorias,
                            pagina=pagina, total_paginas=total_paginas,
-                           busqueda=busqueda, filtro_busqueda=filtro_busqueda, Seccion=Seccion)
+                           busqueda=busqueda, filtro_busqueda=filtro_busqueda, Seccion=Seccion, 
+                           alerta = alerta, exito = exito)
 
 # ----------------------------------------------------- ELIMINAR LIBROS ----------------------------------------------------- #
 
@@ -366,8 +370,8 @@ def eliminar_libro():
     libroprestado = query.fetchall()
 
     if(libroprestado):
-        alerta = "Error, el libro esta prestado"
-        return redirect(f"/libros?error={alerta}")
+        alerta = "Error, el libro está prestado."
+        return redirect(url_for("libros",alerta = alerta))
 
     query.execute("select titulo from libros where id_libro = ?",(id_libro,))
     titulo_libro = query.fetchone()[0]
@@ -380,7 +384,9 @@ def eliminar_libro():
     query.close()
     conexion.close()
 
-    return redirect("/libros")
+    exito = "Libro eliminado exitósamente."
+
+    return redirect(url_for("libros",exito = exito))
 
 # ----------------------------------------------------- SUGERENCIAS DINAMICAS ----------------------------------------------------- #
 
@@ -587,6 +593,9 @@ def prestamos():
     query = conexion.cursor()
 
     estados = request.args.get("estados", "Todos")
+    exito = request.args.get("exito","")
+    devuelto = request.args.get("devuelto","")
+
 
     verificar_vencidos()
 
@@ -622,7 +631,8 @@ def prestamos():
     conexion.close()
 
     return render_template("prestamos.html",prestamos=prestamos,estados=estados,pagina=pagina,total_paginas=total_paginas,
-                           prestamos_activos=prestamos_activos,prestamos_devueltos=prestamos_devueltos,prestamos_vencidos=prestamos_vencidos)
+                           prestamos_activos=prestamos_activos,prestamos_devueltos=prestamos_devueltos,prestamos_vencidos=prestamos_vencidos,
+                           exito = exito, devuelto = devuelto)
 
 # ----------------------------------------------------- BUSCAR Prestamo ----------------------------------------------------- #
 
@@ -637,6 +647,8 @@ def buscar_prestamo():
     #Obtiene los datos del formulario filtros en libros.html
     filtro_busqueda = request.args.get("filtro-busqueda","Titulo")
     estados = request.args.get("estados","Todos")
+    exito = request.args.get("exito","")
+    devuelto = request.args.get("devuelto","")
 
     if filtro_busqueda == "Titulo":
         SQL_where_busqueda = (f" where l.titulo || ' (' || p.nombre || ' ' || p.apellido || ')' like '%{busqueda}%'")
@@ -685,7 +697,8 @@ def buscar_prestamo():
     conexion.close()
 
     return render_template("prestamos.html",prestamos=prestamos,estados=estados,pagina=pagina,total_paginas=total_paginas,busqueda=busqueda,filtro_busqueda=filtro_busqueda,
-                           prestamos_activos=prestamos_activos,prestamos_devueltos=prestamos_devueltos,prestamos_vencidos=prestamos_vencidos)
+                           prestamos_activos=prestamos_activos,prestamos_devueltos=prestamos_devueltos,prestamos_vencidos=prestamos_vencidos,
+                           exito = exito, devuelto = devuelto)
 
 # ----------------------------------------------------- Devolver Prestamo ----------------------------------------------------- #
 
@@ -713,7 +726,9 @@ def devolver_prestamo():
     query.close()
     conexion.close()
 
-    return redirect("/prestamos")
+    devuelto = "Libro devuelto exitósamente."
+
+    return redirect(url_for("prestamos",devuelto=devuelto))
 
 # ----------------------------------------------------- Eliminar Prestamo ----------------------------------------------------- #
 
@@ -743,7 +758,9 @@ def eliminar_prestamo():
     query.close()
     conexion.close()
 
-    return redirect("/prestamos")
+    exito = "Préstamo eliminado exitósamente."
+
+    return redirect(url_for("prestamos",exito=exito))
 
 # ----------------------------------------------------- REGISTRO PRESTAMOS ----------------------------------------------------- #
 
@@ -870,6 +887,8 @@ def usuarios():
     if "usuario" not in session:
         return redirect("/") #Solo se puede acceder con session iniciada
     
+    exito = request.args.get("exito","")
+
     conexion = conexion_BD()
     query = conexion.cursor()
 
@@ -880,7 +899,7 @@ def usuarios():
     query.close()
     conexion.close()
 
-    return render_template("usuarios.html",usuarios = usuarios)
+    return render_template("usuarios.html",usuarios = usuarios,exito=exito)
 
 # ----------------------------------------------------- Eliminar USUARIO ----------------------------------------------------- #
 
@@ -897,7 +916,9 @@ def eliminar_usuario():
     query.close()
     conexion.close()
 
-    return redirect("/usuarios")
+    exito = "Usuario eliminado exiósamente."
+
+    return redirect(url_for("usuarios",exito=exito))
 
 # ----------------------------------------------------- BUSCAR Usuarios ----------------------------------------------------- #
 
@@ -905,6 +926,8 @@ def eliminar_usuario():
 def buscar_usuario():
     if "usuario" not in session:
         return redirect("/") #Solo se puede acceder con session iniciada
+    
+    exito = request.args.get("exito","")
     
     conexion = conexion_BD()
     query = conexion.cursor()
@@ -931,7 +954,7 @@ def buscar_usuario():
     conexion.close()
 
 
-    return render_template("usuarios.html",usuarios=usuarios)
+    return render_template("usuarios.html",usuarios=usuarios,exito=exito)
 
 
 # ----------------------------------------------------- Prestamos Eliminados ----------------------------------------------------- #
