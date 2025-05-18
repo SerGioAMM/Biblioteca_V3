@@ -771,13 +771,13 @@ def registro_prestamos():
             
         try:
             # Verificar si el libro existe y tiene al menos 1 copia
-            query.execute("SELECT id_libro, numero_copias FROM Libros WHERE (titulo || '(' || ano_publicacion || ')') = ?", (Libro,))
+            query.execute("select id_libro, numero_copias from Libros where (titulo || '(' || ano_publicacion || ')') = ?", (Libro,))
             libro_data = query.fetchone()
 
             if libro_data is None:
                 # El libro no existe
-                error = "El libro no existe."
-                return render_template("registro_prestamos.html", error=error,
+                alerta = "El libro no existe."
+                return render_template("registro_prestamos.html", alerta=alerta,
                        DPI=DPI, nombre_lector=NombreLector, apellido_lector=ApellidoLector,
                        direccion=Direccion, num_telefono=Telefono, libro=Libro,
                        grado=GradoEstudio, fecha_prestamo=fecha_prestamo,
@@ -788,8 +788,8 @@ def registro_prestamos():
 
             if numero_copias < 1:
                 # No hay copias disponibles
-                error = "No hay copias disponibles de este libro"
-                return render_template("registro_prestamos.html", error=error,
+                alerta = "No hay copias disponibles de este libro"
+                return render_template("registro_prestamos.html", alerta=alerta,
                        DPI=DPI, nombre_lector=NombreLector, apellido_lector=ApellidoLector,
                        direccion=Direccion, num_telefono=Telefono, libro=Libro,
                        grado=GradoEstudio, fecha_prestamo=fecha_prestamo,

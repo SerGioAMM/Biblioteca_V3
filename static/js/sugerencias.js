@@ -98,4 +98,14 @@ document.querySelectorAll('.input-lugar, .input-editorial, .buscar, .buscar-libr
   });
 });
 
+document.addEventListener('click', function(event) {
+  const clicDentroCaja = caja_sugerencias.contains(event.target);
+  const clicDentroInput = inputActivo && inputActivo.contains(event.target);
+
+  if (!clicDentroCaja && !clicDentroInput) {
+    caja_sugerencias.classList.remove('activar');
+    caja_sugerencias.innerHTML = '';
+  }
+});
+
 
