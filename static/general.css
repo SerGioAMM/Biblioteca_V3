@@ -221,7 +221,7 @@ h1 {
 .footer {
     color: var(--white);
     padding: 2rem 0;
-    background-color: #000000b2;
+    background-color: #100a07dc;
     backdrop-filter: blur(10px);
 }
 
