@@ -413,9 +413,18 @@ main{
         grid-template-columns: repeat(3, 1fr);
     }
 }
+@media (max-width: 480px) {
+    .services-grid {
+        display: flex;
+        gap: 1rem;
+        flex-direction: column;
+    }
+}
 
-@media (min-width: 1024px) {
+@media (max-width: 1024px) {
     .services-grid {
         grid-template-columns: repeat(3, 1fr);
     }
+
+
 }

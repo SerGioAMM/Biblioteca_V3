@@ -51,7 +51,7 @@
             <a href="{{ url_for('buscar_libro', buscar=libro[3], filtro_busqueda='Titulo', categorias='Todas') }}">
             <div class="div-libro-destacado">
             
-                <span class="span-notacion-{{libro[7]}}"
+                <span class="span-notacion"
                     {% if (libro[7]|int) < 100 %}
                         id="h2-seccion-0"
                     {% elif (libro[7]|int) < 200 %}
