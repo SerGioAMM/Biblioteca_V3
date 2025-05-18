@@ -18,6 +18,8 @@
                 <a href="{{ url_for('login') }}">Iniciar como administrador</a>
                 <a href="{{ url_for('libros') }}">Catálogo </a>
                 <a href="{{ url_for('acercade') }}">Acerca de</a>
+                <a target="_blank" href="https://www.canva.com/design/DAGnUI0PU7M/cDvkG9fCgPKL4FTZee_YLQ/edit">Ayuda</a>
+
             </nav>
         </div>
     </header>
@@ -29,6 +31,7 @@
                 <a href="{{ url_for('login') }}">Iniciar como administrador</a>
                 <a href="{{ url_for('libros') }}">Catálogo de Libros</a>
                 <a href="{{ url_for('acercade') }}">Acerca de</a>
+                <a target="_blank" href="https://www.canva.com/design/DAGnUI0PU7M/cDvkG9fCgPKL4FTZee_YLQ/edit">Ayuda</a>
             </nav>
         </section>
         <button class="boton-lateral fondo-cristal">Menú</button>
@@ -50,7 +53,7 @@
             <a href="{{ url_for('buscar_libro', buscar=libro[3], filtro_busqueda='Titulo', categorias='Todas') }}">
             <div class="div-libro-destacado">
             
-                <span class="span-notacion" 
+                <span class="span-notacion-{{libro[7]}}"
                     {% if (libro[7]|int) < 100 %}
                         id="h2-seccion-0"
                     {% elif (libro[7]|int) < 200 %}
@@ -124,103 +127,72 @@
     <div class="contenedor-actividades fondo-cristal">
                
         <div class="cuadricula-actividades">
-            <div class="tarjeta-actividad" data-categoria="educativa">
-                <h3>Lectura</h3>
-                <span class="etiqueta etiqueta-educativa">Educativa</span>
-            </div>
-            
-            <div class="tarjeta-actividad" data-categoria="educativa">
+            <div class="tarjeta-actividad" data-categoria="educativa" id="hora-cuento">
                 <h3>Hora de Cuento</h3>
                 <span class="etiqueta etiqueta-educativa">Educativa</span>
+                <h5>Lectura dirigida a niños de 4 a 7 años de edad con previa programación por bibliotecario y docente.</h5>
             </div>
             
-            <div class="tarjeta-actividad" data-categoria="educativa">
+            <div class="tarjeta-actividad" data-categoria="educativa" id="estimulacion-temprana">
                 <h3>Estimulación Temprana</h3>
                 <span class="etiqueta etiqueta-educativa">Educativa</span>
+                <h5>Desarrollo de la motricidad mediante juego y lecturas con niños de 0 a 3 años de edad Horario: Lunes de 9:00AM a 10:00AM</h5>
             </div>
             
-            <div class="tarjeta-actividad" data-categoria="educativa">
+            <div class="tarjeta-actividad" data-categoria="educativa" id="club-tecnologia">
                 <h3>Club de Tecnología</h3>
                 <span class="etiqueta etiqueta-educativa">Educativa</span>
+                <h5>Jovenes voluntarios imparten clases o talleres básicos de temas de computación y tecnología.</h5>
             </div>
             
-            <div class="tarjeta-actividad" data-categoria="educativa">
+            <div class="tarjeta-actividad" data-categoria="educativa" id="mentes-brillantes">
                 <h3>Club de Mentes Brillantes</h3>
                 <span class="etiqueta etiqueta-educativa">Educativa</span>
+                <h5>Grupo de jóvenes voluntarios que llevan lecturas a los centros básicos de la comunidad y alrededores con previa programación entre docentes y voluntarios.</h5>
             </div>
             
-            <div class="tarjeta-actividad" data-categoria="educativa">
-                <h3>Computación</h3>
-                <span class="etiqueta etiqueta-educativa">Educativa</span>
-            </div>
-            
-            <div class="tarjeta-actividad" data-categoria="educativa">
-                <h3>Ajedrez</h3>
-                <span class="etiqueta etiqueta-educativa">Educativa</span>
-            </div>
-            
-            <div class="tarjeta-actividad" data-categoria="educativa">
+            <div class="tarjeta-actividad" data-categoria="educativa" id="clases-vacacionales">
                 <h3>Clases Vacacionales</h3>
                 <span class="etiqueta etiqueta-educativa">Educativa</span>
+                <h5>Planificación de actividades manuales y creativas en el periodo de vacaciones.</h5>
             </div>
             
-            <div class="tarjeta-actividad" data-categoria="recreativa">
+            <div class="tarjeta-actividad" data-categoria="recreativa" id="juegos">
                 <h3>Juegos</h3>
                 <span class="etiqueta etiqueta-recreativa">Recreativa</span>
+                <h5>-Ajedrez <br> -Damas <br> -Legos <br> -Juegos de memorización</h5>
             </div>
             
-            <div class="tarjeta-actividad" data-categoria="recreativa">
-                <h3>Juego de Mesas</h3>
+            <div class="tarjeta-actividad" data-categoria="recreativa" id="recreativas">
+                <h3>Actividades Recreativas</h3>
                 <span class="etiqueta etiqueta-recreativa">Recreativa</span>
+                <h5>Tarde de Película <br> Tarde de Karaoke</h5>
             </div>
             
-            <div class="tarjeta-actividad" data-categoria="recreativa">
-                <h3>Tarde de Película</h3>
-                <span class="etiqueta etiqueta-recreativa">Recreativa</span>
-            </div>
-            
-            <div class="tarjeta-actividad" data-categoria="recreativa">
-                <h3>Tarde de Karaoke</h3>
-                <span class="etiqueta etiqueta-recreativa">Recreativa</span>
-            </div>
-            
-            <div class="tarjeta-actividad" data-categoria="social">
+            <div class="tarjeta-actividad" data-categoria="social" id="club-lectura">
                 <h3>Club de Lectura</h3>
                 <span class="etiqueta etiqueta-social">Social</span>
+                <h5>Se llevan lecturas de cuentos, fabulas o narrativas cortas, a escuelas ya establecidas para leer y comentar con los niños.</h5>
             </div>
-            
-            <div class="tarjeta-actividad" data-categoria="social">
-                <h3>Junta Directiva</h3>
-                <span class="etiqueta etiqueta-social">Social</span>
-            </div>
-            
-            <div class="tarjeta-actividad" data-categoria="social">
-                <h3>Voluntariado</h3>
-                <span class="etiqueta etiqueta-social">Social</span>
-            </div>
-            
-            <div class="tarjeta-actividad" data-categoria="social">
-                <h3>Convivios</h3>
-                <span class="etiqueta etiqueta-social">Social</span>
-            </div>
-            
-            <div class="tarjeta-actividad" data-categoria="servicio">
-                <h3>Préstamo de libros</h3>
-                <span class="etiqueta etiqueta-servicio">Servicio</span>
-            </div>
-            
-            <div class="tarjeta-actividad" data-categoria="servicio">
-                <h3>Investigaciones</h3>
-                <span class="etiqueta etiqueta-servicio">Servicio</span>
-            </div>
+
         </div>
     </div>
 </section>
 
     </main>
-    <footer>
-
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            
+            <div class="footer-copyright">
+                <p>&copy; <span id="current-year"></span> Biblioteca Municipal. Todos los derechos reservados.</p>
+            </div>
+        </div>
     </footer>
+    <script src="/static/js/menu.js"></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
     <script src="/static/js/menu.js"></script>
     </body>
 </html>

@@ -12,7 +12,6 @@ cerrar.addEventListener("click", () => {
     cerrar.classList.remove("boton-lateral-visible");
 })
 
-// Verifica si el clic fue fuera del menú y de los botones
 document.addEventListener("click", (e) => {
     if (
         !menu.contains(e.target) &&

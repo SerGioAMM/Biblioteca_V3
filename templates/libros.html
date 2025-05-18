@@ -222,7 +222,7 @@
                 {% endif %}
             {% endfor %}   
         
-            {% if pagina < total_paginas %} <!-- Verifica que la pagina actual no sea la ultima, para mostrar un boton de "Siguiente" -->
+            {% if (pagina < total_paginas) %} <!-- Verifica que la pagina actual no sea la ultima, para mostrar un boton de "Siguiente" -->
                 <a href="{{ url_for('buscar_libro', pag=pagina + 1, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">Siguiente</a> <!-- Este enlace lleva a la pagina siguiente "pagina+1" -->
             {% endif %}
         </div>            

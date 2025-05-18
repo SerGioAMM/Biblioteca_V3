@@ -298,7 +298,7 @@
 /* Cuadrícula de actividades */
 .cuadricula-actividades {
     display: grid;
-    grid-template-columns: repeat(6,1fr);
+    grid-template-columns: repeat(4,1fr);
     gap: 2.5rem;
     margin-top: 1rem;
 }
@@ -311,19 +311,16 @@
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: self-start;
     justify-content: center;
     gap: 1rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     overflow: hidden;
-    height: 4rem;
+    height: 6rem;
 }
 
-.tarjeta-actividad:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
+
 
 .tarjeta-actividad h3 {
     margin: 0;
@@ -331,6 +328,32 @@
     color: #333;
     text-align: center;
 }
+
+.tarjeta-actividad h5{
+    opacity: 0;
+    visibility: hidden;
+    transition: .2s ease-in-out;
+    background-color: rgba(158, 158, 158, 0.173);
+    backdrop-filter: blur(10px);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 103%;
+    color: rgb(8, 8, 8);
+    font-weight: 500;
+    left: 0;
+    flex-wrap: wrap;
+    text-overflow: ellipsis;
+}
+.tarjeta-actividad:hover h5{
+    opacity: 1;
+    visibility: visible;
+
+}
+
 
 /* Etiquetas de categoría */
 .etiqueta {
@@ -340,7 +363,7 @@
     font-weight: bold;
     position: absolute;
     top: 10px;
-    right: 10px;
+    left: 10px;
 }
 
 .etiqueta-educativa {
@@ -361,6 +384,44 @@
 .etiqueta-servicio {
     background-color: rgba(156, 39, 176, 0.15);
     color: rgb(156, 39, 176);
+}
+
+#hora-cuento,
+#estimulacion-temprana,
+#club-tecnologia,
+#mentes-brillantes,
+#clases-vacacionales,
+#juegos,
+#recreativas,
+#club-lectura{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+#hora-cuento{
+    background-image: url(/static/img/actividades/hora\ del\ cuento.png);
+}
+#estimulacion-temprana{
+    background-image: url(/static/img/actividades/estimulacion\ temprana.png);
+}
+#club-tecnologia{
+    background-image: url(/static/img/actividades/club\ tecnologia.png);
+}
+#mentes-brillantes{
+    background-image: url(/static/img/actividades/mente\ brillante.png);
+}
+#clases-vacacionales{
+    background-image: url(/static/img/actividades/clases_vacacionales.png);
+}
+#juegos{
+    background-image: url(/static/img/actividades/ajedrez2.png);
+}
+#recreativas{
+    background-image: url(/static/img/actividades/tarde\ de\ pelicula.png);
+}
+#club-lectura{
+    background-image: url(/static/img/actividades/lectura.png);
 }
 
 

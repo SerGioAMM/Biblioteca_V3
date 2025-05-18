@@ -2,11 +2,13 @@ import sqlite3
 
 '''
 def conexion_BD():
-    conexion = sqlite3.connect('Data/Biblioteca.db')
-    conexion.row_factory = sqlite3.Row
-
+    conexion = sqlite3.connect('Data/Biblioteca_GM.db')
     return conexion
 '''
+
+
+
+
 
 import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -18,3 +20,5 @@ def conexion_BD():
 
 
 
+
+#    conexion.row_factory = sqlite3.Row

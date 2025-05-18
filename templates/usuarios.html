@@ -96,7 +96,7 @@
                     </h4> <!-- Datos del usuario  --> 
                 </span>
                 <span id="span-acciones-usuario">                 
-                    {% if session["rol"] == 'Administrador' and usuario[5]|int != 1 and session["usuario"] != usuario[2] %}
+                    {% if session["rol"] == 'Administrador' and usuario[5]|int != 1 and session["id_administrador"] != usuario[5] %}
                         <form class="frm-eliminar-usuario" action="/eliminar_usuario" method="POST">
                             <input type="text" value="{{usuario[5]}}" name="id_usuario"> 
                             <button type="reset" class="btn-eliminacion"> Eliminar </button>
@@ -106,9 +106,11 @@
                             </span>
                         </form>
                     {% elif (session["id_administrador"]) == 1 %}
+                        <!--
                         <button>
                             <a href="{{ url_for('descargar_bd') }}">Descargar base de datos</a>
                         </button>
+                        -->
                     {% endif %}
                 </span>
             </div>

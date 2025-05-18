@@ -1,31 +1,29 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, session, send_file, flash
-from config import conexion_BD
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session, send_file
 from datetime import datetime
 import math
+from config import conexion_BD
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
 # Esta clave se usa para la gestion de usuarios de flask -> "from flask import session"
 app.secret_key = "234_Clav3-Ant1H4ck3r$_1"
 
-# !Se puede montar esta app en la nube?
-# *Se puede en RENDER HOSTING
-
 # ----------------------------------------------------- PRINCIPAL ----------------------------------------------------- #
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
 def inicio():
     session.clear()
+
     conexion = conexion_BD()
     query = conexion.cursor()
     
     query.execute("""select l.id_libro,count(l.id_libro) as cantidad, n.notacion, l.Titulo, a.nombre_autor, a.apellido_autor, l.ano_publicacion, sd.codigo_seccion, sd.seccion, l.numero_copias
                     from Prestamos p
 					join libros l on p.id_libro = l.id_libro
-                    join RegistroLibros r ON r.id_libro = l.id_libro
-                    join SistemaDewey sd ON sd.codigo_seccion = r.codigo_seccion 
-                    join notaciones n ON n.id_notacion = r.id_notacion
-                    join Autores a ON a.id_autor = n.id_autor
+                    join RegistroLibros r on r.id_libro = l.id_libro
+                    join SistemaDewey sd on sd.codigo_seccion = r.codigo_seccion 
+                    join notaciones n on n.id_notacion = r.id_notacion
+                    join Autores a on a.id_autor = n.id_autor
                     group by p.id_libro
                     order by cantidad desc
                     limit 4;""")
@@ -104,7 +102,7 @@ def insertar_libro():
         ultima_seccion = "0"
     else:
         query.execute("""
-        select * from SistemaDewey 
+        select codigo_seccion,seccion from SistemaDewey 
         where SistemaDewey.codigo_seccion = 
         (?)""",(select_seccion[0],))
         ultima_seccion = query.fetchall()
@@ -254,7 +252,7 @@ def libros():
     # Consulta paginada
     query.execute("""
         select l.id_libro, Titulo, tomo, ano_publicacion, ISBN, numero_paginas, numero_copias,
-               sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor, e.editorial, n.notacion,lu.lugar
+        sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor, e.editorial, n.notacion,lu.lugar
         from Libros l
         join RegistroLibros r ON r.id_libro = l.id_libro
         join SistemaDewey sd ON sd.codigo_seccion = r.codigo_seccion 
@@ -287,8 +285,8 @@ def buscar_libro():
     query = conexion.cursor()
 
     busqueda = request.args.get("buscar", "")
-    filtro_busqueda = request.args.get("filtro-busqueda", "Titulo") #Valores por default necesarios cuando se accede con una URL directa y no existen parametros
-    Seccion = request.args.get("categorias", "Todas") #Valores por default necesarios cuando se accede con una URL directa y no existen parametros
+    filtro_busqueda = request.args.get("filtro-busqueda", "Titulo") 
+    Seccion = request.args.get("categorias", "Todas") 
 
 
     pagina = request.args.get("pag", 1, type=int)
@@ -313,13 +311,13 @@ def buscar_libro():
 
     # Conteo total para paginación
     query.execute(f"""
-        SELECT COUNT(*) FROM Libros l
-        join RegistroLibros r ON r.id_libro = l.id_libro
-        join SistemaDewey sd ON sd.codigo_seccion = r.codigo_seccion 
-        join notaciones n ON n.id_notacion = r.id_notacion
-        join Autores a ON a.id_autor = n.id_autor
-        join Editoriales e ON e.id_editorial = n.id_editorial
-        join Lugares lu on r.id_lugar
+        select count(*) from Libros l
+        join RegistroLibros r on r.id_libro = l.id_libro
+        join SistemaDewey sd on sd.codigo_seccion = r.codigo_seccion 
+        join notaciones n on n.id_notacion = r.id_notacion
+        join Autores a on a.id_autor = n.id_autor
+        join Editoriales e on e.id_editorial = n.id_editorial
+        join Lugares lu on r.id_lugar = lu.id_lugar
         {filtro_total}
     """)
     total_libros = query.fetchone()[0]
@@ -327,19 +325,20 @@ def buscar_libro():
 
     # Consulta paginada
     query.execute(f"""
-        SELECT l.id_libro, Titulo, tomo, ano_publicacion, ISBN, numero_paginas, numero_copias,
-               sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor, e.editorial, n.notacion, lu.lugar
-        FROM Libros l
-        join RegistroLibros r ON r.id_libro = l.id_libro
-        join SistemaDewey sd ON sd.codigo_seccion = r.codigo_seccion 
-        join notaciones n ON n.id_notacion = r.id_notacion
-        join Autores a ON a.id_autor = n.id_autor
-        join Editoriales e ON e.id_editorial = n.id_editorial
-        join Lugares lu ON r.id_lugar = lu.id_lugar
+        select l.id_libro, Titulo, tomo, ano_publicacion, ISBN, numero_paginas, numero_copias,
+        sd.codigo_seccion, sd.seccion, a.nombre_autor, a.apellido_autor, e.editorial, n.notacion, lu.lugar
+        from Libros l
+        join RegistroLibros r on r.id_libro = l.id_libro
+        join SistemaDewey sd on sd.codigo_seccion = r.codigo_seccion 
+        join notaciones n on n.id_notacion = r.id_notacion
+        join Autores a on a.id_autor = n.id_autor
+        join Editoriales e on e.id_editorial = n.id_editorial
+        join Lugares lu on r.id_lugar = lu.id_lugar
         {filtro_total}
         order by sd.codigo_seccion asc,Titulo asc
-        LIMIT ? OFFSET ?
+        limit ? offset ?
     """, (libros_por_pagina, offset))
+
     libros = query.fetchall()
 
     query.close()
@@ -573,6 +572,7 @@ def verificar_vencidos():
                                 set id_estado = 1
                                 where id_prestamo = ?""", (id_prestamo,)) #Establece estado vencido
                 conexion.commit()  # Guardamos los cambios
+
     query.close()
     conexion.close()
 
