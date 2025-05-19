@@ -13,7 +13,5 @@ const mm7 = String(sieteDias.getMonth() + 1).padStart(2, '0');
 const dd7 = String(sieteDias.getDate()).padStart(2, '0');
 const fechaSiete = `${yyyy7}-${mm7}-${dd7}`;
 
-
-
 document.getElementById('fecha_prestamo').value = fechaHoy;
 document.getElementById('fecha_entrega_estimada').value = fechaSiete;

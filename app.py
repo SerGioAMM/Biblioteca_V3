@@ -145,8 +145,6 @@ def insertar_libro():
             ApellidoAutor = "-"
             Notacion = "OTR"
 
-        #!Fallo en ingreso de notacion cuando no hay editorial
-
         if editorial or ApellidoAutor or NombreAutor:
             for i in range (0,3): #Notacion es un arreglo, este for funciona para pasar ese arreglo a ser una variable
                 _notacion = _notacion + Notacion[i]
