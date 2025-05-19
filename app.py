@@ -594,7 +594,6 @@ def prestamos():
     exito = request.args.get("exito","")
     devuelto = request.args.get("devuelto","")
 
-
     verificar_vencidos()
 
     #Paginacion
@@ -849,14 +848,14 @@ def registrar_usuarios():
 
     #Verifica la accion que realiza el formulario en registro_usuairos.html
     if request.method == "POST":
-        #Obtiene los datos del formulario en registro-prestamos.html
+        #Obtiene los datos del formulario en registro-usuarios.html
         usuario = request.form["usuario"]
         contrasena = request.form["contrasena"]
         telefono = request.form["telefono"]
         rol = request.form["rol"]
   
         try:
-            #? INSERT DE PRESTAMOS
+            #? INSERT DE USUARIOS
             query.execute(f"""Insert into Administradores(usuario,contrasena,telefono,id_rol)
                           values (?,?,?,?)""",(usuario,contrasena,telefono,rol))
 
