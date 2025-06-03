@@ -56,8 +56,8 @@ def login():
         password = request.form["password"]
 
         query.execute("""Select a.id_administrador,a.usuario,r.rol from Administradores a 
-                      Join roles r on a.id_rol = r.id_rol
-                      where usuario = ? and contrasena = ?""", (usuario, password))
+                    Join roles r on a.id_rol = r.id_rol
+                    where usuario = ? and contrasena = ?""", (usuario, password))
         login_usuario = query.fetchone()
 
         if (login_usuario):
@@ -185,7 +185,7 @@ def insertar_libro():
             #? INSERT DE REGISTRO LIBROS
             #En registro libros, id_libro deberia ser unico? ya que se guarda un solo libro con el numero de copias
             query.execute("Insert into RegistroLibros(id_libro,id_notacion,id_lugar,codigo_seccion) values (?,?,?,?)",(id_libro,id_notacion,id_lugar,SistemaDewey))            
-             
+
             #? Guardar cambios
             conexion.commit() 
 
