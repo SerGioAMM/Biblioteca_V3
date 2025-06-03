@@ -10,12 +10,15 @@ h1 {
     margin-bottom: 20px;
 }
 .main{
-    background-image: url('img/libros-loop-v2.jpg');
+    /*
+    background-color: #6B3E2E;
+    */
+    background-image: url('img/fondo_madera.jpg');
     background-size: cover;
     background-position: top;
     height: 110vh;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
     justify-content: center;
     align-items: center;
     color: #fffbf2; 

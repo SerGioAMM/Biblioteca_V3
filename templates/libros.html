@@ -141,7 +141,13 @@
                 </span><!-- Notacion  -->
                     
                 <span id="span-info-libros"> 
-                    <h3>{{libro[1]}}</h3> <!-- Titulo  --> 
+                    <h3>
+                        {% if session %}
+                        [{{libro[0]}}] - 
+                        {% endif %}
+
+                        {{libro[1]}}</h3> <!-- ID + Titulo  --> 
+                        
                     <h4><br>{{libro[9]}} {{libro[10]}} <!-- Nombre y apellido del autor  -->
                         {{libro[3]}} </h4> <!-- Anio de publicacion  -->
                         

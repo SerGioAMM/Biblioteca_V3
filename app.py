@@ -5,6 +5,8 @@ from config import conexion_BD
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
+#! RECORDATORIO: Agregar el id_libro para mostrarlo en prestamos eliminados y en libros eliminados
+
 # Esta clave se usa para la gestion de usuarios de flask -> "from flask import session"
 app.secret_key = "234_Clav3-Ant1H4ck3r$_1"
 
@@ -607,7 +609,7 @@ def prestamos():
     total_paginas = math.ceil(total_prestamos / prestamos_por_pagina)
 
     # Consulta para mostrar los prestamos en tarjetas de prestamos.html
-    query.execute(f"""select strftime('%d-%m-%Y', p.fecha_prestamo), strftime('%d-%m-%Y', p.fecha_entrega_estimada), strftime('%d-%m-%Y', p.fecha_devolucion), l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo
+    query.execute(f"""select strftime('%d-%m-%Y', p.fecha_prestamo), strftime('%d-%m-%Y', p.fecha_entrega_estimada), strftime('%d-%m-%Y', p.fecha_devolucion), l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo, l.id_libro
                     from Prestamos p
                     join Libros l on p.id_libro = l.id_libro
                     join Estados e on p.id_estado = e.id_estado
@@ -670,7 +672,7 @@ def buscar_prestamo():
     total_prestamos = query.fetchone()[0]
     total_paginas = math.ceil(total_prestamos / prestamos_por_pagina) #Calculo para cantidad de paginas, redondeando hacia arriba (ej, 2.1 = 3)
 
-    query_busqueda = (f"""select strftime('%d-%m-%Y', p.fecha_prestamo), strftime('%d-%m-%Y', p.fecha_entrega_estimada), strftime('%d-%m-%Y', p.fecha_devolucion), l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo
+    query_busqueda = (f"""select strftime('%d-%m-%Y', p.fecha_prestamo), strftime('%d-%m-%Y', p.fecha_entrega_estimada), strftime('%d-%m-%Y', p.fecha_devolucion), l.Titulo, p.nombre, p.apellido, p.dpi_usuario, p.num_telefono,  p.direccion, e.estado, p.id_prestamo,l.id_libro
                     from Prestamos p
                     join Libros l on p.id_libro = l.id_libro
                     join Estados e on p.id_estado = e.id_estado 
@@ -731,6 +733,7 @@ def devolver_prestamo():
 
 @app.route("/eliminar_prestamo", methods=["GET", "POST"])
 def eliminar_prestamo():
+    #! RECORDATORIO: Agregar el id_libro para mostrarlo en prestamos eliminados y en libros eliminados
     id_prestamo = request.form["id_prestamo"]
     motivo = request.form["motivo"]
 
