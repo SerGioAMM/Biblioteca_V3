@@ -1,3 +1,4 @@
 Flask == 3.1.0
 gunicorn == 23.0.0
 SQLAlchemy == 2.0.38
+sqliteCloud == 0.0.84
