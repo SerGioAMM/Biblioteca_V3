@@ -13,12 +13,11 @@
     <header>
 
         <div class="navbar fondo-cristal">
-            <a href="{{ url_for('inicio') }}">Inicio</a>
+            <a href="{{ url_for('inicio') }}">Biblioteca Gabriela Mistral</a>
             <nav>
-                <a href="{{ url_for('login') }}">Iniciar como administrador</a>
                 <a href="{{ url_for('libros') }}">Catálogo </a>
                 <a href="{{ url_for('acercade') }}">Acerca de</a>
-
+                <a href="{{ url_for('login') }}">Iniciar como administrador</a>
             </nav>
         </div>
     </header>
@@ -27,18 +26,24 @@
             <nav>
                 <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
                 <br>
-                <a href="{{ url_for('login') }}">Iniciar como administrador</a>
                 <a href="{{ url_for('libros') }}">Catálogo de Libros</a>
                 <a href="{{ url_for('acercade') }}">Acerca de</a>
+                <a href="{{ url_for('login') }}">Iniciar como administrador</a>
             </nav>
         </section>
         <button class="boton-lateral fondo-cristal">Menú</button>
 
         <!-- SECCION PRINCIPAL -->
         <section class="seccion-principal">
-            <div class="botones">
-                <a class="fondo-cristal" id="btn-catalogo" href="{{ url_for('libros') }}"> Explora nuestro catálogo </a>
-            </div>
+            <!--
+                <div class="presentacion-biblioteca">
+                    <h1><br>Biblioteca Comunitaria Gabriela Mistral</h1>
+                    <h3>San Juan Chamelco</h3>
+                </div>
+            -->
+                <div class="botones">
+                    <a class="fondo-cristal" id="btn-catalogo" href="{{ url_for('libros') }}"> Explora nuestro catálogo </a>
+                </div>
         </section>
 
     <!-- SECCION LIBROS DESTACADOS -->

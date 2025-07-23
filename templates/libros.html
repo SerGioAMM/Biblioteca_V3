@@ -177,15 +177,7 @@
                     </h5> <!-- Codigo de seccion + seccion  --> 
                 </span>
 
-                <span id="span-datos-libro2">
-                    <h4 class="h4-datos-libro2">
-                        ISBN: {{libro[4]}}<br>
-                        Tomo:  {{libro[2]}}<br>
-                        Número de páginas: {{libro[5]}}<br>
-                        Editorial: {{libro[11]}}<br>
-                        Lugar: {{libro[13]}} 
-                    </h4> <!-- Datos extras del libro  --> 
-                </span>
+                
                 
                 <!-- Verificacion de disponibilidad comparando el numero de copias -> (libro[6]) -->
                 <span id="span-disponibilidad-libros"> 
@@ -202,7 +194,7 @@
                         <h4 id="h4-no_disponible">No disponible</h4>
                     {% endif %}
                     <span id="span-acciones-libro">
-                        {% if session["rol"] == 'Administrador' %}
+                        {% if (session["rol"] == 'Administrador' or (session["rol" == 'Bibliotecario'])) %}
                         <form class="frm-eliminar-libro" action="/eliminar_libro" method="POST">
                             <input type="text" value="{{libro[0]}}" name="id_libro"> 
                             <button type="reset" class="btn-eliminacion"> Eliminar </button>
@@ -213,6 +205,15 @@
                         </form>
                         {% endif %}
                     </span>
+                </span>
+                <span id="span-datos-libro2">
+                    <h4 class="h4-datos-libro2">
+                        ISBN: {{libro[4]}}<br>
+                        Tomo:  {{libro[2]}}<br>
+                        Número de páginas: {{libro[5]}}<br>
+                        Editorial: {{libro[11]}}<br>
+                        Lugar: {{libro[13]}} 
+                    </h4> <!-- Datos extras del libro  --> 
                 </span>
             </div>
             {% endfor %}
