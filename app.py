@@ -79,6 +79,7 @@ def login():
     return render_template("login.html", alerta = alerta)
 
 # ----------------------------------------------------- ACERCA DE ----------------------------------------------------- #
+
 @app.route("/acercade")
 def acercade():
 
