@@ -3,10 +3,10 @@ from datetime import datetime
 import math
 
 from config import conexion_BD
-from libros import bp_libros
-from prestamos import bp_prestamos
-from usuarios import bp_usuarios
-from sugerencias import bp_sugerencias
+from modules.libros import bp_libros
+from modules.prestamos import bp_prestamos
+from modules.usuarios import bp_usuarios
+from modules.sugerencias import bp_sugerencias
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 app.register_blueprint(bp_libros)
