@@ -307,7 +307,7 @@ def eliminar_libro():
 
     exito = "Libro eliminado exitósamente."
 
-    return redirect(url_for("libros",exito = exito))
+    return redirect(url_for("libros.libros",exito = exito))
 
 
 # ----------------------------------------------------- Libros Eliminados ----------------------------------------------------- #
