@@ -15,7 +15,7 @@
         <div class="navbar fondo-cristal">
             <a href="{{ url_for('inicio') }}">Biblioteca Gabriela Mistral</a>
             <nav>
-                <a href="{{ url_for('libros') }}">Catálogo </a>
+                <a href="{{ url_for('libros.libros') }}">Catálogo </a>
                 <a href="{{ url_for('login') }}">Iniciar como administrador</a>
             </nav>
         </div>
@@ -27,7 +27,7 @@
                 <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
                 <br>
                 <a href="{{ url_for('login') }}">Iniciar como administrador</a>
-                <a href="{{ url_for('libros') }}">Catálogo de Libros</a>
+                <a href="{{ url_for('libros.libros') }}">Catálogo de Libros</a>
                 <a href="#">Acerca de</a>
             </nav>
         </section>
@@ -199,7 +199,7 @@
         <div class="container">
             
             <div class="footer-copyright">
-                <p>&copy; <span id="current-year"></span> Biblioteca Municipal. Todos los derechos reservados.</p>
+                <p>&copy; <span id="current-year"></span> Biblioteca Municipal.</p>
             </div>
         </div>
     </footer>

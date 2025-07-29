@@ -20,7 +20,7 @@ main{
     width: 45%;
     height: auto;
     min-height: 70%;
-    top: 40%;
+    top: 50%;
     z-index: 0;
     margin: 2rem auto;
 }
@@ -224,6 +224,19 @@ button a{
 .mostrar_motivo{
     visibility: visible;
     opacity: 1;
+}
+
+@media (max-width: 1366px) {
+    .contendor-usuarios{
+        top: 60%;
+    }
+}
+
+@media (max-width: 1280px) {
+    .contendor-usuarios{
+        width: 50%;
+
+    }
 }
 
 

@@ -38,7 +38,7 @@ main{
     backdrop-filter: blur(10px);
     display: flex;
     width: 100%;
-    height: 25%;
+    height: 30%;
     border-radius: 10px;
     margin-bottom: .8rem;
     color: #4a4a4a;
@@ -232,6 +232,17 @@ form select{
 .mostrar_motivo{
     visibility: visible;
     opacity: 1;
+}
+@media (max-width: 1366px) {
+    .contendor-prestamos{
+        top: 65%;
+    }
+}
+
+@media (max-width: 1280px) {
+    .prestamo{
+        font-size: 90%;
+    }
 }
 
 @media (max-width: 1024px) {

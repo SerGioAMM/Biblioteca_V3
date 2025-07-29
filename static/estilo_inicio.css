@@ -6,8 +6,17 @@
     background-position: center;
     height: 90vh;
 }
-
-
+/*
+.seccion-principal .presentacion-biblioteca{
+    background-color: #ffffff4b;
+    backdrop-filter: blur(5px);
+    position: absolute;
+    height: 90%;
+    width: 100%;
+    z-index: 0;
+    color: rgb(246, 242, 236);
+}
+*/
 .seccion-servicios{
     background-color:rgb(4, 128, 128);
     background-size: cover;
@@ -322,7 +331,7 @@
 
 .tarjeta-actividad h3 {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: #333;
     text-align: center;
 }
@@ -339,7 +348,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 103%;
+    font-size: 100%;
     color: rgb(8, 8, 8);
     font-weight: 500;
     left: 0;

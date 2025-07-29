@@ -27,15 +27,15 @@
             {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
             <nav>
                 <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
-                <a href="{{ url_for('prestamos') }}">Préstamos </a>
-                <a href="{{ url_for('registro_prestamos') }}">Registro Préstamos</a>
-                <a href="{{ url_for('libros') }}">Catálogo de Libros </a>
-                <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
+                <a href="{{ url_for('prestamos.prestamos') }}">Préstamos </a>
+                <a href="{{ url_for('prestamos.registro_prestamos') }}">Registro Préstamos</a>
+                <a href="{{ url_for('libros.libros') }}">Catálogo de Libros </a>
+                <a href="{{ url_for('libros.insertar_libro') }}">Registro de Libros</a>
                 {% if session["rol"] == "Administrador" %}
-                <a href="{{ url_for('usuarios') }}" id="pagina-actual">Usuarios</a>
-                <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
-                <a href="{{ url_for('libros_eliminados') }}">Libros Eliminados</a>
-                <a href="{{ url_for('prestamos_eliminados') }}">Préstamos Eliminados</a>
+                <a href="{{ url_for('usuarios.usuarios') }}" id="pagina-actual">Usuarios</a>
+                <a href="{{ url_for('usuarios.registrar_usuarios') }}">Registro de Usuarios</a>
+                <a href="{{ url_for('libros.libros_eliminados') }}">Libros Eliminados</a>
+                <a href="{{ url_for('prestamos.prestamos_eliminados') }}">Préstamos Eliminados</a>
                 {% endif %}
                 <a target="_blank" href="https://www.canva.com/design/DAGnUI0PU7M/cDvkG9fCgPKL4FTZee_YLQ/edit">Ayuda</a>
             </nav>

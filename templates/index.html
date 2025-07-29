@@ -15,7 +15,7 @@
         <div class="navbar fondo-cristal">
             <a href="{{ url_for('inicio') }}">Biblioteca Gabriela Mistral</a>
             <nav>
-                <a href="{{ url_for('libros') }}">Catálogo </a>
+                <a href="{{ url_for('libros.libros') }}">Catálogo </a>
                 <a href="{{ url_for('acercade') }}">Acerca de</a>
                 <a href="{{ url_for('login') }}">Iniciar como administrador</a>
             </nav>
@@ -26,7 +26,7 @@
             <nav>
                 <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
                 <br>
-                <a href="{{ url_for('libros') }}">Catálogo de Libros</a>
+                <a href="{{ url_for('libros.libros') }}">Catálogo de Libros</a>
                 <a href="{{ url_for('acercade') }}">Acerca de</a>
                 <a href="{{ url_for('login') }}">Iniciar como administrador</a>
             </nav>
@@ -42,7 +42,7 @@
                 </div>
             -->
                 <div class="botones">
-                    <a class="fondo-cristal" id="btn-catalogo" href="{{ url_for('libros') }}"> Explora nuestro catálogo </a>
+                    <a class="fondo-cristal" id="btn-catalogo" href="{{ url_for('libros.libros') }}"> Explora nuestro catálogo </a>
                 </div>
         </section>
 
@@ -53,7 +53,7 @@
         a.apellido_autor, l.ano_publicacion, sd.codigo_seccion, sd.seccion, l.numero_copias-->
         <div class="div-contenedor-libros-destacados">
             {% for libro in libros_destacados %}
-            <a href="{{ url_for('buscar_libro', buscar=libro[3], filtro_busqueda='Titulo', categorias='Todas') }}">
+            <a href="{{ url_for('libros.buscar_libro', buscar=libro[3], filtro_busqueda='Titulo', categorias='Todas') }}">
             <div class="div-libro-destacado">
             
                 <span class="span-notacion"
@@ -188,7 +188,7 @@
         <div class="container">
             
             <div class="footer-copyright">
-                <p>&copy; <span id="current-year"></span> Biblioteca Municipal. Todos los derechos reservados.</p>
+                <p>&copy; <span id="current-year"></span> Biblioteca Municipal.</p>
             </div>
         </div>
     </footer>

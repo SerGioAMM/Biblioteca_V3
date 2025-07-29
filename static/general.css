@@ -13,10 +13,10 @@ h1 {
     /*
     background-color: #6B3E2E;
     */
-    background-image: url('img/fondo_madera.jpg');
+    background-image: url('img/libros-loop-v4.jpg');
     background-size: cover;
     background-position: top;
-    height: 110vh;
+    height: 140vh;
     display: flex;
     flex-direction: column; 
     justify-content: center;
@@ -41,11 +41,11 @@ h1 {
     font-size: 1.4rem;
     border: none;
     border-radius: 4px;
-    transition: background-color 0.2s ease-in-out;
+    transition: 0.2s ease-in-out;
 }
 #btn-catalogo{
     background-color: #00000068;
-    scale: 1.2;
+    scale: 1.1;
 }
 
 #btn-registrar:hover, #btn-buscar:hover, #btn-catalogo:hover,#btn-login:hover, #btn-registrar-prestamo:hover{
@@ -113,14 +113,15 @@ h1 {
     justify-content: flex-end;
     border-left: none !important;
     border-right: none !important;
+    z-index: 50;
     
 }
 
 .navbar a{
     text-decoration: none;
     color: white;
-    padding: 25px;
-    font-size: 1.5rem;
+    padding: 0.7rem 1rem;
+    font-size: 1.3rem;
     transition: 0.1s ease-in;
     border-radius: 4px;
 }
@@ -247,6 +248,7 @@ h1 {
     padding: 2rem 0;
     background-color: #100a07dc;
     backdrop-filter: blur(10px);
+    z-index: -10;
 }
 
 .footer-grid {

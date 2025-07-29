@@ -31,15 +31,15 @@
             {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
             <nav>
                 <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
-                <a href="{{ url_for('prestamos') }}">Préstamos </a>
-                <a href="{{ url_for('registro_prestamos') }}">Registro Préstamos</a>
-                <a href="{{ url_for('libros') }}" id="pagina-actual">Catálogo de Libros </a>
-                <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
+                <a href="{{ url_for('prestamos.prestamos') }}">Préstamos </a>
+                <a href="{{ url_for('prestamos.registro_prestamos') }}">Registro Préstamos</a>
+                <a href="{{ url_for('libros.libros') }}" id="pagina-actual">Catálogo de Libros </a>
+                <a href="{{ url_for('libros.insertar_libro') }}">Registro de Libros</a>
                 {% if session["rol"] == "Administrador" %}
-                <a href="{{ url_for('usuarios') }}">Usuarios</a>
-                <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
-                <a href="{{ url_for('libros_eliminados') }}">Libros Eliminados</a>
-                <a href="{{ url_for('prestamos_eliminados') }}">Préstamos Eliminados</a>
+                <a href="{{ url_for('usuarios.usuarios') }}">Usuarios</a>
+                <a href="{{ url_for('usuarios.registrar_usuarios') }}">Registro de Usuarios</a>
+                <a href="{{ url_for('libros.libros_eliminados') }}">Libros Eliminados</a>
+                <a href="{{ url_for('prestamos.prestamos_eliminados') }}">Préstamos Eliminados</a>
                 {% endif %}
                 <a target="_blank" href="https://www.canva.com/design/DAGnUI0PU7M/cDvkG9fCgPKL4FTZee_YLQ/edit">Ayuda</a>
             
@@ -141,12 +141,7 @@
                 </span><!-- Notacion  -->
                     
                 <span id="span-info-libros"> 
-                    <h3>
-                        {% if session %}
-                        [{{libro[0]}}] - 
-                        {% endif %}
-
-                        {{libro[1]}}</h3> <!-- ID + Titulo  --> 
+                    <h3>{{libro[1]}}</h3> <!-- Titulo  --> 
                         
                     <h4><br>{{libro[9]}} {{libro[10]}} <!-- Nombre y apellido del autor  -->
                         {{libro[3]}} </h4> <!-- Anio de publicacion  -->
@@ -221,7 +216,7 @@
         </div>
         <div class="paginacion">
             {% if pagina > 1 %} <!-- Verifica que la pagina actual sea despues de la primera, para mostrar un boton de "Anterior" -->
-                <a href="{{ url_for('buscar_libro', pag=pagina - 1, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">Anterior</a> <!-- Este enlace lleva a la pagina anterior "pagina-1" -->
+                <a href="{{ url_for('libros.buscar_libro', pag=pagina - 1, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">Anterior</a> <!-- Este enlace lleva a la pagina anterior "pagina-1" -->
             {% endif %}
         
             {% for p in range(pagina - 1, pagina + 2) %}
@@ -229,13 +224,13 @@
                     {% if p == pagina %} <!-- Verifica cual es la pagina actual para aplicarle otro estilo -->
                         <strong>{{ p }}</strong>
                     {% else %} <!-- Genera todos los demas enlaces o "numeros de pagina", "[1],[2],[3]" -->
-                        <a href="{{ url_for('buscar_libro', pag=p, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
+                        <a href="{{ url_for('libros.buscar_libro', pag=p, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
                     {% endif %}
                 {% endif %}
             {% endfor %}   
         
             {% if (pagina < total_paginas) %} <!-- Verifica que la pagina actual no sea la ultima, para mostrar un boton de "Siguiente" -->
-                <a href="{{ url_for('buscar_libro', pag=pagina + 1, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">Siguiente</a> <!-- Este enlace lleva a la pagina siguiente "pagina+1" -->
+                <a href="{{ url_for('libros.buscar_libro', pag=pagina + 1, buscar=busqueda, categorias=Seccion, filtro_busqueda=filtro_busqueda) }}">Siguiente</a> <!-- Este enlace lleva a la pagina siguiente "pagina+1" -->
             {% endif %}
         </div>            
     </main>

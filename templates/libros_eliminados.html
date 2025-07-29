@@ -28,15 +28,15 @@
             {{session["rol"]}}&nbsp;{{session["usuario"]}}</h4>
             <nav>
                 <button class="boton-lateral-cerrar fondo-cristal">Cerrar</button>
-                <a href="{{ url_for('prestamos') }}">Préstamos </a>
-                <a href="{{ url_for('registro_prestamos') }}">Registro Préstamos</a>
-                <a href="{{ url_for('libros') }}">Catálogo de Libros </a>
-                <a href="{{ url_for('insertar_libro') }}">Registro de Libros</a>
+                <a href="{{ url_for('prestamos.prestamos') }}">Préstamos </a>
+                <a href="{{ url_for('prestamos.registro_prestamos') }}">Registro Préstamos</a>
+                <a href="{{ url_for('libros.libros') }}">Catálogo de Libros </a>
+                <a href="{{ url_for('libros.insertar_libro') }}">Registro de Libros</a>
                 {% if session["rol"] == "Administrador" %}
-                <a href="{{ url_for('usuarios') }}">Usuarios</a>
-                <a href="{{ url_for('registrar_usuarios') }}">Registro de Usuarios</a>
-                <a href="{{ url_for('libros_eliminados') }}" id="pagina-actual">Libros Eliminados</a>
-                <a href="{{ url_for('prestamos_eliminados') }}">Préstamos Eliminados</a>
+                <a href="{{ url_for('usuarios.usuarios') }}">Usuarios</a>
+                <a href="{{ url_for('usuarios.registrar_usuarios') }}">Registro de Usuarios</a>
+                <a href="{{ url_for('libros.libros_eliminados') }}" id="pagina-actual">Libros Eliminados</a>
+                <a href="{{ url_for('prestamos.prestamos_eliminados') }}">Préstamos Eliminados</a>
                 {% endif %}
                 <a target="_blank" href="https://www.canva.com/design/DAGnUI0PU7M/cDvkG9fCgPKL4FTZee_YLQ/edit">Ayuda</a>
         </section>
@@ -100,7 +100,7 @@
         
         <div class="paginacion">
             {% if pagina > 1 %} <!-- Verifica que la pagina actual sea despues de la primera, para mostrar un boton de "Anterior" -->
-                <a href="{{ url_for('buscar_libro_eliminado', page=pagina - 1, buscar_libro_eliminado=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Anterior</a> <!-- Este enlace lleva a la pagina anterior "pagina-1" -->
+                <a href="{{ url_for('libros.buscar_libro_eliminado', page=pagina - 1, buscar_libro_eliminado=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Anterior</a> <!-- Este enlace lleva a la pagina anterior "pagina-1" -->
             {% endif %}
         
             {% for p in range(pagina - 1, pagina + 2) %}
@@ -108,13 +108,13 @@
                     {% if p == pagina %}
                         <strong>{{ p }}</strong>
                     {% else %}
-                        <a href="{{ url_for('buscar_libro_eliminado', page=p, buscar_libro_eliminado=busqueda, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
+                        <a href="{{ url_for('libros.buscar_libro_eliminado', page=p, buscar_libro_eliminado=busqueda, filtro_busqueda=filtro_busqueda) }}">{{ p }}</a>
                     {% endif %}
                 {% endif %}
             {% endfor %} 
         
             {% if pagina < total_paginas %} <!-- Verifica que la pagina actual no sea la ultima, para mostrar un boton de "Siguiente" -->
-                <a href="{{ url_for('buscar_libro_eliminado', page=pagina + 1, buscar_libro_eliminado=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Siguiente</a> <!-- Este enlace lleva a la pagina siguiente "pagina+1" -->
+                <a href="{{ url_for('libros.buscar_libro_eliminado', page=pagina + 1, buscar_libro_eliminado=busqueda, estados=estados, filtro_busqueda=filtro_busqueda) }}">Siguiente</a> <!-- Este enlace lleva a la pagina siguiente "pagina+1" -->
             {% endif %}
         </div> 
     </main>

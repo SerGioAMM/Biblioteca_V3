@@ -14,23 +14,27 @@
 
 .barra-lateral{
     position: absolute;
-    width: 15%;
+    width: 16%;
     height: auto;
     left: 1%;
     top: 10%;
     padding: 10px;
+    z-index: 1;
+    overflow: hidden;
 }
 .barra-lateral nav{
     margin-top: 10%;
+    overflow: hidden;
 }
 .barra-lateral nav a{
     padding: 10px;
     color: #efefef;
     text-decoration: none;
     display: block;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     transition: 0.2s ease-in-out;
     border-radius: 5px;
+    overflow: hidden;
 }
 .boton-lateral:hover{
     background-color: rgba(0, 0, 0, 0.294);
@@ -38,7 +42,7 @@
 
 .barra-lateral nav a:hover{
     background-color: rgba(0, 0, 0, 0.294);
-    margin-left: 5%;
+    margin-left: 5px;
 }
 
 .barra-lateral h4, .barra-lateral h2{
@@ -96,7 +100,7 @@
 
 @media (max-width: 1280px) {
     .barra-lateral{
-        font-size: 85%;
+        font-size: 95%;
     }
     .barra-lateral nav a{
         font-size: 95%;
