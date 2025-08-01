@@ -15,7 +15,7 @@
     <header>
         <div class="navbar fondo-cristal">
             {% if session %}
-                <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+                <a href="{{ url_for('login.logout') }}">Cerrar sesión</a>
             {% else %}
                 <a href="{{ url_for('inicio') }}">Inicio</a>
             {% endif %}
