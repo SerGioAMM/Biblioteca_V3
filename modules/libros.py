@@ -141,7 +141,6 @@ def insertar_libro():
 
     return render_template("insertar.html", secciones = secciones, ultima_seccion = ultima_seccion) #Devuelve variables para poder usarlas en insert.html
 
-
 # ----------------------------------------------------- CATALOGO DE LIBROS ----------------------------------------------------- #
 
 ##! Para dividir los resultados del query usar offset y limit, con variable para el numero de pagina

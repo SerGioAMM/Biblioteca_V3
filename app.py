@@ -7,14 +7,14 @@ from modules.libros import bp_libros
 from modules.prestamos import bp_prestamos
 from modules.usuarios import bp_usuarios
 from modules.sugerencias import bp_sugerencias
+from modules.login import bp_login
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 app.register_blueprint(bp_libros)
 app.register_blueprint(bp_prestamos)
 app.register_blueprint(bp_usuarios)
 app.register_blueprint(bp_sugerencias)
-
-#! RECORDATORIO: Agregar el id_libro para mostrarlo en prestamos eliminados y en libros eliminados
+app.register_blueprint(bp_login)
 
 # Esta clave se usa para la gestion de usuarios de flask -> "from flask import session"
 app.secret_key = "234_Clav3-Ant1H4ck3r$_1"
@@ -44,48 +44,6 @@ def inicio():
     conexion.close()
 
     return render_template("index.html",libros_destacados=libros_destacados)
-
-# ----------------------------------------------------- LOGOUT ----------------------------------------------------- #
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect(url_for("inicio"))
-
-# ----------------------------------------------------- LOGIN ----------------------------------------------------- #
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    alerta= request.args.get("alerta", "")
-
-
-    conexion = conexion_BD()
-    query = conexion.cursor()
-    
-    if request.method == "POST":
-        usuario = request.form["usuario"]
-        password = request.form["password"]
-
-        query.execute("""Select a.id_administrador,a.usuario,r.rol from Administradores a 
-                    Join roles r on a.id_rol = r.id_rol
-                    where usuario = ? and contrasena = ?""", (usuario, password))
-        login_usuario = query.fetchone()
-
-        if (login_usuario):
-            # Guardar datos en session
-            session["id_administrador"] = login_usuario[0] 
-            session["usuario"] = login_usuario[1]
-            session["rol"] = login_usuario[2]         
-
-            return redirect(url_for('prestamos.prestamos'))
-        else:
-            alerta = "Datos incorrectos"
-            session["rol"] = "false"
-
-    query.close()
-    conexion.close()
-
-    return render_template("login.html", alerta = alerta)
 
 # ----------------------------------------------------- ACERCA DE ----------------------------------------------------- #
 
